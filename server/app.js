@@ -2,9 +2,8 @@ const express = require('express');
 const env = require('dotenv');
 const app = express();
 const config = require("./config");
-const {PageNotFound, BadReq} = require('./middleware/errors');
+const {PageNotFound,intrnlservrEror, BadReq} = require('./middleware/errors');
 const dbConnect = require('./config/dbConnect');
-
 env.config();
 //dataBase connection
 dbConnect();
@@ -28,5 +27,6 @@ res.status(err.statusCode).json({
 })
 })
 
-const PORT = config.port|| 5000;
+
+const PORT = process.env.PORT|| 5000;
 app.listen(PORT , console.log(`server started on ${PORT}`));
