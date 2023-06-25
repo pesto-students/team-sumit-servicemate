@@ -2,4 +2,4 @@
 
 # Feature
 
-- Project Models - Created userCase and employee schema
+- Project Models - Created usercase and employee schema
