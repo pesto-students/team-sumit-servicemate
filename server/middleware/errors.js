@@ -7,7 +7,7 @@ const PageNotFound = (req,res,next)=>{
 
 
   const BadReq = (req, res, next) => {
-    if (!req.body || !req.body.name) {
+    if (!req.body ) {
       const error = new Error('Invalid request');
       error.statusCode = 400;
       error.staus = 'Bad Request';
@@ -16,5 +16,18 @@ const PageNotFound = (req,res,next)=>{
       next();
     }
 }
+
+  const ReqError = ()=> {
+    if (req.headers.expect === 'something') {
+      const error = new Error('Expectation Failed');
+      error.statusCode = 417;
+      error.staus = 'Request Header Error';
+      next(error);
+    } else {
+      next();
+    }
+
+  }
+
 
 module.exports = {PageNotFound,BadReq};
