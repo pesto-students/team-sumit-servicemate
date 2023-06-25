@@ -1,5 +1,5 @@
 # 1.0.1
 
-# feature
+# Feature
 
-- Project Models - Created userCase and employee schema
+- Project Models - Created userCase and quotes employee schema
