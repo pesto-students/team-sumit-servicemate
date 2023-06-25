@@ -18,6 +18,7 @@ app.get('/',(req,res)=>{
     res.send(req.httpVersion)
 });
 
+//error and errorHandler section
 app.all(ReqError);
 app.all(BadReq);
 app.all("*",PageNotFound)
