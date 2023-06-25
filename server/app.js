@@ -2,7 +2,7 @@ const express = require('express');
 const env = require('dotenv');
 const app = express();
 const config = require("./config");
-const {PageNotFound, BadReq} = require('./middleware/errors');
+const {PageNotFound, BadReq, ReqError} = require('./middleware/errors');
 const dbConnect = require('./config/dbConnect');
 
 env.config();
