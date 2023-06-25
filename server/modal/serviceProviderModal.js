@@ -22,7 +22,22 @@ const serviceProviderModal = mongoose.Schema({
                 location:[{
                  type:mongoose.Schema.Types.ObjectId,
                  ref : "Location"
-                    }],    
+                    }],
+                    timeSlot:[{
+                      day: {
+                        type: String,
+                        enum: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                        required: true
+                      },
+                      fromTime: {
+                        type: String,
+                        required: true
+                      },
+                      toTime: {
+                        type: String,
+                        required: true
+                      }
+                    }]    
          }],
          portfolio:{
               image:{
