@@ -1,11 +1,7 @@
 const mongoose = require("mongoose");
 
 const employeeSchema = new mongoose.Schema({
-    idProofType: {
-        type: String,
-        required: true,
-      },    
-  idProof: {
+  id_proof: {
     type: String,
     required: true,
   },
@@ -19,9 +15,15 @@ const employeeSchema = new mongoose.Schema({
   },
   profile: {
     photo: {
-      type: String,  
+      type: String,
+      required: true,
     },
-  }
+    status: {
+      type: String,
+      enum: ["completed", "not completed"],
+      required: true,
+    },
+  },
 });
-const EmployeeData = mongoose.model("EmployeeData", employeeSchema);
-module.exports = EmployeeData;
+const employee = mongoose.model("employee", employeeSchema);
+module.exports = employee;
