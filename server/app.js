@@ -4,11 +4,9 @@ const app = express();
 const config = require("./config");
 const {PageNotFound, BadReq, ReqError} = require('./middleware/errors');
 const dbConnect = require('./config/dbConnect');
-
 env.config();
 //dataBase connection
 dbConnect();
-
 
 if (process.env.NODE_ENV !== 'production') {
     env.config()
