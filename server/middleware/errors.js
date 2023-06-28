@@ -17,4 +17,17 @@ const PageNotFound = (req,res,next)=>{
     }
 }
 
-module.exports = {PageNotFound,BadReq};
+
+  const ReqError = ()=> {
+    if (req.headers.expect === 'something') {
+      const error = new Error('Expectation Failed');
+      error.statusCode = 417;
+      error.staus = 'Request Header Error';
+      next(error);
+    } else {
+      next();
+    }
+
+  }
+
+module.exports = {PageNotFound,BadReq,ReqError};

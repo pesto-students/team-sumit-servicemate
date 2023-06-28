@@ -2,7 +2,7 @@ const express = require('express');
 const env = require('dotenv');
 const app = express();
 const config = require("./config");
-const {PageNotFound,intrnlservrEror, BadReq} = require('./middleware/errors');
+const {PageNotFound, BadReq, ReqError} = require('./middleware/errors');
 const dbConnect = require('./config/dbConnect');
 env.config();
 //dataBase connection
@@ -16,6 +16,8 @@ app.get('/',(req,res)=>{
     res.send(req.httpVersion)
 });
 
+//error and errorHandler section
+app.all(ReqError);
 app.all(BadReq);
 app.all("*",PageNotFound)
 app.use((err,req,res,next)=>{
