@@ -12,14 +12,15 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import { Link, } from "react-router-dom";
 
 const pages = ["Categories", "Services", "About us", "Contact us"];
 const settings = ["Profile", "Orders", "Dashboard", "Logout"];
 
-const AppTopBar=()=> {
+const AppTopBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-const [isLogin,setLogin]=React.useState(false)
+  const [isLogin, setLogin] = React.useState(false)
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -36,7 +37,7 @@ const [isLogin,setLogin]=React.useState(false)
     setAnchorElUser(null);
   };
 
-  const handleLogout=()=>{
+  const handleLogout = () => {
     setLogin(false)
     handleCloseUserMenu()
   }
@@ -128,13 +129,17 @@ const [isLogin,setLogin]=React.useState(false)
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title={isLogin?"Open settings":"Login/Sign up"}>
-             {isLogin? <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+            <Tooltip title={isLogin ? "Open settings" : "Login/Sign up"}>
+              {isLogin ? <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>:
-              <Typography textAlign={"center"} onClick={()=>{
-                setLogin(true)
-              }}>Login/Sign up</Typography>
+              </IconButton> :
+                <>
+                  <Link className="mr-2" to='/login'>Login
+                  </Link>
+                  <Link to="/register">
+                    Register
+                  </Link>
+                </>
               }
             </Tooltip>
             <Menu
@@ -154,7 +159,7 @@ const [isLogin,setLogin]=React.useState(false)
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={()=>setting==="Logout"?handleLogout(): handleCloseUserMenu()}>
+                <MenuItem key={setting} onClick={() => setting === "Logout" ? handleLogout() : handleCloseUserMenu()}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
