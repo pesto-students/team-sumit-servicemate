@@ -5,10 +5,10 @@ const initialState = {
     someData: null,
 };
 
-const HomeReducer = (state = initialState.someData, action) => {
+const HomeReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SOME_ACTION':
-            return { ...initialState, someData: action.payload };
+            return { ...state, someData: action.payload };
         default:
             return state;
     }

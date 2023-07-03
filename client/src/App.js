@@ -5,6 +5,8 @@ import Home from './scenes/Home';
 import Login from './scenes/Login';
 import Register from './scenes/Register';
 import "./index.css"
+import DashBoard from './scenes/Dashboard';
+import PrivateRoute from './config/routes';
 
 function App() {
   return (
@@ -16,9 +18,9 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
-            {/* <PrivateRoute path="/dashboard" element={<Dashboard />} /> */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/dashboard" element={<PrivateRoute isAuthenticated={true} ><DashBoard /></PrivateRoute>} />
             <Route path="*" element={<Navigate to="/" replace />}></Route>
           </Routes>
         </main>

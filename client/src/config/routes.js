@@ -1,21 +1,18 @@
 import React from 'react';
-import { Navigate, Route } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const PrivateRoute = ({ path, element }) => {
-    const isAuthenticated = true; // Replace with your authentication logic
-
-    if (!isAuthenticated) {
-        return <Navigate to="/login" />;
-    }
-
-    return <Route path={path} element={element} />;
-};
-
+function PrivateRoute({ children, isAuthenticated = false }) {
+    return isAuthenticated ? (
+        children
+    ) : (
+        <Navigate to="/login" replace={true} />
+    );
+}
 
 PrivateRoute.propTypes = {
-    path: PropTypes.string,
-    element: PropTypes.node,
+    children: PropTypes.node,
+    isAuthenticated: PropTypes.bool,
 };
 
 export default PrivateRoute;

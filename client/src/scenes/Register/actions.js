@@ -1,7 +1,7 @@
 // actions.js
-export const someAction = () => {
+export const registerUser = (payload) => {
     return {
-        type: 'SOME_ACTION',
-        payload: 'some data',
+        type: 'REGISTER_USER',
+        payload,
     };
 };
