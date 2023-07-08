@@ -1,8 +1,10 @@
-import { Button } from '@mui/material';
 import React from 'react';
 // import { connect } from 'react-redux';
 import DynamicForm from '../../../components/DynamicForm';
 import PropTypes from "prop-types"
+import "./styles/vendorDashboard.scss"
+import EngineeringIcon from '@mui/icons-material/Engineering';
+import ButtonComponent from '../../../components/Buttons';
 
 const VendorDashboard = (props) => {
     const { user } = props
@@ -31,10 +33,23 @@ const VendorDashboard = (props) => {
         }
     ]
 
+    const actionButtons = [
+        {
+            icon: <EngineeringIcon />,
+            name: "add-service",
+            label: '+ Add Services'
+        }
+    ]
+
     return (
-        <article>
-            <Button>+ Add Services</Button>
-            <DynamicForm formName="service" formData={formData}></DynamicForm>
+        <article className='vendor-dashboard'>
+            {
+                actionButtons.map((button) => (
+                    <ButtonComponent.DashedButton key={button.name} {...button}>
+                    </ButtonComponent.DashedButton>
+                ))
+            }
+            <DynamicForm formName="service" formData={formData} className={"add-services-form"}></DynamicForm>
             {
                 <ul>
                     <li></li>

@@ -7,6 +7,7 @@ import Register from './scenes/Register';
 import "./index.css"
 import DashBoard from './scenes/Dashboard';
 import PrivateRoute from './config/routes';
+import BookAppointment from './scenes/BookAppointment';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element={<PrivateRoute isAuthenticated={true} ><DashBoard /></PrivateRoute>} />
+            <Route path="/book-appointment" element={<PrivateRoute isAuthenticated={true} ><BookAppointment /></PrivateRoute>} />
             <Route path="*" element={<Navigate to="/" replace />}></Route>
           </Routes>
         </main>

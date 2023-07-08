@@ -6,7 +6,7 @@ import CheckBox from '../CheckBox';
 import DropDown from '../DropDown';
 
 const DynamicForm = (props) => {
-    const { formData = [], formName = '', className = 'registration-form' } = props;
+    const { formData = [], formName = '', className = '' } = props;
 
     const formControls = (data) => {
         const control = {
