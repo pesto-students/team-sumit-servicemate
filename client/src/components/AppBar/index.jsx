@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Link, } from "react-router-dom";
 
-const pages = ["Categories", "Services", "About us", "Contact us"];
+const pages = ["categories", "services", "aboutus", "Contact us"];
 const settings = ["Profile", "Orders", "Dashboard", "Logout"];
 
 const AppTopBar = () => {
@@ -122,7 +122,7 @@ const AppTopBar = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              <Button key={page} onClick={handleCloseNavMenu} sx={{ my: 2, color: "white", display: "block" }}>
+              <Button key={page} onClick={handleCloseNavMenu} component={Link} to={`/${page}`} sx={{ my: 2, color: "white", display: "block" }}>
                 {page}
               </Button>
             ))}
