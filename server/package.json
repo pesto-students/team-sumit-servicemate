@@ -10,7 +10,7 @@
   "author": "arpit shukla",
   "license": "ISC",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.369.0",
+
     "aws-sdk": "^2.1414.0",
     "bcrypt": "^5.1.0",
     "dotenv": "^16.3.1",
