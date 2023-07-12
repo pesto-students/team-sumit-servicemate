@@ -4,7 +4,7 @@ import { Box, TextField, Container } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import Grid from "@mui/material/Grid";
 import banner from "../../Layout/images/banner.jpg";
-import Card from "./Card";
+import Card from "../../components/Card";
 
 const BannerContainer = styled(Box)(() => ({
   position: "relative",

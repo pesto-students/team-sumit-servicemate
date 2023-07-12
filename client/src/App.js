@@ -11,6 +11,7 @@ import BookAppointment from "./scenes/BookAppointment";
 import Categories from "./scenes/Categories";
 import Services from "./scenes/Services";
 import AboutUs from "./scenes/AboutUs";
+import ServiceDetails from "./scenes/ServiceDetails";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/services" element={<Services />} />
+            <Route path="/services/details/:id" element={<ServiceDetails />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route
               path="/dashboard"

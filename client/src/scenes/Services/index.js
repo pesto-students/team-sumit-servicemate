@@ -1,38 +1,15 @@
-import React from "react";
-import { styled } from "@mui/system";
-import {
-  Box,
-  TextField,
-  Container,
-  List,
-  ListItem,
-  ListItemText,
-} from "@mui/material";
-import Autocomplete from "@mui/material/Autocomplete";
-import Grid from "@mui/material/Grid";
-import banner from "../../Layout/images/banner.jpg";
-import Card from "./Card";
+import { React, useState } from "react";
 
-const BannerContainer = styled(Box)(() => ({
-  position: "relative",
-  backgroundImage: `url(${banner})`,
-  backgroundSize: "cover",
-  backgroundPosition: "center",
-  height: "60vh",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-}));
+import { Container, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Card from "../../components/Card";
+import Lists from "../../components/List";
+import Search from "../../components/SearchBox";
 
 const categories = [
-  "Category 1",
-  "Category 2",
-  "Category 3",
-  "Category 4",
-  "Category 5",
-  "Category 6",
-  "Category 7",
-  "Category 8",
+  { id: 1, title: "Plumber" },
+  { id: 2, title: "Electrician" },
+  { id: 3, title: "Handyman" },
 ];
 
 const cardData = [
@@ -43,83 +20,79 @@ const cardData = [
     title: "Plumber",
     description:
       "This domain is for use in illustrative examples in documents. You may use this domain in literature without prior coordination or asking for permission.",
+    categoryId: 1,
   },
   {
     id: 2,
     image:
       "https://img.freepik.com/free-vector/housewife-repairman-with-tools-box-kitchen-near-broken-fridge-leakage-floor-home-appliance-repair-service_575670-1163.jpg?size=626&ext=jpg&ga=GA1.2.76010670.1688433554&semt=ais",
-    title: "Plumber",
+    title: "Electrician",
     description:
       "This domain is for use in illustrative examples in documents. You may use this domain in literature without prior coordination or asking for permission.",
+    categoryId: 2,
   },
   {
     id: 3,
     image:
       "https://img.freepik.com/premium-photo/handyman-with-toolbox_152404-7233.jpg?size=626&ext=jpg&ga=GA1.2.76010670.1688433554&semt=ais",
-    title: "Plumber",
+    title: "Electrician",
     description:
       "This domain is for use in illustrative examples in documents. You may use this domain in literature without prior coordination or asking for permission.",
+    categoryId: 2,
   },
   {
     id: 4,
     image:
       "https://img.freepik.com/premium-photo/professional-cleaning-service-team-cleans-living-room-modern-apartment_130111-3807.jpg?size=626&ext=jpg&ga=GA1.2.76010670.1688433554&semt=ais",
-    title: "Plumber",
+    title: "Handyman",
     description:
       "This domain is for use in illustrative examples in documents. You may use this domain in literature without prior coordination or asking for permission.",
+    categoryId: 3,
   },
 ];
 
 const Categories = () => {
+  const [filteredCardData, setFilterdCardData] = useState(cardData);
+
+  const handleCategoryChange = (categoryId) => {
+    const filteredCardData =
+      categoryId === null
+        ? cardData
+        : cardData.filter((card) => card.categoryId === categoryId);
+    setFilterdCardData(filteredCardData);
+  };
+
   return (
     <>
-      <BannerContainer>
-        <Autocomplete
-          freeSolo
-          id="free-solo-2-demo"
-          disableClearable
-          options={categories.map((option) => option.title)}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Search"
-              InputProps={{
-                ...params.InputProps,
-                type: "search",
-                sx: {
-                  color: "black",
-                  bgcolor: "white",
-                },
-              }}
-              sx={{ width: "500px" }}
-            />
-          )}
-        />
-      </BannerContainer>
-      <Container sx={{ py: 5 }}>
+      <Container sx={{ py: 5 }} maxWidth="xl">
+        <Container
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            my: 5,
+          }}
+          maxWidth="xl"
+        >
+          <Search searchData={categories} />
+        </Container>
         <Grid container spacing={2}>
-          <Grid item xs={3}>
-            <List
-              sx={{
-                bgcolor: "white",
-                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-              }}
+          <Grid item xs={2}>
+            <Typography
+              variant="h6"
+              component="h2"
+              sx={{ marginBottom: "1rem" }}
             >
-              {categories.map((category) => (
-                <ListItem key={category}>
-                  <ListItemText
-                    primary={category}
-                    sx={{
-                      bgcolor: "white",
-                    }}
-                  />
-                </ListItem>
-              ))}
-            </List>
+              Category
+            </Typography>
+            <Lists
+              listData={categories}
+              handleCategoryChange={handleCategoryChange}
+            />
           </Grid>
-          <Grid item xs={9}>
-            <Grid container spacing={2}>
-              <Card cardData={cardData} />
+          <Grid item xs={10}>
+            <Grid container spacing={2} sx={{ my: 4 }}>
+              <Card cardData={filteredCardData} />
             </Grid>
           </Grid>
         </Grid>
