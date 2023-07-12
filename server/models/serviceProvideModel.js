@@ -10,13 +10,18 @@ const serviceProviderModal = mongoose.Schema({
             trim : true,
             required : true
          },
-         status:{
+         workingAs:{
             type: String,
             enum: ['Freelancer', 'Vendor']
          },
          employeeData:[{
              type:mongoose.Schema.Types.ObjectId,
              ref:"EmployeeData"
+         }],
+         service:[{
+          type:mongoose.Schema.Types.ObjectId,
+          ref:"Services"
+
          }],
          openHours: [{
                 location:[{
@@ -67,7 +72,7 @@ const serviceProviderModal = mongoose.Schema({
                 required:true
             },
             activatedOn:{
-                type:Data,
+                type:Date,
                 required:true
             },
             status:{
@@ -79,5 +84,5 @@ const serviceProviderModal = mongoose.Schema({
 
 });
 
-const ServiceProvider = mongoose.Model("ServiceProvider",serviceProviderModal);
+const ServiceProvider = mongoose.model("ServiceProvider",serviceProviderModal);
 module.exports = ServiceProvider;
