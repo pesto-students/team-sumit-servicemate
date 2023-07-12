@@ -74,3 +74,35 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+---
+
+Use Cases
+
+Sprint 1:
+
+    1. Vendor Onboarding
+
+        Add Services
+
+        Add location and slots
+
+    2. User search for services
+
+        from global search bar
+
+        filter by categories from left hand list
+
+Sprint 2:
+
+    1. Book appointments
+
+        validate user location and vendor
+
+    2. appointment status updated by vendor with comments on the budget
+
+    3. customer will confirm appointment and make advance payment
+
+    4. job will start on the agreed date and appointment status will be changed
+
+    5. once job completed vendor will mark status as completed and upload images of the work done 6. customer will give review and ratings and make due amount payment

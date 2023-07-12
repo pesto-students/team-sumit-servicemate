@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import { connect } from 'react-redux';
 import DynamicForm from '../../../components/DynamicForm';
 import PropTypes from "prop-types"
@@ -8,6 +8,9 @@ import ButtonComponent from '../../../components/Buttons';
 
 const VendorDashboard = (props) => {
     const { user } = props
+
+    const [showAddServiceForm, setShowAddServiceForm] = useState(false)
+
     console.log("🚀 ~ file: index.js:9 ~ VendorDashboard ~ user:", user)
     // const { services, setServices } = useState([])
     const formData = [
@@ -37,7 +40,8 @@ const VendorDashboard = (props) => {
         {
             icon: <EngineeringIcon />,
             name: "add-service",
-            label: '+ Add Services'
+            label: '+ Add Services',
+            onclick: (e) => { e.preventDefault(); setShowAddServiceForm(!showAddServiceForm) }
         }
     ]
 
