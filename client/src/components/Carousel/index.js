@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const CarouselItem = ({ imageUrls }) => {
   return (
     <>
-      <Carousel showThumbs={false}>
+      <Carousel autoPlay infiniteLoop interval={3000}>
         {imageUrls.map((imageUrl) => (
           <div key={imageUrl}>
             <img src={imageUrl} alt="" style={{ width: "100%" }} />
