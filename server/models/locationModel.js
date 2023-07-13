@@ -21,7 +21,6 @@ const locationSchema = new mongoose.Schema({
     type: String,
     required: true
   }
- 
 });
 
 const Location = mongoose.model('Location', locationSchema);

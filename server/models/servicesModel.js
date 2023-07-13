@@ -17,7 +17,6 @@ const serviceSchema = new mongoose.Schema({
         type: Number,
         required: true
       }
-   
  
 });
 const Services = mongoose.model("Service", serviceSchema);

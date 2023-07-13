@@ -26,7 +26,6 @@ app.get('/', (req, res) => {
 
 //error and errorHandler section
 
-
 app.use('/api/vendor', vendorRouter);
 app.use('/api/User', userRouter);
 

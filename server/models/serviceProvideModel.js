@@ -21,7 +21,6 @@ const serviceProviderModal = mongoose.Schema({
          service:[{
           type:mongoose.Schema.Types.ObjectId,
           ref:"Services"
-
          }],
          openHours: [{
                 location:[{

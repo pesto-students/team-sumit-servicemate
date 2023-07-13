@@ -72,7 +72,7 @@ const searchCatagories = asyncHandler(async (req, res) => {
   res.send(services);
 });
 
-const updateCatagories = asyncHandler(async(req,res)=>{
+const updateCatagories = asyncHandler(async(req)=>{
  const userId = req.user._id;
  console.log(userId)
 
