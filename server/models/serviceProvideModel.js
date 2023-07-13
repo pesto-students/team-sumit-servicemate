@@ -46,7 +46,7 @@ const serviceProviderModal = mongoose.Schema({
          portfolio:{
               image:{
                 type:String,
-                required:true,
+              
               },
               verified:{
                 type:Boolean,
