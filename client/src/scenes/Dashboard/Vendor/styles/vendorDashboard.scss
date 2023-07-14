@@ -1,7 +1,43 @@
-.add-services-form{
-    display: flex;
-    flex-direction: column;
-    width: fit-content;
-    row-gap: 1rem;
-    padding: 1rem;
+.vendor-dashboard{
+    .add-services-form{
+        display: flex;
+        flex-direction: column;
+        width: fit-content;
+        row-gap: 1rem;
+        padding: 1rem;
+        border: 1px solid lightgray;
+    }
+    form{
+        display: flex;
+        padding: 2rem;
+        flex-direction: column;
+        row-gap: 2rem;
+    }
+    .time-slots-wrapper{
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 0.25rem;   
+    }
+    .time-slots{
+        padding: 1rem;
+        border: 1px solid lightgray;
+        border-radius: 0.5rem;
+    }
+    .open-hours-wrapper{
+        border: 1px solid lightgray;
+        border-radius: 0.5rem;
+        padding: 0.25rem;
+    }
+}
+
+.app-flex-1-1-33{
+    flex: 1 1 33%;
+}
+.app-flex-1-1-49{
+    flex: 1 1 50% ;
+}
+
+.app-divider-1-z-25{
+    margin-top: 1.25rem !important;
+    margin-bottom: 1.25rem !important;
 }

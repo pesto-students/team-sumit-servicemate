@@ -34,11 +34,11 @@ const LoginForm = () => {
     }
 
     return (
-        <form className="registration-form">
-            <TextField label="Email" variant="outlined" name='emailId' onChange={handleFormChange} />
-            <TextField label="Password" variant="outlined" type="password" name="password" onChange={handleFormChange} />
+        <form className="registration-form" onSubmit={(e) => e.preventDefault()}>
+            <TextField label="Email" variant="outlined" name='emailId' required onChange={handleFormChange} />
+            <TextField label="Password" variant="outlined" type="password" required name="password" onChange={handleFormChange} />
             <ErrorMessage open={showError} handleClose={() => { setShowError(false) }} message='you have entered invalid credentials'></ErrorMessage>
-            <Button variant="contained" color="primary" onClick={handleLogin}>Login</Button>
+            <Button type='submit' variant="contained" color="primary" onClick={handleLogin}>Login</Button>
         </form>
     );
 };
