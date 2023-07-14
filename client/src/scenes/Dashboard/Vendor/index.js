@@ -28,9 +28,7 @@ const VendorDashboard = (props) => {
         day: ""
     }
 
-    const [addresses, setAddresses] = useState([{
-        address: "abc"
-    }])
+    const [addresses, setAddresses] = useState([{}])
 
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
@@ -40,10 +38,43 @@ const VendorDashboard = (props) => {
     ]
 
     const handleFormChange = (e = {}) => {
-        const { name, value } = e.target || {}
-        setFormData({ ...formData, [name]: value })
+        const { name, value } = e.target ? e.target : e
+        updateFormData({ [name]: value })
     }
 
+    const updateFormData = (data = {}) => {
+        setFormData({ ...formData, ...data })
+    }
+
+    const handleAggregateFormChange = (formKey = '', index = 0, e = {}, dropDownValue) => {
+        const { name, value } = dropDownValue ? { name: e.target?.id?.split("-")[0], value: dropDownValue } : e.target || e
+        const newFormData = { ...formData }
+        if (newFormData?.[formKey] && newFormData[formKey][index]) {
+            newFormData[formKey][index][name] = value
+            updateFormData(newFormData)
+        } else {
+            newFormData[formKey] = []
+            newFormData[formKey][index] = {}
+            newFormData[formKey][index][name] = value
+            updateFormData(newFormData)
+        }
+    }
+
+    const handleEmployeeDataFormChange = (formKey = '', index = 0, e = {}, dropDownValue) => {
+        const { name, value } = dropDownValue ? { name: e.target?.id?.split("-")[0], value: dropDownValue } : e.target || e
+        const newEmployeeData = employeesData ? [...employeesData] : []
+        if (newEmployeeData?.[index] && newEmployeeData[index][formKey]) {
+            newEmployeeData[index][formKey][name] = value
+            setEmployeesData(newEmployeeData)
+        }
+        else {
+            newEmployeeData[index][formKey] = {}
+            newEmployeeData[index][formKey][name] = value
+            setEmployeesData([...employeesData, ...newEmployeeData])
+        }
+    }
+
+    const pinCodeRegex = /^[1-9][0-9]{5}$/;
 
     return (
         <article className='vendor-dashboard'>
@@ -58,15 +89,14 @@ const VendorDashboard = (props) => {
                             {addresses.map((address, addressIndex) => (
                                 <section key={"address-" + (address.city || addressIndex)} className='flex flex-col gap-4 mb-2 time-slots app-flex-1-1-49'>
                                     <label>{"Address " + (addressIndex + 1)}</label>
-                                    <TextField name='address' onChange={handleFormChange} label="Address"></TextField>
+                                    <TextField name='address' onChange={handleAggregateFormChange.bind(this, "addresses", addressIndex)} label="Address"></TextField>
                                     <section>
-                                        <TextField name='city' onChange={handleFormChange} label="City"></TextField>
-                                        <TextField name='pinCode' onChange={handleFormChange} label="Pin code"></TextField>
+                                        <TextField name='city' onChange={handleAggregateFormChange.bind(this, "addresses", addressIndex)} label="City"></TextField>
+                                        <TextField name='pinCode' value={formData["addresses"]?.[addressIndex]["pinCode"]} inputProps={{ maxLength: 6, pattern: pinCodeRegex }}
+                                            onChange={handleAggregateFormChange.bind(this, "addresses", addressIndex)} label="Pin code"></TextField>
                                     </section>
-                                    <section>
-                                        <TextField name='state' onChange={handleFormChange} label='State'></TextField>
-                                        <TextField name='country' onChange={handleFormChange} label='Country'></TextField>
-                                    </section>
+                                    <Autocomplete options={["Delhi", "Maharashtra", "Karnataka"]} onChange={handleAggregateFormChange.bind(this, "addresses", addressIndex)} id='state' renderInput={(params) => <TextField {...params} label={"State"}></TextField>} ></Autocomplete>
+                                    <Autocomplete options={["India"]} onChange={handleAggregateFormChange.bind(this, "addresses", addressIndex)} id='country' renderInput={(params) => <TextField {...params} label={"Country"}></TextField>} ></Autocomplete>
                                 </section>
                             ))}
                         </section>
@@ -78,7 +108,10 @@ const VendorDashboard = (props) => {
                                 timeSlots.map((slot, slotIndex) => {
                                     return <section className='flex flex-col gap-4 mb-2 time-slots app-flex-1-1-33' key={"slot-" + slot}>
                                         <label>{"Slot " + (slotIndex + 1)}</label>
-                                        <Autocomplete multiple options={addresses.map(el => el)} getOptionLabel={option => option.address || ''} renderInput={(params) => <TextField {...params} label="Location"></TextField>}></Autocomplete>
+                                        {addresses && addresses.length ?
+                                            <Autocomplete key={"slot-" + (slotIndex + 1)} id={"slot-" + (slotIndex + 1)} multiple options={addresses} getOptionLabel={option => option.address || ''}
+                                                renderInput={(params) => <TextField {...params} label="Location"></TextField>}></Autocomplete>
+                                            : null}
                                         <Autocomplete multiple options={days} onChange={handleFormChange} renderInput={(params) => <TextField {...params} label="Day"></TextField>}></Autocomplete>
                                         <section>
                                             <TimePicker label='From' onChange={handleFormChange}></TimePicker>
@@ -96,25 +129,26 @@ const VendorDashboard = (props) => {
                     <section className='emp-data open-hours-wrapper'>
                         {employeesData.map((employee, employeeIndex) => (
                             <section key={"employee-" + (employee.id || employeeIndex)} className="flex flex-col gap-4 mb-2 time-slots app-flex-1-1-33">
-                                <TextField name='name' label="Employee Name" onChange={handleFormChange}></TextField>
+                                <TextField name='empName' label="Employee Name" onChange={handleFormChange}></TextField>
                                 <section className='emp-photo-upload flex items-center gap-4'>
                                     <Button variant="outlined" color="primary">
                                         Upload Employee Photo
                                     </Button>
-                                    <input type="file" accept="image/*" onChange={(e) => { e.preventDefault() }} />
+                                    <input type="file" name='photo' accept="image/*" onChange={(e) => { e.preventDefault() }} />
                                 </section>
                                 <Autocomplete options={idProofTypes} getOptionLabel={op => op.name} renderInput={(params) => <TextField {...params} label="Id Proof Type"></TextField>} ></Autocomplete>
-                                <TextField name='name' label="ID Proof" onChange={handleFormChange}></TextField>
+                                <TextField name='idProof' label="ID Proof" onChange={handleEmployeeDataFormChange.bind(this, "address", employeeIndex)}></TextField>
                                 <section className='flex flex-col gap-4 mb-2 time-slots'>
-                                    <TextField name='address' onChange={handleFormChange} label="Address"></TextField>
+                                    <TextField name='address' onChange={handleEmployeeDataFormChange.bind(this, "address", employeeIndex)} label="Address"></TextField>
                                     <section >
-                                        <TextField name='city' onChange={handleFormChange} label="City"></TextField>
-                                        <TextField name='pinCode' onChange={handleFormChange} label="Pin code"></TextField>
+                                        <TextField name='city' onChange={handleEmployeeDataFormChange.bind(this, "address", employeeIndex)} label="City"></TextField>
+                                        <TextField name='pinCode' onChange={handleEmployeeDataFormChange.bind(this, "address", employeeIndex)} label="Pin code"></TextField>
                                     </section>
-                                    <section>
-                                        <TextField name='state' onChange={handleFormChange} label='State'></TextField>
-                                        <TextField name='country' onChange={handleFormChange} label='Country'></TextField>
-                                    </section>
+                                    <Autocomplete options={["Delhi", "Maharashtra", "Karnataka"]}
+                                        onChange={handleEmployeeDataFormChange.bind(this, "address", employeeIndex)} id='state'
+                                        renderInput={(params) => <TextField {...params} label={"State"}></TextField>} ></Autocomplete>
+                                    <Autocomplete options={["India"]} onChange={handleEmployeeDataFormChange.bind(this, "address", employeeIndex)} id='country'
+                                        renderInput={(params) => <TextField {...params} label={"Country"}></TextField>} ></Autocomplete>
                                 </section>
                             </section>
                         ))}
