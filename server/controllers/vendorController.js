@@ -5,10 +5,11 @@ const asyncHandler = require('express-async-handler');
 
 
 const catagoriesRegistration = asyncHandler(async(req,res)=>{
-    const { catagories, services, price } = req.body;
+    const { catagories, services,description, price } = req.body;
+    const serviceProvider1 = await ServiceProvider.findById(req.user._id);
     const serviceProvider= req.user._id;
     const serviceProviderId = serviceProvider.toString();
-    console.log(serviceProviderId)
+    console.log(serviceProvider1.serviceProviderName)
     const existingCategory = await Category.findOne({catagories });
     
     let categoryId;
@@ -23,7 +24,9 @@ const catagoriesRegistration = asyncHandler(async(req,res)=>{
     const service = await new Services({
         catagories: categoryId,
         services : services,
-        serviceProvider : serviceProviderId,
+        description:description,
+        serviceProvider:serviceProvider1.serviceProviderName,
+        serviceProviderId : serviceProviderId,
             price: price
           
     });

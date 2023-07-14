@@ -8,7 +8,14 @@ const serviceSchema = new mongoose.Schema({
     ref : "Category"
    }],
    services : [String],
-   serviceProvider: {
+   description:{
+    type:String,
+
+   },
+   serviceProvider:{
+    type:String,
+   },
+   serviceProviderId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "ServiceProvider",
     required: true
@@ -17,6 +24,7 @@ const serviceSchema = new mongoose.Schema({
         type: Number,
         required: true
       }
+   
  
 });
 const Services = mongoose.model("Service", serviceSchema);
