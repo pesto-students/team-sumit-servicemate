@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const locationSchema = new mongoose.Schema({
-  geoCode: {
-    type: String,
-    required: true
-  },
   address: {
     type: String,
     required: true
@@ -17,10 +13,15 @@ const locationSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  geoCode: {
+    type: String,
+    required: true
+  },
   country: {
     type: String,
     required: true
   }
+ 
 });
 
 const Location = mongoose.model('Location', locationSchema);
