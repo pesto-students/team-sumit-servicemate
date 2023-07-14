@@ -72,14 +72,37 @@ const searchCatagories = asyncHandler(async (req, res) => {
   res.send(services);
 });
 
-const updateCatagories = asyncHandler(async(req,res)=>{
- const userId = req.user._id;
- console.log(userId)
+const searchService = asyncHandler(async (req, res) => {
+  const { catagories } = req.body;
+  console.log(catagories);
+  const regexSearch = new RegExp(catagories, "i");
 
+  const categories = await Category.find({
+    catagories: regexSearch
+  }).select('_id');
+  
+  const serviceProvider = await ServiceProvider.find({
+    serviceProviderName: regexSearch
+  }).select('_id');
 
+  console.log(serviceProvider);
 
+  const services = await Services.find({
+    $or: [
+      { services: regexSearch },
+      { "serviceProvider": { $in: serviceProvider } },
+      { "catagories": { $in: categories } },
+    ],
+  })
+    .populate({
+      path: "catagories",
+      select: "catagories",
+    })
+    .populate("serviceProvider")
+    .exec();
+
+  res.send(services);
 });
-
 const vendorDetails = asyncHandler(async(req,res)=>{
   try {
     const {
@@ -129,4 +152,4 @@ const vendorDetails = asyncHandler(async(req,res)=>{
 
 
 
-module.exports = {searchCatagories,catagoriesRegistration,updateCatagories,vendorDetails};
+module.exports = {searchCatagories,catagoriesRegistration,searchService,vendorDetails};

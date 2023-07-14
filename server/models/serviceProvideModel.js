@@ -21,7 +21,6 @@ const serviceProviderModal = mongoose.Schema({
          service:[{
           type:mongoose.Schema.Types.ObjectId,
           ref:"Services"
-
          }],
          openHours: [{
                 location:[{
@@ -47,7 +46,7 @@ const serviceProviderModal = mongoose.Schema({
          portfolio:{
               image:{
                 type:String,
-                required:true,
+              
               },
               verified:{
                 type:Boolean,

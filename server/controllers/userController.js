@@ -1,9 +1,12 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
 const generateToken = require('../config/generateToken');
+const ServiceProvider = require('../models/serviceProvideModel');
+const Appointment = require('../models/appointmentBookingModel ');
+
 
 const register = asyncHandler(async(req,res)=>{
-    const { name, phoneNo, email, password, userType, address } = req.body;
+    const { name, phoneNo, email, password, userType, address, profile } = req.body;
 
   // Check if all required fields are provided
   if (!name || !phoneNo || !email || !password || !address) {
@@ -26,6 +29,7 @@ const register = asyncHandler(async(req,res)=>{
     password,
     userType,
     address,
+    profile,
   });
 
   if (newUser) {
@@ -36,6 +40,7 @@ const register = asyncHandler(async(req,res)=>{
       email: newUser.email,
       userType: newUser.userType,
       address: newUser.address,
+      profile:newUser.profile,
       token: generateToken(newUser._id),
     });
   } else {
@@ -71,17 +76,34 @@ const login = asyncHandler(async(req,res)=>{
 
 });
 
+const appointment = asyncHandler(async (req) => {
+  const loginUser = req.user;
+ 
 
-const appointment = asyncHandler(async(res,req)=>{
-    const {userId}=req.body;
-     const refUser =req.user._id;
-     const value  = refUser.toString();
-     if (!userId){
-        console.log("userId not sent")
-        return res.sendStatus(400)
-     }
+  const { serviceProviderId, appointmentDate } = req.body;
 
+  const serv = await ServiceProvider.findById(serviceProviderId);
+  const newAppointment = new Appointment({
+    serviceProvider: serv._id,
+    service: serv.service,
+    user: loginUser._id,
+    appointmentDate,
+  });
+  const appointment = await newAppointment.save();
+  console.log(appointment);
+});
 
+const fetchAppointment = asyncHandler(async(req,res)=>{
+  const userId = req.user._id;
 
+  console.log(userId)
+  const appointments = await Appointment.find({ user: userId })
+    .populate("serviceProvider")
+    .populate("service")
+    .exec();
+
+  res.status(200).json({ data: appointments });
 })
-module.exports = {register,login,appointment};
+
+  
+module.exports = {register,login,appointment,fetchAppointment};

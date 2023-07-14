@@ -9,8 +9,6 @@ const planSchema =new mongoose.Schema({
         type:String,
     },
 
-    
-
     assignedTo : [{type:mongoose.Schema.Types.ObjectId,
                     ref:"Employee"}],
       
