@@ -7,9 +7,9 @@ import { styled } from '@mui/material/styles';
 import { autocompleteClasses } from '@mui/material/Autocomplete';
 
 const Root = styled('div')(
-    ({ theme }) => `
+  ({ theme }) => `
   color: ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.65)' : 'rgba(0,0,0,.85)'
-        };
+    };
   font-size: 14px;
 `,
 );
@@ -21,7 +21,7 @@ const Label = styled('label')`
 `;
 
 const InputWrapper = styled('div')(
-    ({ theme }) => `
+  ({ theme }) => `
   width: 300px;
   border: 1px solid ${theme.palette.mode === 'dark' ? '#434343' : '#d9d9d9'};
   background-color: ${theme.palette.mode === 'dark' ? '#141414' : '#fff'};
@@ -42,7 +42,7 @@ const InputWrapper = styled('div')(
   & input {
     background-color: ${theme.palette.mode === 'dark' ? '#141414' : '#fff'};
     color: ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.65)' : 'rgba(0,0,0,.85)'
-        };
+    };
     height: 30px;
     box-sizing: border-box;
     padding: 4px 6px;
@@ -57,29 +57,29 @@ const InputWrapper = styled('div')(
 );
 
 function Tag(props) {
-    const { label, onDelete, ...other } = props;
-    return (
-        <div {...other}>
-            <span>{label}</span>
-            <CloseIcon onClick={onDelete} />
-        </div>
-    );
+  const { label, onDelete, ...other } = props;
+  return (
+    <div {...other}>
+      <span>{label}</span>
+      <CloseIcon onClick={onDelete} />
+    </div>
+  );
 }
 
 Tag.propTypes = {
-    label: PropTypes.string.isRequired,
-    onDelete: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
 
 const StyledTag = styled(Tag)(
-    ({ theme }) => `
+  ({ theme }) => `
   display: flex;
   align-items: center;
   height: 24px;
   margin: 2px;
   line-height: 22px;
   background-color: ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.08)' : '#fafafa'
-        };
+    };
   border: 1px solid ${theme.palette.mode === 'dark' ? '#303030' : '#e8e8e8'};
   border-radius: 2px;
   box-sizing: content-box;
@@ -107,7 +107,7 @@ const StyledTag = styled(Tag)(
 );
 
 const Listbox = styled('ul')(
-    ({ theme }) => `
+  ({ theme }) => `
   width: 300px;
   margin: 2px 0 0;
   padding: 0;
@@ -154,61 +154,73 @@ const Listbox = styled('ul')(
 );
 
 export default function DropDown(props) {
-    const { name = '',
-        // id = '', 
-        options = [],
-        // onChange = () => { }, 
-        label = '',
-        optionAttribute = 'name' } = props;
-    const {
-        getRootProps,
-        getInputLabelProps,
-        getInputProps,
-        getTagProps,
-        getListboxProps,
-        getOptionProps,
-        groupedOptions,
-        value,
-        focused,
-        setAnchorEl,
-    } = useAutocomplete({
-        id: name,
-        defaultValue: [options[1]],
-        multiple: true,
-        options: options,
-        getOptionLabel: (option) => option[optionAttribute],
-    });
+  const { name = '',
+    // id = '', 
+    options = [],
+    onChange,
+    label = '',
+    optionAttribute = 'name',
+    formData
+  } = props;
+  const {
+    getRootProps,
+    getInputLabelProps,
+    getInputProps,
+    getTagProps,
+    getListboxProps,
+    getOptionProps,
+    groupedOptions,
+    value,
+    focused,
+    setAnchorEl,
+    setValue
+  } = useAutocomplete({
+    id: name,
+    defaultValue: [],
+    multiple: true,
+    options: options,
+    getOptionLabel: (option) => option[optionAttribute],
+  });
 
-    return (
-        <Root>
-            <div {...getRootProps()}>
-                <Label {...getInputLabelProps()}>{label}</Label>
-                <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
-                    {value.map((option, index) => (
-                        <StyledTag key={"tag-" + index} label={option[optionAttribute]} {...getTagProps({ index })} />
-                    ))}
-                    <input {...getInputProps()} />
-                </InputWrapper>
-            </div>
-            {groupedOptions.length > 0 ? (
-                <Listbox {...getListboxProps()}>
-                    {groupedOptions.map((option, index) => (
-                        <li key={"li-" + index} {...getOptionProps({ option, index })}>
-                            <span>{option[optionAttribute]}</span>
-                            <CheckIcon fontSize="small" />
-                        </li>
-                    ))}
-                </Listbox>
-            ) : null}
-        </Root>
-    );
+  React.useEffect(() => {
+    onChange && onChange(null, name, value)
+  }, [value])
+
+  React.useEffect(() => {
+    setValue && setValue(formData[name]);
+  }, [formData[name]]);
+
+  return (
+    <Root>
+      <div {...getRootProps()}>
+        <Label {...getInputLabelProps()}>{label}</Label>
+        <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
+          {value.map((option, index) => (
+            <StyledTag key={"tag-" + index} label={option[optionAttribute]} {...getTagProps({ index })} />
+          ))}
+          <input {...getInputProps()} />
+        </InputWrapper>
+      </div>
+      {groupedOptions.length > 0 ? (
+        <Listbox {...getListboxProps()}>
+          {groupedOptions.map((option, index) => (
+            <li key={"li-" + index} {...getOptionProps({ option, index })}>
+              <span>{option[optionAttribute]}</span>
+              <CheckIcon fontSize="small" />
+            </li>
+          ))}
+        </Listbox>
+      ) : null}
+    </Root>
+  );
 }
 
 DropDown.propTypes = {
-    name: PropTypes.string,
-    id: PropTypes.string,
-    onchange: PropTypes.func,
-    options: PropTypes.object,
-    optionAttribute: PropTypes.string,
-    label: PropTypes.string,
+  name: PropTypes.string,
+  id: PropTypes.string,
+  onChange: PropTypes.func,
+  options: PropTypes.object,
+  optionAttribute: PropTypes.string,
+  label: PropTypes.string,
+  formData: PropTypes.object,
 }

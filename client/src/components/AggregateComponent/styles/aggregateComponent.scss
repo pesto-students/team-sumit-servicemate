@@ -1,0 +1,18 @@
+.aggregate-component{
+    .aggregate-controls{
+        display: flex;
+        flex-wrap: wrap;
+        row-gap: 1rem;
+        column-gap: 1rem;
+        .agg-location{
+            border: 1px solid lightgray;
+            padding: 0.5rem;
+        .aggregate-control{
+            flex: 0 0 33%;
+        }}
+    }
+}
+
+.app-flex-100{
+    flex: 0 0 100% !important;
+}

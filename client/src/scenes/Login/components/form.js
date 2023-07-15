@@ -50,7 +50,7 @@ const LoginForm = () => {
             <TextField label="Email" variant="outlined" name='email' onChange={handleFormChange} />
             <TextField label="Password" variant="outlined" type="password" name="password" onChange={handleFormChange} />
             <ErrorMessage open={showError} handleClose={() => { setShowError(false) }} message='you have entered invalid credentials'></ErrorMessage>
-            <Button variant="contained" color="primary" onClick={handleLogin}>Login</Button>
+            <Button type='submit' variant="contained" color="primary" onClick={handleLogin}>Login</Button>
         </form>
     );
 };

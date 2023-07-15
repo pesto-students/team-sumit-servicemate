@@ -26,6 +26,5 @@ const usecaseSchema = new mongoose.Schema({
     },
   ],
 });
-
 const usecase = mongoose.model("usecase", usecaseSchema);
 module.exports = usecase;

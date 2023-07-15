@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 import "./styles/dashedButton.scss"
 
 const DashedButton = (props) => {
-    const { label = '', name = '', icon = '', onClick } = props;
+    const { label = '', name = '', icon = '', handleButtonClick = () => { } } = props;
     return (
-        <Button id={name} onClick={onClick}>
+        <Button id={name} onClick={handleButtonClick}>
             <article className='dashed-button-icon-text'>
                 <section>
                     {icon}
@@ -25,5 +25,5 @@ DashedButton.propTypes = {
     label: PropTypes.string,
     name: PropTypes.string,
     icon: PropTypes.string,
-    onClick: PropTypes.func,
+    handleButtonClick: PropTypes.func,
 }
