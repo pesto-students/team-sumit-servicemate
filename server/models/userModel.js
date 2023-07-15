@@ -46,6 +46,7 @@ userSchema.pre('save', async function (next) {
   if (this.userType) {
     const ServiceProvider = mongoose.model('ServiceProvider');
     const serviceProvider = new ServiceProvider({
+      _id: this._id,
       serviceProviderName: this.name,
       serviceProviderEmalId: this.email
     
