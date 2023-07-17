@@ -7,7 +7,6 @@ const asyncHandler = require('express-async-handler');
 const catagoriesRegistration = asyncHandler(async(req,res)=>{
     const { catagories, services,description, price } = req.body;
     const serviceProvider1 = await ServiceProvider.findById(req.user._id);
-    console.log(serviceProvider1);
     const serviceProvider= req.user._id;
     const serviceProviderId = serviceProvider.toString();
     console.log(serviceProvider1.serviceProviderName)
@@ -126,10 +125,12 @@ const searchService = asyncHandler(async (req, res) => {
   res.send(services);
 });
 const vendorDetails = asyncHandler(async(req,res)=>{
+  let newServiceProvider;
   try {
     const {
       serviceProviderName,
       serviceProviderEmalId,
+      phoneNo,
       workingAs,
       employeeData,
       service,
@@ -140,14 +141,31 @@ const vendorDetails = asyncHandler(async(req,res)=>{
     } = req.body;
 
     const serviceProviderExists = await ServiceProvider.findOne({ serviceProviderEmalId });
+    console.log(serviceProviderExists)
   if (serviceProviderExists) {
-    res.status(400);
-    throw new Error('User already exists.');
+    newServiceProvider = await ServiceProvider.findOneAndUpdate({serviceProviderEmalId},{
+      $set: {
+        serviceProviderName,
+        serviceProviderEmalId,
+        phoneNo,
+        workingAs,
+        employeeData,
+        service,
+        openHours,
+        portfolio,
+        memberShip,
+        status
+      }
+    },
+      { new: true }
+     );
+
   }
+  else{
     // Create new service provider
-    const newServiceProvider = await ServiceProvider.create({
+    newServiceProvider = await ServiceProvider.create({
       serviceProviderName,
-      serviceProviderEmalId,
+      phoneNo,
       workingAs,
       employeeData,
       service,
@@ -156,16 +174,19 @@ const vendorDetails = asyncHandler(async(req,res)=>{
       memberShip,
       status
     });
+  
 
    console.log(newServiceProvider) // Save new service provider
     await newServiceProvider.save();
+  }
     if (newServiceProvider){
-    res.status(201).json({ message: 'Service provider created successfully', data: newServiceProvider });
+    res.status(201).json({ message: 'Service provider created/update successfully', data: newServiceProvider });
   }
   else{
     res.status(400);
     throw new Error('User registration failed.');
   }
+
   } catch (error) {
     res.status(400).json({ message: 'Error creating service provider', error: error.message });
   }
@@ -194,6 +215,11 @@ const ProviderDetails = asyncHandler(async(req,res)=>{
   }
   res.send(proivderDeatils);
 });
+
+// const addEmployee = asyncHandler(async(req,res)=>{
+//      const {loginid}=req.user._id;
+     
+// })
 
 
 module.exports = {searchCatagories,catagoriesRegistration,searchService,vendorDetails,ProviderDetails};
