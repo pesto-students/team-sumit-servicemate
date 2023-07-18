@@ -1,0 +1,164 @@
+appointment-
+	-book appointment
+	-notifcation on appointment status changes
+	-advance payment   
+
+checklist:
+1. services list api- ready and inetgrated
+
+2. filter services by category
+
+service detail by id api
+
+-----------------------------------------------------------------
+
+Home page:
+categories={
+name:"",
+image:"",
+}
+
+search can be based on:
+	category name, 
+	service name, 
+	provider name
+
+CTA: navigate to vendor list page
+
+-----------------------------------------------------------------
+Vendor List page:
+vendorList=[{
+	vendorImage:"",
+	vendorName:"",
+	rating:{
+		overall:"",
+		count:""
+	},
+	timings:[],
+	address:"",
+	services:[{
+		name:"",
+		catregoryName:""
+	}]
+	mobileNumber:"",
+	yearOfEstablishment:""
+}]
+
+-----------------------------------------------------------------
+vendor detail page
+
+vendor={
+	vendorImage:"",
+	vendorName:"",
+	rating:"",
+	openingHours:"",
+	address:{
+		address:"",
+		city:"",
+		state:"",
+		pincode:""
+	},
+	services:[{
+		name:"",
+		catregoryName:""
+	}]
+	mobileNumber:"",
+	yearOfEstablishment:"",	
+	portfolios:[{
+		portfolioName:"same as service",
+		photos:[{
+			url:"",
+			caption:""
+		}],
+		serviceId:""
+	}],
+	servicesList:[{
+		serviceName:"",
+		serviceId:"",
+		categories["cate-1","cate-2"],
+		estimatedCharges:"",
+		location:[]
+	}]
+	ratingByCustomerList:[{
+		userName:"",
+		reviewsCountOfUser:""
+		comment:"",
+		rating:"",
+		date:"",
+	}]
+}
+
+-----------------------------------------------------------------
+
+book appointment page
+
+bookingAppointmentStatus:[
+	{value:pending,name:"Pending to confirm"},
+	{value:confirmed,name"Booking Confirmed"},
+	{value:cancelled,name:"Booking Cancelled"},
+	{value:re-scheduled,name:"Booking Re-scheduled"},
+	{value:started,name:"Work Started"},
+	{value:completed,name:"Work Completed"},
+]
+
+
+paymentStatus:["pending","partially paid","fully paid"]
+
+book appointment post api call payload-
+
+request: GET /api/bookAppointment
+payload: {
+	serviceName:"",
+	serviderProviderName:"",
+	serviceId:"",
+	serviceProviderId:"",
+	mobile:"",
+	userName:"",
+	userAddress:{
+		address:"",
+		city:"",
+		state:""
+		pincode:""
+	},
+	bookingDate:""
+	additionalInformation:""
+}
+
+response:
+	{
+	serviceName:"",
+	serviderProviderName:"",
+	serviceId:"",
+	serviceProviderId:"",
+	mobile:"",
+	userName:"",
+	userAddress:{
+		address:"",
+		city:"",
+		state:""
+		pincode:""
+	},
+	bookingDate:""
+	additionalInformation:"",
+	status:"",
+
+	}
+
+------------------------------------------------------------
+
+put api call- updateAppointment
+
+payload:{
+	appointmentStatus:"",
+	appointmentId:""
+}
+
+-----------------------------------------------------------
+
+Email notification Journey
+	-Booking confirmation email
+	-Booking cancelled email
+	-Booking re-schedule email
+	-Work started email
+	-Work completed email
+	-payment confirmation email	
