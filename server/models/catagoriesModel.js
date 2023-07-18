@@ -5,6 +5,7 @@ const categorySchema = new mongoose.Schema({
         type: String,
         enum: HouseholdWorkCategories,
         required: true,
+         
        },
   });
   

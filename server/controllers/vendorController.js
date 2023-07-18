@@ -4,6 +4,7 @@ const Services = require('../models/servicesModel');
 const asyncHandler = require('express-async-handler');
 
 
+
 const catagoriesRegistration = asyncHandler(async(req,res)=>{
     const { catagories, services,description, price } = req.body;
     const serviceProvider1 = await ServiceProvider.findById(req.user._id);
