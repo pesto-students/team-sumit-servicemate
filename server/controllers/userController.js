@@ -76,21 +76,31 @@ const login = asyncHandler(async(req,res)=>{
 
 });
 
-const appointment = asyncHandler(async (req) => {
+const appointment = asyncHandler(async (req,res) => {
   const loginUser = req.user;
- 
+  console.log(loginUser.name)
 
-  const { serviceProviderId, appointmentDate } = req.body;
+  const { serviceProviderId,service, appointmentDate } = req.body;
 
   const serv = await ServiceProvider.findById(serviceProviderId);
+  console.log("serviceprovide_id"+ serv.serviceProviderName)
   const newAppointment = new Appointment({
     serviceProvider: serv._id,
-    service: serv.service,
-    user: loginUser._id,
+    serviderProviderName : serv.serviceProviderName,
+    mobile:serv.phoneNo,
+    service: service,
+    userId:loginUser._id,
+    userName: loginUser.name,
+    userAddress:loginUser.address,
     appointmentDate,
   });
   const appointment = await newAppointment.save();
-  console.log(appointment);
+  if (appointment){
+    res.status(200).json({ data: appointment });
+  }
+  else{
+    res.status(200).json({ mesaage:"appointmemt not booked" });
+  }
 });
 
 
@@ -100,6 +110,7 @@ const fetchAppointment = asyncHandler(async(req,res)=>{
   console.log(userId)
   const appointments = await Appointment.find({ user: userId })
     .populate("serviceProvider")
+    .populate("userId")
     .populate("service")
     .exec();
 

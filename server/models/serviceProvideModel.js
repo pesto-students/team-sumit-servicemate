@@ -10,6 +10,10 @@ const serviceProviderModal = mongoose.Schema({
             trim : true,
             required : true
          },
+         phoneNo:{
+          type:Number,
+          required : true
+         },
          workingAs:{
             type: String,
             enum: ['Freelancer', 'Vendor']
@@ -28,11 +32,10 @@ const serviceProviderModal = mongoose.Schema({
                  ref : "Location"
                     }],
                     timeSlot:[{
-                      day: {
+                      day: [{
                         type: String,
-                        enum: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
                         required: true
-                      },
+                      }],
                       fromTime: {
                         type: String,
                         required: true
