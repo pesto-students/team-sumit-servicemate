@@ -1,15 +1,18 @@
 const mongoose = require("mongoose");
 
+
 const appointmentSchema = new mongoose.Schema({
   serviceProvider: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "ServiceProvider",
     required: true
   },
+
   serviderProviderName:{
      type:String,
      required: true
   },
+
   service: {
     type: String,
     required: true

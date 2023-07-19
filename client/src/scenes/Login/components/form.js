@@ -4,7 +4,8 @@ import { Button, TextField } from '@mui/material';
 // import { data } from '../../../config/db';
 import ErrorMessage from './error';
 import { useNavigate } from 'react-router-dom';
-import axios from "axios"
+// import restClient from '../../../config/axios';
+import axios from 'axios';
 
 const LoginForm = () => {
     const navigate = useNavigate()
@@ -31,7 +32,7 @@ const LoginForm = () => {
                     "content-type": "application/json",
                 },
             };
-            const { data } = await axios.post("http://localhost:5000/api/User/login", { ...formData }, config);
+            const { data } = await axios.post("/api/User/login", { ...formData }, config);
             localStorage.setItem("userInfo", JSON.stringify(data));
             setShowError(false)
             navigate("/")

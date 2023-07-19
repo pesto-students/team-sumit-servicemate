@@ -5,6 +5,7 @@ import "./styles/form.scss"
 import { useNavigate } from 'react-router-dom'
 import routeConstant from '../../../config/routeConstant'
 import PropTypes from "prop-types"
+// import restClient from '../../../config/axios'
 const RegisterForm = (props) => {
     const { registerUser } = props
 
@@ -23,7 +24,8 @@ const RegisterForm = (props) => {
     const handleRegister = (e) => {
         e.preventDefault();
         registerUser(formData)
-        navigate('/', {
+        // restClient.post("/api/User/register", { data: JSON.stringify(formData) })
+        navigate('/dashboard', {
             state: {
                 userDetails: formData,
                 navigatedFrom: routeConstant.register

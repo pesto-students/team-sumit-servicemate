@@ -103,6 +103,7 @@ const appointment = asyncHandler(async (req,res) => {
   }
 });
 
+
 const fetchAppointment = asyncHandler(async(req,res)=>{
   const userId = req.user._id;
 
