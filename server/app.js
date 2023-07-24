@@ -9,7 +9,7 @@ const cors = require('cors');
 
 const app = express();
 
-app.use(cors)
+app.use(cors())
 app.use(express.json());
 
 env.config();
@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 
 
 app.use('/api/vendor', vendorRouter);
-app.use('/api/User', userRouter);
+app.use('/api/user', userRouter);
 
 app.all(ReqError);
 app.all(BadReq);

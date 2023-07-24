@@ -13,14 +13,20 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Link, } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-const pages = ["categories", "services", "aboutus", "Contact us"];
+const pages = ["Services", "About us", "Contact us"];
 const settings = ["Profile", "Orders", "Dashboard", "Logout"];
 
 const AppTopBar = () => {
+  const loggedInUser = useSelector((state) => state.loggedInUser.user)
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [isLogin, setLogin] = React.useState(false)
+
+  React.useEffect(() => {
+    setLogin(Boolean(loggedInUser))
+  }, [loggedInUser])
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
