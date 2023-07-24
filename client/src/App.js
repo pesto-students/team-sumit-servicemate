@@ -1,7 +1,7 @@
 import React from "react";
 import AppTopBar from "./components/AppBar";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Home from "./scenes/Home";
+// import Home from "./scenes/Home";
 import Login from "./scenes/Login";
 import Register from "./scenes/Register";
 import "./index.css";
@@ -22,10 +22,10 @@ function App() {
         </header>
         <main>
           <Routes>
-            <Route path="/" element={<Home />} />
+            {/* <Route path="/" element={<Home />} /> */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/categories" element={<Categories />} />
+            <Route path="/" element={<Categories />} />
             <Route path="/services" element={<Services />} />
             <Route path="/services/details/:id" element={<ServiceDetails />} />
             <Route path="/aboutus" element={<AboutUs />} />
