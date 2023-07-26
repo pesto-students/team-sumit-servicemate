@@ -5,11 +5,14 @@ import "./styles/form.scss"
 import { useNavigate } from 'react-router-dom'
 import routeConstant from '../../../config/routeConstant'
 import PropTypes from "prop-types"
+import restClient from '../../../config/axios'
+// import ErrorMessage from '../../Login/components/error'
 const RegisterForm = (props) => {
     const { registerUser } = props
 
     const navigate = useNavigate()
     const [formData, setFormData] = useState({})
+    // const [showError, setShowError] = useState(false)
 
     const handleFormChange = (e) => {
         const { name, value, checked, type } = e ? e.target : {}
@@ -20,30 +23,37 @@ const RegisterForm = (props) => {
         }
     }
 
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
         registerUser(formData)
-        navigate('/', {
-            state: {
-                userDetails: formData,
-                navigatedFrom: routeConstant.register
+        try {
+            const { data } = await restClient.post("/api/user/register", JSON.parse(JSON.stringify(formData)))
+            if (data) {
+                navigate('/dashboard', {
+                    state: {
+                        userDetails: formData,
+                        navigatedFrom: routeConstant.register
+                    }
+                })
             }
-        })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
         <form className="registration-form">
             <TextField label="Name" variant="outlined" name='name' required onChange={handleFormChange} />
-            <TextField label="Email" variant="outlined" name='emailId' required onChange={handleFormChange} />
+            <TextField label="Email" variant="outlined" name='email' required onChange={handleFormChange} />
             <TextField label="Password" variant="outlined" type="password" required name='password' onChange={handleFormChange} />
-            <TextField label="Mobile Number" variant='outlined' name='mobileNumber' required onChange={handleFormChange}></TextField>
+            <TextField label="Mobile Number" variant='outlined' name='phoneNo' required onChange={handleFormChange}></TextField>
             <FormControlLabel
                 label="Register as service provider (Vendor)"
                 control={
                     <Checkbox
                         // checked={formData.isVendor}
                         onChange={handleFormChange}
-                        name="isVendor"
+                        name="userType"
                         inputProps={{ 'aria-label': 'controlled' }}
                         value={formData.isVendor}
                     />

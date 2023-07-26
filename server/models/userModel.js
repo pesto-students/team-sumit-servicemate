@@ -23,13 +23,10 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
-  address: {
-    street: String,
-    city: String,
-    state: String,
-    postalCode: String,
-    country: String
-  },
+  address: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Location",
+  }],
   profile: {
     type: String
   }
@@ -47,8 +44,10 @@ userSchema.pre('save', async function (next) {
   if (this.userType) {
     const ServiceProvider = mongoose.model('ServiceProvider');
     const serviceProvider = new ServiceProvider({
+      _id: this._id,
       serviceProviderName: this.name,
-      serviceProviderEmalId: this.email
+      serviceProviderEmalId: this.email,
+      phoneNo:this.phoneNo
     
     });
 

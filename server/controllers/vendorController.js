@@ -33,8 +33,10 @@ const catagoriesRegistration = asyncHandler(async(req,res)=>{
     });
     
     await service.save()
-  .then((result) => {
+  .then(async(result) => {
     console.log('Document inserted:', result);
+     serviceProvider1.service.push(result._id);
+    await serviceProvider1.save();
     res.status(200).json({ message: "Service registered successfully" });
   })
   .catch((error) => {
@@ -78,40 +80,58 @@ const searchCatagories = asyncHandler(async (req, res) => {
 
 const searchService = asyncHandler(async (req, res) => {
   const { catagories } = req.body;
-  console.log(catagories);
-  const regexSearch = new RegExp(catagories, "i");
 
-  const categories = await Category.find({
-    catagories: regexSearch
-  }).select('_id');
-  
-  const serviceProvider = await ServiceProvider.find({
-    serviceProviderName: regexSearch
-  }).select('_id');
+  let services;
 
-  console.log(serviceProvider);
+  if (!catagories) {
+    services = await Services.find()
+      .populate({
+        path: "catagories",
+        select: "catagories",
+      })
+      .populate({
+        path: "serviceProviderId",
+        model: "ServiceProvider",
+      })
+      .exec();
+  } else {
+    const regexSearch = new RegExp(catagories, "i");
 
-  const services = await Services.find({
-    $or: [
-      { services: regexSearch },
-      { "serviceProvider": { $in: serviceProvider } },
-      { "catagories": { $in: categories } },
-    ],
-  })
-    .populate({
-      path: "catagories",
-      select: "catagories",
+    const categories = await Category.find({
+      catagories: regexSearch
+    }).select('_id');
+
+    const serviceProvider = await ServiceProvider.find({
+      serviceProviderName: regexSearch
+    }).select('_id');
+
+    services = await Services.find({
+      $or: [
+        { services: regexSearch },
+        { "serviceProvider": { $in: serviceProvider } },
+        { "catagories": { $in: categories } },
+      ],
     })
-    .populate("serviceProvider")
-    .exec();
+      .populate({
+        path: "catagories",
+        select: "catagories",
+      })
+      .populate({
+        path: "serviceProvider",
+        model: "ServiceProvider",
+      })
+      .exec();
+  }
 
   res.send(services);
 });
 const vendorDetails = asyncHandler(async(req,res)=>{
+  let newServiceProvider;
   try {
     const {
       serviceProviderName,
       serviceProviderEmalId,
+      phoneNo,
       workingAs,
       employeeData,
       service,
@@ -122,14 +142,31 @@ const vendorDetails = asyncHandler(async(req,res)=>{
     } = req.body;
 
     const serviceProviderExists = await ServiceProvider.findOne({ serviceProviderEmalId });
+    console.log(serviceProviderExists)
   if (serviceProviderExists) {
-    res.status(400);
-    throw new Error('User already exists.');
+    newServiceProvider = await ServiceProvider.findOneAndUpdate({serviceProviderEmalId},{
+      $set: {
+        serviceProviderName,
+        serviceProviderEmalId,
+        phoneNo,
+        workingAs,
+        employeeData,
+        service,
+        openHours,
+        portfolio,
+        memberShip,
+        status
+      }
+    },
+      { new: true }
+     );
+
   }
+  else{
     // Create new service provider
-    const newServiceProvider = await ServiceProvider.create({
+    newServiceProvider = await ServiceProvider.create({
       serviceProviderName,
-      serviceProviderEmalId,
+      phoneNo,
       workingAs,
       employeeData,
       service,
@@ -138,22 +175,52 @@ const vendorDetails = asyncHandler(async(req,res)=>{
       memberShip,
       status
     });
+  
 
    console.log(newServiceProvider) // Save new service provider
     await newServiceProvider.save();
+  }
     if (newServiceProvider){
-    res.status(201).json({ message: 'Service provider created successfully', data: newServiceProvider });
+    res.status(201).json({ message: 'Service provider created/update successfully', data: newServiceProvider });
   }
   else{
     res.status(400);
     throw new Error('User registration failed.');
   }
+
   } catch (error) {
     res.status(400).json({ message: 'Error creating service provider', error: error.message });
   }
 
 });
+const ProviderDetails = asyncHandler(async(req,res)=>{
+  const {serviceId,serviceName }=req.body
+  let proivderDeatils
+  if (serviceName){
+    const serviceids= await Services.find({services:{ $in: serviceName }})
+    const serviceIdArray = serviceids.map(service => service._id)
+    
+    console.log(serviceIdArray)
+     proivderDeatils = await ServiceProvider.find({service:{ $in: serviceIdArray }})
+     .populate({
+      path: 'service' ,
+      model: 'Service',
+    });
+  }
+ else{
+   proivderDeatils = await ServiceProvider.find({service:serviceId})
+   .populate({
+    path: 'service',
+    select: 'price',
+  });
+  }
+  res.send(proivderDeatils);
+});
+
+// const addEmployee = asyncHandler(async(req,res)=>{
+//      const {loginid}=req.user._id;
+     
+// })
 
 
-
-module.exports = {searchCatagories,catagoriesRegistration,searchService,vendorDetails};
+module.exports = {searchCatagories,catagoriesRegistration,searchService,vendorDetails,ProviderDetails};

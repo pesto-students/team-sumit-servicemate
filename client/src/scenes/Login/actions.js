@@ -1,7 +1,7 @@
 // actions.js
-export const someAction = () => {
+export const setLoggedInUser = (payload) => {
     return {
-        type: 'SOME_ACTION',
-        payload: 'some data',
+        type: 'SET_LOGGED_IN_USER',
+        payload,
     };
 };

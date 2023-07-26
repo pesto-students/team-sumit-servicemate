@@ -4,10 +4,14 @@ import { Button, TextField } from '@mui/material';
 // import { data } from '../../../config/db';
 import ErrorMessage from './error';
 import { useNavigate } from 'react-router-dom';
-import axios from "axios"
+// import restClient from '../../../config/axios';
+import { useDispatch } from 'react-redux';
+import { setLoggedInUser } from '../actions';
+import restClient from '../../../config/axios';
 
 const LoginForm = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [formData, setFormData] = useState({})
     const [showError, setShowError] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -31,12 +35,13 @@ const LoginForm = () => {
                     "content-type": "application/json",
                 },
             };
-            const { data } = await axios.post("http://localhost:5000/api/User/login", { ...formData }, config);
-            localStorage.setItem("userInfo", JSON.stringify(data));
+            const { data } = await restClient.post("/api/User/login", { ...formData }, config);
+            // localStorage.setItem("userInfo", JSON.stringify(data));
+            dispatch(setLoggedInUser(data))
             setShowError(false)
             navigate("/")
         } catch (error) {
-            alert("invalid credentials")
+            setShowError(true)
             console.log(error)
         }
     }
