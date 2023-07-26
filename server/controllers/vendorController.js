@@ -79,10 +79,10 @@ const searchCatagories = asyncHandler(async (req, res) => {
 });
 
 const searchService = asyncHandler(async (req, res) => {
-  const { catagories } = req.body;
+  const { catagories } = req.query;
 
   let services;
-
+try {
   if (!catagories) {
     services = await Services.find()
       .populate({
@@ -96,20 +96,25 @@ const searchService = asyncHandler(async (req, res) => {
       .exec();
   } else {
     const regexSearch = new RegExp(catagories, "i");
+    console.log(regexSearch)
 
     const categories = await Category.find({
       catagories: regexSearch
     }).select('_id');
 
     const serviceProvider = await ServiceProvider.find({
-      serviceProviderName: regexSearch
+      $or:[
+      {serviceProviderName: regexSearch},
+      {serviceProviderEmalId: regexSearch}
+    ],
     }).select('_id');
+    console.log("serviceProviderId"+serviceProvider)
 
     services = await Services.find({
       $or: [
         { services: regexSearch },
-        { "serviceProvider": { $in: serviceProvider } },
-        { "catagories": { $in: categories } },
+        { serviceProviderId: { $in: serviceProvider } },
+        { catagories: { $in: categories } },
       ],
     })
       .populate({
@@ -117,13 +122,18 @@ const searchService = asyncHandler(async (req, res) => {
         select: "catagories",
       })
       .populate({
-        path: "serviceProvider",
+        path: "serviceProviderId",
         model: "ServiceProvider",
       })
       .exec();
   }
 
-  res.send(services);
+  res.status(201).send(services);
+
+} catch (error) {
+  res.status(400).json({ message: 'error in searching', error: error.message });
+}
+ 
 });
 const vendorDetails = asyncHandler(async(req,res)=>{
   let newServiceProvider;
