@@ -7,7 +7,6 @@ const appointmentSchema = new mongoose.Schema({
     ref: "ServiceProvider",
     required: true
   },
-
   serviderProviderName:{
      type:String,
      required: true

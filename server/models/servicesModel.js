@@ -12,6 +12,10 @@ const serviceSchema = new mongoose.Schema({
     type:String,
 
    },
+   address: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Location",
+  }],
    serviceProvider:{
     type:String,
    },
