@@ -11,10 +11,7 @@ import {
 import PropTypes from "prop-types";
 
 const BookingModal = ({ isOpen, onClose }) => {
-  const handleSubmit = () => {
-    // Handle the form submission, e.g., send data to server or perform any other required action
-    // You can access the form values from the state variables (date, timeSlot, address, name, phoneNumber, notes)
-  };
+  const handleSubmit = () => {};
 
   return (
     <Dialog open={isOpen} onClose={onClose}>

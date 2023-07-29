@@ -14,6 +14,8 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Link, } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Search from "../SearchBox";
+import LocationSelect from "../Location"; 
 
 const pages = ["Services", "About us", "Contact us"];
 const settings = ["Profile", "Orders", "Dashboard", "Logout"];
@@ -133,6 +135,9 @@ const AppTopBar = () => {
               </Button>
             ))}
           </Box>
+
+          <LocationSelect />
+          <Search searchData="plumbing" />
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title={isLogin ? "Open settings" : "Login/Sign up"}>
