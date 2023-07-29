@@ -72,6 +72,7 @@ const searchCatagories = asyncHandler(async (req, res) => {
 const searchService = asyncHandler(async (req, res) => {
   const { catagories } = req.query;
  console.log(catagories)
+
   let services;
 try {
   if (!catagories) {
