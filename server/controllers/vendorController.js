@@ -50,44 +50,37 @@ const catagoriesRegistration = asyncHandler(async(req,res)=>{
 
 const searchCatagories = asyncHandler(async (req, res) => {
   const { search } = req.query;
-  const regexSearch = new RegExp(search, "i");
-
-  const categories = await Category.find({
-    catagories: regexSearch
-  }).select('_id');
-  const serviceProvider = await ServiceProvider.find({
-    serviceProviderName: regexSearch
-  }).select('_id');
-
-  console.log(serviceProvider)
-
-  const services = await Services.find({
-    $or: [
-      {services:regexSearch},
-      { "serviceProvider":{$in : serviceProvider} },
-      { "catagories": { $in: categories } },
-    ],
-  })
-    .populate({
-      path: "catagories",
-      select: "catagories",
-    })
-    .populate("serviceProvider")
-    .exec();
-
-  res.send(services);
+  let service;
+  try{
+ 
+  if (!search) {
+     service = await Category.find()
+      .exec();
+  } 
+  else {
+    const regexSearch = new RegExp(search, "i");
+    console.log(regexSearch);
+    service = await Category.find({ catagories: regexSearch });
+  console.log("arpit"+service)
+  
+  }
+  res.status(200).send(service);
+}catch{
+  console.error("Error occurred:", error);
+    res.status(400).json({ message: 'Error in searching categories', error: error.message });
+}
 });
 
 const searchService = asyncHandler(async (req, res) => {
   const { catagories } = req.query;
-
+ console.log(catagories)
   let services;
 try {
   if (!catagories) {
     services = await Services.find()
       .populate({
         path: "catagories",
-        select: "catagories",
+        model: "Category",
       })
       .populate({
         path: "serviceProviderId",
@@ -101,6 +94,7 @@ try {
     const categories = await Category.find({
       catagories: regexSearch
     }).select('_id');
+    console.log("catagory"+categories)
 
     const serviceProvider = await ServiceProvider.find({
       $or:[
@@ -119,7 +113,7 @@ try {
     })
       .populate({
         path: "catagories",
-        select: "catagories",
+        model: "Category",
       })
       .populate({
         path: "serviceProviderId",
