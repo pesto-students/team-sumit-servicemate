@@ -46,40 +46,32 @@ const catagoriesRegistration = asyncHandler(async(req,res)=>{
 
 })
 
-
-
 const searchCatagories = asyncHandler(async (req, res) => {
   const { search } = req.query;
-  const regexSearch = new RegExp(search, "i");
-
-  const categories = await Category.find({
-    catagories: regexSearch
-  }).select('_id');
-  const serviceProvider = await ServiceProvider.find({
-    serviceProviderName: regexSearch
-  }).select('_id');
-
-  console.log(serviceProvider)
-
-  const services = await Services.find({
-    $or: [
-      {services:regexSearch},
-      { "serviceProvider":{$in : serviceProvider} },
-      { "catagories": { $in: categories } },
-    ],
-  })
-    .populate({
-      path: "catagories",
-      select: "catagories",
-    })
-    .populate("serviceProvider")
-    .exec();
-
-  res.send(services);
+  let service;
+  try{
+ 
+  if (!search) {
+     service = await Category.find()
+      .exec();
+  } 
+  else {
+    const regexSearch = new RegExp(search, "i");
+    console.log(regexSearch);
+    service = await Category.find({ catagories: regexSearch });
+  console.log("arpit"+service)
+  
+  }
+  res.status(200).send(service);
+}catch{
+  console.error("Error occurred:", error);
+    res.status(400).json({ message: 'Error in searching categories', error: error.message });
+}
 });
 
 const searchService = asyncHandler(async (req, res) => {
   const { catagories } = req.query;
+ console.log(catagories)
 
   let services;
 try {
@@ -87,7 +79,7 @@ try {
     services = await Services.find()
       .populate({
         path: "catagories",
-        select: "catagories",
+        model: "Category",
       })
       .populate({
         path: "serviceProviderId",
@@ -101,6 +93,7 @@ try {
     const categories = await Category.find({
       catagories: regexSearch
     }).select('_id');
+    console.log("catagory"+categories)
 
     const serviceProvider = await ServiceProvider.find({
       $or:[
@@ -119,7 +112,7 @@ try {
     })
       .populate({
         path: "catagories",
-        select: "catagories",
+        model: "Category",
       })
       .populate({
         path: "serviceProviderId",
@@ -128,7 +121,7 @@ try {
       .exec();
   }
 
-  res.status(201).send(services);
+  res.status(200).send(services);
 
 } catch (error) {
   res.status(400).json({ message: 'error in searching', error: error.message });
@@ -227,10 +220,91 @@ const ProviderDetails = asyncHandler(async(req,res)=>{
   res.send(proivderDeatils);
 });
 
-// const addEmployee = asyncHandler(async(req,res)=>{
-//      const {loginid}=req.user._id;
-     
-// })
+const addEmployee = asyncHandler(async(req,res)=>{
+      const loginid=req.user._id;
+      const serviceProvider = loginid.toString();
+      const {employeeId} = req.body
+      console.log("loggedIn serviceProvider"+loginid)
+      if (req.user._id){
+        const service = await ServiceProvider.find({_id:req.user._id})
+        console.log(service)
+        if (service.length > 0) {
+          const workingAs = service[0].workingAs; // Access the workingAs field from the first element of the array
+          console.log(workingAs);
+    
+          if (workingAs === "vendor" ) {
+          
+            const employee = await ServiceProvider.find({_id:employeeId})
+          
+            if (employee.length>0){
+              const workingAsForEmployee = employee[0].workingAs;
+              console.log(workingAsForEmployee)
+              if (workingAsForEmployee == "freelancer")
+              console.log("freelancer")
+              service[0].employeeData.push(employee[0]._id)
+              await service[0].save();
+              res.status(200).send("employee added sucessfully.")
+            }
+            else {
+            res.status(400).send("Employee working as other than freelancer.");
+          }
+            
+          }
+          else{
+            res.status(400).send("Employee working as other than freelancer.");
+          }
+        }
+        else{
+          res.status(404).send("Employee not found.");
+        
+        }
+      }
+ })
+
+ const searchFreelancer = asyncHandler(async(req,res)=>{
+  const loginid=req.user._id;
+  const {search} = req.query;
+  let freelancerSearch;
+ 
+  if (req.user._id){
+    const service = await ServiceProvider.find({_id:loginid})
+    
+    if (service.length > 0) {
+      const workingAs = service[0].workingAs; // Access the workingAs field from the first element of the array
+       if (workingAs == "vendor"){
+         if (!search){
+          
+         freelancerSearch = await ServiceProvider.find({workingAs:"freelancer"})
+        res.status(200).send(freelacersDtails);
+         }
+         else{
+          const regexSearch = new RegExp(search, "i");
+           freelancerSearch = await ServiceProvider.find({
+            $or:[
+              {serviceProviderName:regexSearch},
+              {serviceProviderEmalId:regexSearch}
+            ],
+            $or:[
+             {workingAs: "freelancer"},
+             {workingAs: "Freelancer"}
+            ]
+            
+          })
+
+          res.status(200).send(freelancerSearch);
+        } }
+        else {
+          res.status(400).send("Service provider is not a vendor.");
+        }
+      } else {
+        res.status(404).send("Service provider not found.");
+      }
+    }
+  });
+ 
+  
+  
+  
 
 
-module.exports = {searchCatagories,catagoriesRegistration,searchService,vendorDetails,ProviderDetails};
+module.exports = {searchCatagories,catagoriesRegistration,searchService,vendorDetails,ProviderDetails,addEmployee,searchFreelancer};
