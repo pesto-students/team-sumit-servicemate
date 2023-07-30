@@ -65,7 +65,7 @@ export default function SignIn() {
                     "content-type": "application/json",
                 },
             };
-            const { data } = await axios.post("https://5000-pestostuden-teamsumitse-o9vtf8gtizt.ws-us102.gitpod.io/api/user/login", { ...formData }, config);
+            const { data } = await restClient.post("/api/User/login", { ...formData }, config);
             // localStorage.setItem("userInfo", JSON.stringify(data));
             dispatch(setLoggedInUser(data))
             setShowError(false)
