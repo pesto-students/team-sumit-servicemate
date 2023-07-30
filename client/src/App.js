@@ -11,7 +11,8 @@ import BookAppointment from "./scenes/BookAppointment";
 import Categories from "./scenes/Categories";
 import Services from "./scenes/Services";
 import AboutUs from "./scenes/AboutUs";
-import ServiceDetails from "./scenes/ServiceDetails";
+import VendorDetails from "./scenes/VendorDetails";
+import VendorList from "./scenes/VendorList";
 
 function App() {
   return (
@@ -27,7 +28,8 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<Categories />} />
             <Route path="/services" element={<Services />} />
-            <Route path="/services/details/:id" element={<ServiceDetails />} />
+            <Route path="/vendor-list" element={<VendorList />} />
+            <Route path="/vendor/details/:id" element={<VendorDetails />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route
               path="/dashboard"

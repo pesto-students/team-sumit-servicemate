@@ -1,7 +1,7 @@
 import React from "react";
-import { Typography, Button } from "@mui/material";
+import { Typography } from "@mui/material";
 import PropTypes from "prop-types";
-const ServiceDetail = ({ service, handleBookNow }) => {
+const ServiceDetail = ({ service }) => {
   return (
     <>
       <Typography variant="h5" component="h2" gutterBottom>
@@ -19,9 +19,6 @@ const ServiceDetail = ({ service, handleBookNow }) => {
       <Typography variant="subtitle1" gutterBottom>
         Ratings: {service.ratings}
       </Typography>
-      <Button variant="contained" color="primary" onClick={handleBookNow}>
-        Book Now
-      </Button>
     </>
   );
 };

@@ -16,7 +16,7 @@ const MyCard = ({ cardData }) => {
       {cardData.map((card) => (
         <Grid item xs={12} sm={6} md={4} key={card.id}>
           <Link
-            to={`/services/details/${card.id}`}
+            to={`/vendor-list?category=${cardData.name}`}
             style={{ textDecoration: "none" }}
           >
             <Card
