@@ -1,15 +1,24 @@
 const express = require('express');
 const {protect}= require("../middleware/authMiddleware")
-const { searchCatagories, catagoriesRegistration,vendorDetails, searchService,ProviderDetails } = require('../controllers/vendorController');
+const { searchCatagories, catagoriesRegistration,vendorDetails, searchService,ProviderDetails,addEmployee,searchFreelancer } = require('../controllers/vendorController');
 
 const router = express.Router();
 
-router.route('/').post(protect,catagoriesRegistration).put(protect,catagoriesRegistration)
+
 router.route('/catagories').get(searchCatagories);
+router.route('/serviceSearch').get(searchService);
+router.route('/serviceFreelancers').get(protect,searchFreelancer);
+
+
+router.route('/').post(protect,catagoriesRegistration).put(protect,catagoriesRegistration)
 router.route('/detail').post(vendorDetails);
+
+router.route("/add-employee").post(protect,addEmployee)
+
 router.route('/serviceSearch').get(searchService);
 //router.route("/add-employee").post("addEmployee")
 //sercha thru service id
+
 router.route('/servceProviderDetails').post(ProviderDetails)
 
 

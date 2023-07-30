@@ -16,11 +16,11 @@ const serviceProviderModal = mongoose.Schema({
          },
          workingAs:{
             type: String,
-            enum: ['Freelancer', 'Vendor']
+            enum: ['freelancer', 'vendor','vendorEmployee']
          },
          employeeData:[{
              type:mongoose.Schema.Types.ObjectId,
-             ref:"EmployeeData"
+             ref:"ServiceProvider"
          }],
          service:[{
           type:mongoose.Schema.Types.ObjectId,
