@@ -1,8 +1,11 @@
-import React from "react";
-import { Container, Typography, Grid, Link } from "@mui/material";
+import React,{useEffect,useState} from "react";
+import { Container, Typography, Grid, Link, Box } from "@mui/material";
 import Card from "../../components/Card";
 import CategoryItem from "../../components/CategoryItem";
 import { Link as RouterLink } from "react-router-dom";
+import axios from "axios";
+import restClient from "../../config/axios";
+
 
 const cardData = [
   {
@@ -31,44 +34,39 @@ const cardData = [
   },
 ];
 
-const categories = [
-  {
-    id: 1,
-    name: "Category 1",
-    imageUrl:
-      "https://images.unsplash.com/photo-1505798577917-a65157d3320a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2VydmljZXMlMjBwbHVtYmluZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
-  },
-  {
-    id: 2,
-    name: "Category 2",
-    imageUrl:
-      "https://plus.unsplash.com/premium_photo-1661541260934-3e4f2a056dfb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c2VydmljZXMlMjBwbHVtYmluZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
-  },
-  {
-    id: 3,
-    name: "Category 3",
-    imageUrl:
-      "https://plus.unsplash.com/premium_photo-1661750421109-c8c61200dc29?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8c2VydmljZXMlMjBwbHVtYmluZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
-  },
-  {
-    id: 1,
-    name: "Category 1",
-    imageUrl:
-      "https://images.unsplash.com/photo-1505798577917-a65157d3320a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2VydmljZXMlMjBwbHVtYmluZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
-  },
-  {
-    id: 1,
-    name: "Category 1",
-    imageUrl:
-      "https://images.unsplash.com/photo-1505798577917-a65157d3320a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2VydmljZXMlMjBwbHVtYmluZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
-  },
-];
 const Categories = () => {
+const [apiData,setApiData] = useState([])
+  
+  const Handlecategories = async()=>{
+    try {      
+        const  responce  = await restClient.get("/api/vendor/catagories" );
+        console.log("Categories:", JSON.stringify(responce.data)); 
+        setApiData(responce.data);  
+    } catch (error) {
+      res.status(401).send(error)
+    }
+  }
+  
+  
+    useEffect(()=>{
+      Handlecategories();
+    },[])
+
+    const categories = apiData.map((category) => ({
+      id: category._id,
+      name: category.catagories,
+      imageUrl:category.image
+        
+    }));
+    
   return (
     <>
+    
       <Container sx={{ py: 5 }}>
+      
+      <Box sx={{ boxShadow: 3 }}>
         <div>
-          <Typography variant="h5" sx={{ color: "#666" }}>
+          <Typography variant="h5" sx={{ color: "#666", textAlign: "center" }}>
             Categories
           </Typography>
           <Grid container spacing={2}>
@@ -89,18 +87,22 @@ const Categories = () => {
             ))}
           </Grid>
         </div>
-
+        </Box>
+        <Box sx={{ boxShadow: 3 }}>
         <div style={{ marginTop: "40px" }}>
-          <Typography variant="h5" sx={{ color: "#666", marginBottom: "10px" }}>
+          <Typography variant="h5" sx={{ color: "#666", marginBottom: "10px",textAlign: "center"  }}>
             Services
           </Typography>
-          <Grid container spacing={2}>
+          <Grid container spacing={3} sx={{ marginLeft: "20px"}} >
             <Card cardData={cardData} />
           </Grid>
         </div>
+        </Box>
       </Container>
     </>
   );
+  
 };
+
 
 export default Categories;
