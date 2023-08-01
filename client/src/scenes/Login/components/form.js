@@ -15,11 +15,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ErrorMessage from './error'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-// import restClient from '../../../config/axios';
+import restClient from '../../../config/axios';
 import { useDispatch } from 'react-redux';
 import { setLoggedInUser } from '../actions';
-//import restClient from '../../../config/axios';
-import axios from 'axios';
 
 function Copyright(props) {
   return (
@@ -40,41 +38,41 @@ const defaultTheme = createTheme();
 
 
 export default function SignIn() {
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const [formData, setFormData] = useState({})
-    const [showError, setShowError] = useState(false)
-    const [loading, setLoading] = useState(false)
-    console.log("🚀 ~ file: form.js:15 ~ LoginForm ~ loading:", loading)
-    
-    const handleFormChange = (e) => {
-        const { name, value } = e ? e.target : {}
-        if (name) {
-            const newFormData = { ...formData }
-            newFormData[name] = value
-            setFormData(newFormData)
-        }
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const [formData, setFormData] = useState({})
+  const [showError, setShowError] = useState(false)
+  const [loading, setLoading] = useState(false)
+  console.log("🚀 ~ file: form.js:15 ~ LoginForm ~ loading:", loading)
+
+  const handleFormChange = (e) => {
+    const { name, value } = e ? e.target : {}
+    if (name) {
+      const newFormData = { ...formData }
+      newFormData[name] = value
+      setFormData(newFormData)
     }
-    const handleLogin = async (e) => {
-        e.preventDefault()
-        setLoading(true);
-        try {
-    
-            const config = {
-                headers: {
-                    "content-type": "application/json",
-                },
-            };
-            const { data } = await restClient.post("/api/User/login", { ...formData }, config);
-            // localStorage.setItem("userInfo", JSON.stringify(data));
-            dispatch(setLoggedInUser(data))
-            setShowError(false)
-            navigate("/")
-        } catch (error) {
-            setShowError(true)
-            console.log(error)
-        }
+  }
+  const handleLogin = async (e) => {
+    e.preventDefault()
+    setLoading(true);
+    try {
+
+      const config = {
+        headers: {
+          "content-type": "application/json",
+        },
+      };
+      const { data } = await restClient.post("/api/User/login", { ...formData }, config);
+      // localStorage.setItem("userInfo", JSON.stringify(data));
+      dispatch(setLoggedInUser(data))
+      setShowError(false)
+      navigate("/")
+    } catch (error) {
+      setShowError(true)
+      console.log(error)
     }
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
