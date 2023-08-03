@@ -6,8 +6,10 @@ const asyncHandler = require('express-async-handler');
 
 
 const catagoriesRegistration = asyncHandler(async(req,res)=>{
+  console.log(req.user.email)
     const { catagories, services,description, price } = req.body;
-    const serviceProvider1 = await ServiceProvider.findById(req.user._id);
+    const serviceProvider1 = await ServiceProvider.findOne({serviceProviderEmalId:req.user.email});
+    console.log(serviceProvider1)
     const serviceProvider= req.user._id;
     const serviceProviderId = serviceProvider.toString();
     console.log(serviceProvider1.serviceProviderName)
@@ -134,6 +136,7 @@ const vendorDetails = asyncHandler(async(req,res)=>{
     const {
       serviceProviderName,
       serviceProviderEmalId,
+      userType,
       phoneNo,
       workingAs,
       employeeData,
@@ -169,6 +172,7 @@ const vendorDetails = asyncHandler(async(req,res)=>{
     // Create new service provider
     newServiceProvider = await ServiceProvider.create({
       serviceProviderName,
+      userType,
       phoneNo,
       workingAs,
       employeeData,
@@ -221,7 +225,7 @@ const ProviderDetails = asyncHandler(async(req,res)=>{
 });
 
 const addEmployee = asyncHandler(async(req,res)=>{
-      const loginid=req.user._id;
+      const loginid=req.user.email;
       const serviceProvider = loginid.toString();
       const {employeeId} = req.body
       console.log("loggedIn serviceProvider"+loginid)
@@ -262,12 +266,14 @@ const addEmployee = asyncHandler(async(req,res)=>{
  })
 
  const searchFreelancer = asyncHandler(async(req,res)=>{
-  const loginid=req.user._id;
+  const loginid=req.user.email;
+  console.log(loginid)
   const {search} = req.query;
   let freelancerSearch;
  
   if (req.user._id){
-    const service = await ServiceProvider.find({_id:loginid})
+    const service = await ServiceProvider.find({serviceProviderEmalId:loginid})
+    console.log(service)
     
     if (service.length > 0) {
       const workingAs = service[0].workingAs; // Access the workingAs field from the first element of the array
@@ -284,10 +290,7 @@ const addEmployee = asyncHandler(async(req,res)=>{
               {serviceProviderName:regexSearch},
               {serviceProviderEmalId:regexSearch}
             ],
-            $or:[
-             {workingAs: "freelancer"},
-             {workingAs: "Freelancer"}
-            ]
+            workingAs: { $in: ["freelancer", "Freelancer"] }
             
           })
 
