@@ -5,11 +5,19 @@ const serviceProviderModal = mongoose.Schema({
           trim : true,
           required:true
          },
+       
+         profilePic: {
+          type: String
+        },
          serviceProviderEmalId:{
             type:String,
             trim : true,
             required : true
          },
+         userType: {
+          type: Boolean,
+          default: false
+        },
          phoneNo:{
           type:Number,
           required : true
@@ -26,11 +34,12 @@ const serviceProviderModal = mongoose.Schema({
           type:mongoose.Schema.Types.ObjectId,
           ref:"Services"
          }],
+         location:[{
+          type:mongoose.Schema.Types.ObjectId,
+          ref : "Location"
+             }],
          openHours: [{
-                location:[{
-                 type:mongoose.Schema.Types.ObjectId,
-                 ref : "Location"
-                    }],
+                
                     timeSlot:[{
                       day: [{
                         type: String,
@@ -46,7 +55,7 @@ const serviceProviderModal = mongoose.Schema({
                       }
                     }]    
          }],
-         portfolio:{
+         portfolio:[{
               image:{
                 type:String,
               
@@ -54,7 +63,7 @@ const serviceProviderModal = mongoose.Schema({
               verified:{
                 type:Boolean,
               }
-            },
+            }],
           createdOn: {
             type: Date,
             default: Date.now

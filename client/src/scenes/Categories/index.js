@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Typography, Grid, Link, Box } from "@mui/material";
+import { Container, Typography, Grid, Link, Box, CircularProgress } from "@mui/material";
 import Card from "../../components/Card";
 import CategoryItem from "../../components/CategoryItem";
 import { Link as RouterLink } from "react-router-dom";
@@ -47,11 +47,13 @@ const Categories = () => {
   const dispatch = useDispatch()
   const categories = useSelector((state) => state.categories.categories)
   const [categoryData, setCategoryData] = useState([])
+  const [loading,setLoading] = useState(true)
   const handleCategories = async () => {
     try {
       const response = await restClient.get("/api/vendor/catagories");
       console.log("Categories:", JSON.stringify(response.data));
       dispatch(setCategories(response.data))
+      setLoading(false)
     } catch (error) {
       console.log(error)
     }
@@ -93,7 +95,12 @@ const Categories = () => {
               Categories
             </Typography>
             <Grid container className="sm:justify-evenly" spacing={2}>
-              {categoryData.map((category) => (
+            {loading ? (
+                <Box sx={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center", minHeight: "300px" }}>
+                  <CircularProgress /> {/* Centered CircularProgress */}
+                </Box>
+              ) : (
+              categoryData.map((category) => (
                 <Grid item xs={12} sm={6} md={2} key={category.id}>
                   <Link
                     component={RouterLink}
@@ -107,7 +114,7 @@ const Categories = () => {
                     />
                   </Link>
                 </Grid>
-              ))}
+              )))}
             </Grid>
           </div>
         </Box>
