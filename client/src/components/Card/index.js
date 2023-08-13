@@ -33,7 +33,7 @@ const MyCard = ({ cardData }) => {
               <CardMedia
                 component="img"
                 height="200"
-                image={card.image}
+                image={card.catagories?.[0]?.image}
                 alt={card.title}
               />
               <CardContent>
