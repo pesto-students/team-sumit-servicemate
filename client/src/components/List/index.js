@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { List, ListItem, ListItemText } from "@mui/material";
 
-const Lists = ({ listData, selectedCategoryId, handleCategoryChange }) => {
+const Lists = ({ listData, activeCategory, handleCategoryChange }) => {
   return (
     <>
       <List
@@ -14,13 +14,13 @@ const Lists = ({ listData, selectedCategoryId, handleCategoryChange }) => {
         <ListItem
           key="all"
           sx={{
-            backgroundColor: selectedCategoryId === null ? "#f5f5f5" : "white",
+            backgroundColor: activeCategory === "all" ? "#f5f5f5" : "white",
             "&:hover": {
               backgroundColor: "#f5f5f5",
               cursor: "pointer",
             },
           }}
-          onClick={() => handleCategoryChange(null)}
+          onClick={() => handleCategoryChange("all")}
         >
           <ListItemText primary="All" sx={{ bgcolor: "white" }} />
         </ListItem>
@@ -29,15 +29,15 @@ const Lists = ({ listData, selectedCategoryId, handleCategoryChange }) => {
             key={item.id}
             sx={{
               backgroundColor:
-                selectedCategoryId === item.id ? "#f5f5f5" : "white",
+                activeCategory === item.catagories ? "#f5f5f5" : "white",
               "&:hover": {
                 backgroundColor: "#f5f5f5",
                 cursor: "pointer",
               },
             }}
-            onClick={() => handleCategoryChange(item.id)}
+            onClick={() => handleCategoryChange(item.catagories)}
           >
-            <ListItemText primary={item.title} sx={{ bgcolor: "white" }} />
+            <ListItemText primary={item.catagories} sx={{ bgcolor: "white" }} />
           </ListItem>
         ))}
       </List>
@@ -52,7 +52,7 @@ Lists.propTypes = {
       name: PropTypes.string.isRequired,
     })
   ).isRequired,
-  selectedCategoryId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  activeCategory: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   handleCategoryChange: PropTypes.func.isRequired,
 };
 
