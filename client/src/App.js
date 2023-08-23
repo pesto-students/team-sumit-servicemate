@@ -13,6 +13,7 @@ import Services from "./scenes/Services";
 import AboutUs from "./scenes/AboutUs";
 import VendorDetails from "./scenes/VendorDetails";
 import VendorList from "./scenes/VendorList";
+import DashBoard2 from "./scenes/Dashboard2";
 
 function App() {
   return (
@@ -36,6 +37,14 @@ function App() {
               element={
                 <PrivateRoute isAuthenticated={true}>
                   <DashBoard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/dashboard2"
+              element={
+                <PrivateRoute isAuthenticated={true}>
+                  <DashBoard2 />
                 </PrivateRoute>
               }
             />
