@@ -1,5 +1,5 @@
 import React from 'react';
-import TabNavigation from './TabsContainer';
+import TabNavigation from './TabNavigation';
 
 const DashBoard2 = () => {
     return (
