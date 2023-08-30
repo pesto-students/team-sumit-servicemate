@@ -4,23 +4,23 @@ const Services = require('../models/servicesModel');
 const asyncHandler = require('express-async-handler');
 
 
-const catagoriesRegistration = asyncHandler(async(req,res)=>{
+const catagoriesRegistration = asyncHandler(async (req, res) => {
   console.log(req.user.email)
-    const { catagories, services,description, price } = req.body;
-    const serviceProvider1 = await ServiceProvider.findOne({serviceProviderEmalId:req.user.email});
-    console.log(serviceProvider1)
-    const serviceProvider= req.user._id;
-    const serviceProviderId = serviceProvider.toString();
-    console.log(serviceProvider1.serviceProviderName)
-    const existingCategory = await Category.findOne({catagories });
-    
-    let categoryId;
-    if (existingCategory) {
-      // If the category exists, retrieve its ID
-      categoryId = existingCategory._id;
-      console.log(categoryId);
-    } else {
-      const newCategory = await Category.create({ catagories: catagories });
+  const { catagories, services, description, price } = req.body;
+  const serviceProvider1 = await ServiceProvider.findOne({ serviceProviderEmalId: req.user.email });
+  console.log(serviceProvider1)
+  const serviceProvider = req.user._id;
+  const serviceProviderId = serviceProvider.toString();
+  console.log(serviceProvider1.serviceProviderName)
+  const existingCategory = await Category.findOne({ catagories });
+
+  let categoryId;
+  if (existingCategory) {
+    // If the category exists, retrieve its ID
+    categoryId = existingCategory._id;
+    console.log(categoryId);
+  } else {
+    const newCategory = await Category.create({ catagories: catagories });
     categoryId = newCategory._id;
   }
   const service = await new Services({
@@ -224,40 +224,30 @@ const ProviderDetails = asyncHandler(async (req, res) => {
 });
 
 
-const addEmployee = asyncHandler(async(req,res)=>{
-      const loginid=req.user.email;
-      const serviceProvider = loginid.toString();
-      const {employeeId} = req.body
-      console.log("loggedIn serviceProvider"+loginid)
-      if (req.user._id){
-        const service = await ServiceProvider.find({_id:req.user._id})
-        console.log(service)
-        if (service.length > 0) {
-          const workingAs = service[0].workingAs; // Access the workingAs field from the first element of the array
-          console.log(workingAs);
-    
-          if (workingAs === "vendor" ) {
-          
-            const employee = await ServiceProvider.find({_id:employeeId})
-          
-            if (employee.length>0){
-              const workingAsForEmployee = employee[0].workingAs;
-              console.log(workingAsForEmployee)
-              if (workingAsForEmployee == "freelancer")
-              console.log("freelancer")
-              service[0].employeeData.push(employee[0]._id)
-              await service[0].save();
-              res.status(200).send("employee added sucessfully.")
-            }
-            else {
-            res.status(400).send("Employee working as other than freelancer.");
-          }
-            
-          }
-          else{
-            res.status(400).send("Employee working as other than freelancer.");
-          }
+const addEmployee = asyncHandler(async (req, res) => {
+  const loginid = req.user.email;
+  const serviceProvider = loginid.toString();
+  const { employeeId } = req.body
+  console.log("loggedIn serviceProvider" + loginid)
+  if (req.user._id) {
+    const service = await ServiceProvider.find({ _id: req.user._id })
+    console.log(service)
+    if (service.length > 0) {
+      const workingAs = service[0].workingAs; // Access the workingAs field from the first element of the array
+      console.log(workingAs);
 
+      if (workingAs === "vendor") {
+
+        const employee = await ServiceProvider.find({ _id: employeeId })
+
+        if (employee.length > 0) {
+          const workingAsForEmployee = employee[0].workingAs;
+          console.log(workingAsForEmployee)
+          if (workingAsForEmployee == "freelancer")
+            console.log("freelancer")
+          service[0].employeeData.push(employee[0]._id)
+          await service[0].save();
+          res.status(200).send("employee added sucessfully.")
         }
         else {
           res.status(400).send("Employee working as other than freelancer.");
@@ -267,25 +257,29 @@ const addEmployee = asyncHandler(async(req,res)=>{
       else {
         res.status(400).send("Employee working as other than freelancer.");
       }
-    }
-    else {
-      res.status(404).send("Employee not found.");
 
     }
+    else {
+      res.status(400).send("Employee working as other than freelancer.");
+    }
+
+  }
+  else {
+    res.status(400).send("Employee working as other than freelancer.");
   }
 })
 
 
- const searchFreelancer = asyncHandler(async(req,res)=>{
-  const loginid=req.user.email;
+const searchFreelancer = asyncHandler(async (req, res) => {
+  const loginid = req.user.email;
   console.log(loginid)
-  const {search} = req.query;
+  const { search } = req.query;
   let freelancerSearch;
- 
-  if (req.user._id){
-    const service = await ServiceProvider.find({serviceProviderEmalId:loginid})
+
+  if (req.user._id) {
+    const service = await ServiceProvider.find({ serviceProviderEmalId: loginid })
     console.log(service)
-    
+
 
     if (service.length > 0) {
       const workingAs = service[0].workingAs; // Access the workingAs field from the first element of the array
@@ -304,7 +298,7 @@ const addEmployee = asyncHandler(async(req,res)=>{
             ],
 
             workingAs: { $in: ["freelancer", "Freelancer"] }
-            
+
 
           })
 
