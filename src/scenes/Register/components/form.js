@@ -46,89 +46,89 @@ const RegisterForm = (props) => {
 
     return (
         <ThemeProvider theme={defaultTheme}>
-        <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-        
-          <Box component="form" onSubmit={handleRegister} noValidate sx={{ mt: 1 }}>
-                <TextField
-                  autoComplete="given-name"
-                  name="name"
-                  required
-                  fullWidth
-                  id="Name"
-                  label="Name"
-                  autoFocus
-                  onChange={handleFormChange}
-                />
-                <TextField
-                 margin="normal"
-                  autoComplete="given-name"
-                  name="email"
-                  required
-                  fullWidth
-                  id="Email"
-                  label="Email"
-                  autoFocus
-                  onChange={handleFormChange}
-                />
-                <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              onChange={handleFormChange}
-            />
-            <TextField
-      margin="normal"
-      autoComplete="off" // Disable browser autocomplete to prevent issues with restricted input
-      name="phoneNo"
-      required
-      fullWidth
-      label="Mobile Number"
-      autoFocus
-      
-      onChange={handleFormChange}
-      inputProps={{
-        maxLength: 12, // Enforce maximum length
-        pattern: '\\d*', // Allow only digits
-      }}
-    />
-              </Box>
-            <FormControlLabel
-                label="Register as service provider (Vendor)"
-                control={
-                    <Checkbox
-                        // checked={formData.isVendor}
-                        onChange={handleFormChange}
-                        name="userType"
-                        inputProps={{ 'aria-label': 'controlled' }}
-                        value={formData.isVendor}
+            <Container component="main" maxWidth="xs">
+                <CssBaseline />
+                <Box
+                    sx={{
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                        <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        Sign up
+                    </Typography>
+
+                    <Box component="form" onSubmit={handleRegister} noValidate sx={{ mt: 1 }}>
+                        <TextField
+                            autoComplete="given-name"
+                            name="name"
+                            required
+                            fullWidth
+                            id="Name"
+                            label="Name"
+                            autoFocus
+                            onChange={handleFormChange}
+                        />
+                        <TextField
+                            margin="normal"
+                            autoComplete="given-name"
+                            name="email"
+                            required
+                            fullWidth
+                            id="Email"
+                            label="Email"
+                            autoFocus
+                            onChange={handleFormChange}
+                        />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="password"
+                            label="Password"
+                            type="password"
+                            id="password"
+                            autoComplete="current-password"
+                            onChange={handleFormChange}
+                        />
+                        <TextField
+                            margin="normal"
+                            autoComplete="off" // Disable browser autocomplete to prevent issues with restricted input
+                            name="phoneNo"
+                            required
+                            fullWidth
+                            label="Mobile Number"
+                            autoFocus
+
+                            onChange={handleFormChange}
+                            inputProps={{
+                                maxLength: 12, // Enforce maximum length
+                                pattern: '\\d*', // Allow only digits
+                            }}
+                        />
+                    </Box>
+                    <FormControlLabel
+                        label="Register as service provider (Vendor)"
+                        control={
+                            <Checkbox
+                                // checked={formData.isVendor}
+                                onChange={handleFormChange}
+                                name="userType"
+                                inputProps={{ 'aria-label': 'controlled' }}
+                                value={formData.isVendor}
+                            />
+                        }
                     />
-                }
-            />
-            <Button variant="contained" color="primary" onClick={handleRegister}>Register</Button>
-      
-     
-        </Box>
-        </Container>
+                    <Button variant="contained" color="primary" onClick={handleRegister}>Register</Button>
+
+
+                </Box>
+            </Container>
         </ThemeProvider>
     )
 }
