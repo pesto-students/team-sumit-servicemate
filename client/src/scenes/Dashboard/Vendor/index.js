@@ -35,7 +35,8 @@ const VendorDashboard = (props) => {
 
     const [employeesData, setEmployeesData] = useState([{}])
 
-    const idProofTypes = [{ name: "Aadhar Card" }, { name: "PAN Card" }, { name: "Voter ID" }]
+    const idProofTypes = [{ name: "Aadhar Card" }, { name: "PAN Card" }, { name: "Voter ID" }
+    ]
 
     const handleFormChange = (e = {}) => {
         const { name, value } = e.target ? e.target : e

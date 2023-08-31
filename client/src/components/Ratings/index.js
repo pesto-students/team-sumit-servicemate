@@ -1,14 +1,21 @@
 import React from "react";
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, AppBar, Toolbar } from "@mui/material";
 import PropTypes from "prop-types";
 import Rating from "@mui/material/Rating";
 
 const CustomerRatings = ({ customerReviews }) => {
+  const boxStyle = {
+    marginTop: '3%',
+  }
   return (
     <>
-      <Typography variant="h6" component="h3" mt={4} mb={2}>
-        Customer Ratings
-      </Typography>
+      <AppBar position="static" sx={boxStyle}>
+           <Toolbar variant="dense" sx={{ justifyContent: "center" }}>
+           <Typography variant="h6" color="inherit" component="div"  >
+           Customer Ratings
+           </Typography>
+           </Toolbar>
+        </AppBar>
       {customerReviews.map((review) => (
         <Box
           key={review.id}
