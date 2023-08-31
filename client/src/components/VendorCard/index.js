@@ -15,11 +15,15 @@ const VendorCard = ({ vendorData, onBookNow }) => {
   const {
     vendorImage,
     vendorName,
+    vendorEmailId,
     rating,
-    address,
+    service,
     mobileNumber,
     yearOfEstablishment,
   } = vendorData;
+
+ 
+
 
   return (
     <Card
@@ -46,14 +50,20 @@ const VendorCard = ({ vendorData, onBookNow }) => {
           />
         </Grid>
         <Grid item xs={8}>
-          <Typography variant="h6">{vendorName}</Typography>
+          <Typography variant="h6">Name: {vendorName}</Typography>
+          <Typography variant="h6">Email ID: {vendorEmailId}</Typography>
           <Rating
             name="vendor-rating"
-            value={rating.overall}
+            value={rating}
             precision={0.1}
             readOnly
           />
-          <Typography variant="body2">Address: {address}</Typography>
+           <Typography variant="body2" >
+               Services: {service.map((service, index,serviceArray) => (
+                <span key={service}>{service}
+                {index === serviceArray.length - 1 ? '' : ' || '}</span>
+                ))}
+                </Typography> 
           <Typography variant="body2">Mobile: {mobileNumber}</Typography>
           <Typography variant="body2">
             Year of Establishment: {yearOfEstablishment}
@@ -70,7 +80,7 @@ const VendorCard = ({ vendorData, onBookNow }) => {
         <Button onClick={onBookNow} variant="contained" color="primary">
           Book Now
         </Button>
-        <Button component={Link} to={`/vendor/details/1`} size="small">
+        <Button component={Link} to={`/vendor/details/${vendorEmailId}`} size="small">
           View Details
         </Button>
       </CardActions>
@@ -82,11 +92,12 @@ VendorCard.propTypes = {
   vendorData: PropTypes.shape({
     vendorImage: PropTypes.string.isRequired,
     vendorName: PropTypes.string.isRequired,
+    vendorEmailId: PropTypes.string.isRequired,
     rating: PropTypes.shape({
-      overall: PropTypes.number.isRequired,
+      
       count: PropTypes.number.isRequired,
     }).isRequired,
-    address: PropTypes.string.isRequired,
+    service: PropTypes.string.isRequired,
     mobileNumber: PropTypes.string.isRequired,
     yearOfEstablishment: PropTypes.string.isRequired,
   }).isRequired,

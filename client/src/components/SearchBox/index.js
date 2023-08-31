@@ -4,7 +4,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import PropTypes from "prop-types";
 
-const Search = () => {
+const Search = ({searchData}) => {
+  
   const [inputValue, setInputValue] = React.useState("");
 
   const handleInputChange = (event) => {
@@ -14,6 +15,11 @@ const Search = () => {
   const handleClearInput = () => {
     setInputValue("");
   };
+  const serach = (()=>{
+    console.log(inputValue)
+    console.log(searchData)
+  });
+
 
   return (
     <TextField
@@ -23,7 +29,7 @@ const Search = () => {
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
-            <SearchIcon />
+            <SearchIcon onClick={serach} />
           </InputAdornment>
         ),
         endAdornment: inputValue && (

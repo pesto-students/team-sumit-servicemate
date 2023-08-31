@@ -13,13 +13,15 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Link, } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 // import LocationSelect from "../Location";
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import { InputBase } from "@mui/material";
 
-const pages = ["Services", "About us", "Contact us"];
+import { resetStore } from "./actions";
+
+const pages = ["Services", "Aboutus", "Contactus"];
 const settings = ["Profile", "Orders", "Dashboard", "Logout"];
 
 const Search = styled('div')(({ theme }) => ({
@@ -65,6 +67,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const AppTopBar = () => {
+  const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.loggedInUser.user)
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -90,8 +93,12 @@ const AppTopBar = () => {
   };
 
   const handleLogout = () => {
-    setLogin(false)
-    handleCloseUserMenu()
+    dispatch(resetStore());
+    
+    // Close the user menu and handle any other logout logic
+    setLogin(false);
+    handleCloseUserMenu();
+   
   }
 
   return (
