@@ -2,10 +2,13 @@ import React from 'react';
 import "./styles/header.scss"
 import PersonIcon from '@mui/icons-material/Person';
 import { useNavigate } from "react-router-dom";
+import useCityLocation from '../../hooks/Location';
+import { IconButton } from '@mui/material';
+import MyLocationIcon from '@mui/icons-material/MyLocation';
 
 const Header = () => {
     const navigate = useNavigate()
-
+    const { city, loading, setLocation, getPermission } = useCityLocation()
     return (
         <header className='header'>
             <section className="header__top">
@@ -52,6 +55,24 @@ const Header = () => {
                         </section>
                     </section>
                 </section>
+            </section>
+            <section className='header-navigation pt-4 pb-4'>
+                <ul className='menu'>
+                    <li className='menu-item'>Services</li>
+                    <li className='menu-item'>About Us</li>
+                    <li className='menu-item'>Contact Us</li>
+                    <li>
+                        <section className='get-location'>
+                            <select className='location-select p-0.5' value={city} onChange={(e) => setLocation(e.target.value)}>
+                                {[{ name: "Bengaluru" }, { name: "Mumbai" }, { name: "Delhi" }, { name: "Hyderabad" }].map(city => (
+                                    <option key={city.name} value={city.name}>{city.name}</option>
+                                ))}
+                            </select>
+                            {loading ? 'fetching location...' : null}
+                            <IconButton onClick={() => getPermission()}><MyLocationIcon /></IconButton>
+                        </section>
+                    </li>
+                </ul>
             </section>
         </header>
     );

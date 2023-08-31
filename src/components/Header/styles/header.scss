@@ -19,7 +19,24 @@
             align-items: center;
         }
     }
-        .header__left{
+    .header-navigation{
+        background-color: #fcb800;
+        .menu{
+            display: flex;
+            gap: 1rem;
+            font-size: large;
+            padding: 0 2.5rem;
+            align-items: center;
+        }
+        .menu-item{
+            cursor: pointer;
+        }
+        .location-select{
+            background-color: #fcb800;
+            border: 1px solid #0000001f;
+        }
+    }
+    .header__left{
             max-width: 300px;
         }
         .header__center{
