@@ -58,15 +58,17 @@ const login = asyncHandler(async (req, res) => {
   }
 
   const newUser = await User.findOne({ email });
-
+console.log(newUser)
   if (newUser && (await newUser.passwordMatch(password))) {
     res.status(201).json({
       _id: newUser._id,
       name: newUser.name,
       email: newUser.email,
       password: newUser.password,
+      address:newUser.address,
       token: generateToken(newUser._id),
-    })
+    }).populate({ path: "catagories",
+    model: "Location"})
 
   } else {
     res.send(400).json("mesage:error happend")
@@ -77,12 +79,13 @@ const login = asyncHandler(async (req, res) => {
 
 const appointment = asyncHandler(async (req, res) => {
   const loginUser = req.user;
-  console.log(loginUser)
+  console.log("login user if"+loginUser._id)
 
-  const { serviceProviderId, service, appointmentDate } = req.body;
-
-  const serv = await ServiceProvider.findById(serviceProviderId);
-  console.log("serviceprovide_id" + serv.serviceProviderName)
+  const { serviceProviderId, service, time,appointmentDate } = req.body;
+  
+  const serv = await ServiceProvider.findOne({ _id: serviceProviderId });
+ 
+  console.log("serviceprovide_id" + serv.phoneNo)
   const newAppointment = new Appointment({
     serviceProvider: serv._id,
     serviderProviderName: serv.serviceProviderName,
@@ -92,13 +95,15 @@ const appointment = asyncHandler(async (req, res) => {
     userName: loginUser.name,
     userAddress: loginUser.address,
     appointmentDate,
+    time,
   });
+  
   const appointment = await newAppointment.save();
   if (appointment) {
     res.status(200).json({ data: appointment });
   }
   else {
-    res.status(200).json({ mesaage: "appointmemt not booked" });
+    res.status(500).json({ mesaage: "appointmemt not booked" });
   }
 });
 
@@ -147,7 +152,7 @@ const addAddress = asyncHandler(async (req, res) => {
         const UserDetail = await User.findOne({ email: loginUserId });
 
         if (UserDetail.userType === false) {
-          console.log("inside")
+    
           UserDetail.address.push(location._id)
             console.log("userDetails"+UserDetail)
           await UserDetail.save();
@@ -158,8 +163,7 @@ const addAddress = asyncHandler(async (req, res) => {
           const serviceProvider = await ServiceProvider.findOne({serviceProviderEmalId:loginUserId});
           console.log(serviceProvider.serviceProviderEmalId==loginUserId)
           if (serviceProvider.userType===true ) {
-            console.log("hiii"+location)
-             serviceProvider.location.push(location._id)
+                        serviceProvider.location.push(location._id)
             
             await serviceProvider.save();
             res.status(200).json({ message: "Service provider adrees added" });
