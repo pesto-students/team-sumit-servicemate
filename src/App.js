@@ -13,6 +13,7 @@ import Services from "./scenes/Services";
 import AboutUs from "./scenes/AboutUs";
 import VendorDetails from "./scenes/VendorDetails";
 import VendorList from "./scenes/VendorList";
+import Footer from "./components/footer/footer";
 import DashBoard2 from "./scenes/Dashboard2";
 import Header from "./components/Header/header";
 import Home from "./scenes/Home";
@@ -21,21 +22,23 @@ import AdminDashboard from "./scenes/AdminDashboard";
 function App() {
   return (
     <BrowserRouter>
-      <div className="App">
+
+      <div className="App" >
         <header className="App-header">
           {/* <AppTopBar></AppTopBar> */}
           <Header></Header>
         </header>
         <main>
           <Routes>
-            {/* <Route path="/" element={<Home />} /> */}
+            {/** <Route path="/" element={<Home />} /> */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<Home />} />
             <Route path="/services" element={<Services />} />
-            <Route path="/vendor-list" element={<VendorList />} />
-            <Route path="/vendor/details/:id" element={<VendorDetails />} />
+            <Route path="/vendor-list/:category" element={<VendorList />} />
+            <Route path="/vendor/details/:email" element={<VendorDetails />} />
             <Route path="/aboutus" element={<AboutUs />} />
+
             <Route
               path="/dashboard"
               element={
@@ -71,6 +74,7 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />}></Route>
           </Routes>
         </main>
+        <Footer />
       </div>
     </BrowserRouter>
   );

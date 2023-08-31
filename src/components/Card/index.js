@@ -1,9 +1,10 @@
 import React from "react";
 import {
-  Card,
+ 
   CardMedia,
   CardContent,
   Typography,
+  Paper,
   // Button,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
@@ -11,39 +12,59 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 const MyCard = ({ cardData }) => {
+  
   return (
     <>
+
       {cardData.map((card) => (
-        <Grid item xs={12} sm={6} md={4} key={card.id}>
+        <Grid item sm={3}
+                spacing={2}
+                className="pt-5 pb-5 pl-2 pr-2" key={card.id}>
           <Link
-            to={`/vendor-list?category=${cardData.name}`}
-            style={{ textDecoration: "none" }}
-          >
-            <Card
+            to={`/vendor-list/${card.serviceProviderId?.serviceProviderName}`}
+             >
+            <Paper
+              elevation={4}
               sx={{
                 transform: "scale(1)",
                 transition: "transform 0.3s ease-in-out",
                 "&:hover": {
                   transform: "scale(1.05)",
                 },
-                height: 400,
+                height: 300,
                 width: 300,
               }}
             >
-              <CardMedia
+              <CardMedia 
                 component="img"
-                height="200"
                 image={card.catagories?.[0]?.image}
                 alt={card.title}
+                sx={{ height: '150px'  }}
               />
               <CardContent>
-                <Typography variant="h5" component="div">
-                  {card.title}
+              <Typography variant="h5" component="div" sx={{ fontFamily: 'Work Sans, sans-serif' }}>
+               {card.serviceProvider}
+              </Typography>
+                  {/* <Typography variant="body2" color="text.secondary">
+               Services: {card.services.map((service, index) => (
+                <span key={service}>{service}
+                {index !== card.services.length - 1 && " , "}</span>
+                ))}
+                </Typography>  */}
+                <Typography variant="body2" color="text.secondary">
+                Email Id : {card.serviceProviderId?.serviceProviderEmalId}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  {card.description}
+                About me : {card.description}
                 </Typography>
-                {/* <Button
+                <Typography variant="body2" color="text.secondary">
+                Price : <b>₹{card.price} /hr</b>
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                Description : {card.description} 
+                </Typography> 
+
+                                {/* <Button
                 variant="contained"
                 color="primary"
                 sx={{ marginTop: "10px" }}
@@ -51,10 +72,11 @@ const MyCard = ({ cardData }) => {
                 Book Now
               </Button> */}
               </CardContent>
-            </Card>
+            </Paper>
           </Link>
         </Grid>
       ))}
+	
     </>
   );
 };

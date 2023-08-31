@@ -8,8 +8,8 @@ const CategoryItem = ({ name, imageUrl }) => {
         src={imageUrl}
         alt={name}
         style={{
-          width: "150px",
-          height: "120px",
+          width: "100px",
+          height: "100px",
           textAlign: "center",
           margin: "20px",
           transition: "opacity 0.3s ease",
