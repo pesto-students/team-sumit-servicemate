@@ -13,7 +13,7 @@ import Services from "./scenes/Services";
 import AboutUs from "./scenes/AboutUs";
 import VendorDetails from "./scenes/VendorDetails";
 import VendorList from "./scenes/VendorList";
-import Footer from "./components/footer/footer";
+//import Footer from "./components/footer/footer";
 import DashBoard2 from "./scenes/Dashboard2";
 import Header from "./components/Header/header";
 import Home from "./scenes/Home";
@@ -74,7 +74,7 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />}></Route>
           </Routes>
         </main>
-        <Footer />
+       
       </div>
     </BrowserRouter>
   );

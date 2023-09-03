@@ -1,16 +1,18 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation, } from 'react-router-dom'
 import { data } from '../../config/db'
 import routeConstant from '../../config/routeConstant'
-import { connect } from 'react-redux';
-import { someAction } from './actions';
+import { connect, useDispatch, useSelector } from 'react-redux';import { someAction } from './actions';
 import PropTypes from "prop-types";
 import { Grid, Icon, Rating, Stack, } from '@mui/material';
-import Slider from "react-slick";
+//import Slider from "react-slick";
 import PaymentsIcon from '@mui/icons-material/Payments';
 import ChatIcon from '@mui/icons-material/Chat';
 import BookOnlineIcon from '@mui/icons-material/BookOnline';
 import "./styles/home.scss"
+import restClient from '../../config/axios';
+import { setCategories } from "./actions";
+import Footer from '../../components/footer/footer';
 
 const Home = (props) => {
     const { someData, dispatchSomeAction } = props
@@ -80,6 +82,9 @@ const Home = (props) => {
             </article>
             <CategoryView></CategoryView>
             <CategoryItemListing></CategoryItemListing>
+            <div style={{marginTop:"10%"}}>
+      <Footer  />
+      </div>
         </>
     )
 }
@@ -104,8 +109,48 @@ Home.propTypes = {
 }
 
 const CategoryView = (props) => {
-    const { categories = [{ imgSrc: "https://le-cdn.hibuwebsites.com/4fbcba4ddf5f4d57ad1799560278d928/dms3rep/multi/opt/RSshutterstock_8610913-640w.jpg", name: "Electrician" },
-    { imgSrc: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCwWCUeYSm3Audhz429cpIJU4O_ObA7vPGaw&usqp=CAU", name: "Plumber" }], title = 'Top categories' } = props;
+    const dispatch = useDispatch()
+  const categories = useSelector((state) => state.categories.categories )
+  const [categoryData, setCategoryData] = useState([])
+  const [loading,setLoading] = useState(true)
+  const handleCategories = async () => {
+    try {
+      const response = await restClient.get("/api/vendor/catagories");
+      console.log("Categories:", JSON.stringify(response.data));
+      dispatch(setCategories(response.data))
+      setLoading(false)
+    } catch (error) {
+        console.log(loading)
+      console.log(error)
+    }
+  }
+
+
+  useEffect(() => {
+    // if (!categories)
+    handleCategories();
+  }, [])
+
+  useEffect(() => {
+    if (categories && categories.length) {
+      setCategoryData(formatCategories(categories))
+    }
+    console.log("arpit"+categoryData)
+  }, [categories])
+
+  const formatCategories = (data = []) => {
+    console.log(data.length)
+    if (Array.isArray(data) && data.length) {
+      return data.map((category) => ({
+        id: category._id,
+        name1: category.catagories,
+        imageUrl: category.image
+
+      }));
+    }
+    return []
+  }
+    const { title = 'Top categories' } = props;
 
     return (
         <article className='category-view'>
@@ -113,16 +158,16 @@ const CategoryView = (props) => {
                 {title}
             </h3>
             <Grid container>
-                {categories.map(category => (
-                    <Grid key={"category-" + category.name} item sm={3} spacing={2} className='pt-5 pb-5 pl-2 pr-2'>
+                {categoryData.map(category => (
+                    <Grid key={"category-" + category.name1} item sm={3} spacing={2} className='pt-5 pb-5 pl-2 pr-2'>
                         <section className='card-block flex flex-col'>
-                            <img className='image-cover-h100 flex-1' src={category.imgSrc} alt={category.name} ></img>
-                            <p><strong>{category.name}</strong></p>
+                            <img className='image-cover-h100 flex-1' src={category.imageUrl} alt={category.name1} ></img>
+                            <p><strong>{category.name1}</strong></p>
                         </section>
                     </Grid>
                 ))}
             </Grid>
-        </article >
+        </article>
     )
 }
 
@@ -132,6 +177,7 @@ CategoryView.propTypes = {
 }
 
 const CategoryItemListing = (props) => {
+    
     const { title = "Electrician Work", categoryItems = [
         {
             vendorName: "Home Service Pvt Ltd 1",
@@ -189,7 +235,7 @@ const CategoryItemListing = (props) => {
                 </section>
             </section>
             <section className='item-list pt-14'>
-                <Slider dots slidesToShow={4} slidesToScroll={4}>
+               {/* <Slider dots slidesToShow={4} slidesToScroll={4}> */}
                     {
                         categoryItems.map((categoryItem) => (
                             <section key={"category-item-" + categoryItem.name} className='cat-item'>
@@ -218,11 +264,12 @@ const CategoryItemListing = (props) => {
                             </section>
                         ))
                     }
-                </Slider>
+            {/* </Slider> */}
             </section>
-        </article >
+        </article>
     )
 }
+
 
 CategoryItemListing.propTypes = {
     title: PropTypes.string,
