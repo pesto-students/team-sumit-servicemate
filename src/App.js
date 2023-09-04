@@ -18,6 +18,7 @@ import DashBoard2 from "./scenes/Dashboard2";
 import Header from "./components/Header/header";
 import Home from "./scenes/Home";
 import AdminDashboard from "./scenes/AdminDashboard";
+import ContactUs from "./scenes/ContactUs";
 
 function App() {
   return (
@@ -37,7 +38,8 @@ function App() {
             <Route path="/services" element={<Services />} />
             <Route path="/vendor-list/:category" element={<VendorList />} />
             <Route path="/vendor/details/:email" element={<VendorDetails />} />
-            <Route path="/aboutus" element={<AboutUs />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/contact" element={<ContactUs />} />
 
             <Route
               path="/dashboard"
