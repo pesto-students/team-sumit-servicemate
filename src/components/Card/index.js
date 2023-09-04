@@ -5,6 +5,7 @@ import {
   CardContent,
   Typography,
   Paper,
+  Rating,
   // Button,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
@@ -16,15 +17,15 @@ const MyCard = ({ cardData }) => {
   return (
     <>
 
-      {cardData.map((card) => (
-        <Grid item sm={3}
+      {cardData && cardData.length > 0 ?(cardData.map((card) => (
+        <Grid item sm={4  }
                 spacing={2}
                 className="pt-5 pb-5 pl-2 pr-2" key={card.id}>
           <Link
             to={`/vendor-list/${card.serviceProviderId?.serviceProviderName}`}
              >
             <Paper
-              elevation={4}
+              elevation={6}
               sx={{
                 transform: "scale(1)",
                 transition: "transform 0.3s ease-in-out",
@@ -51,9 +52,7 @@ const MyCard = ({ cardData }) => {
                 {index !== card.services.length - 1 && " , "}</span>
                 ))}
                 </Typography>  */}
-                <Typography variant="body2" color="text.secondary">
-                Email Id : {card.serviceProviderId?.serviceProviderEmalId}
-                </Typography>
+                <Rating name="read-only" value={card.serviceProviderId?.rating} readOnly />
                 <Typography variant="body2" color="text.secondary">
                 About me : {card.description}
                 </Typography>
@@ -75,7 +74,9 @@ const MyCard = ({ cardData }) => {
             </Paper>
           </Link>
         </Grid>
-      ))}
+      ))):(
+        <Typography  sx={{ fontFamily: 'Work Sans, sans-serif' }}>no data found!!</Typography>
+      )}
 	
     </>
   );

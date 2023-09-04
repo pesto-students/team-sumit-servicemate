@@ -5,3 +5,11 @@ export const someAction = () => {
         payload: 'some data',
     };
 };
+// actions.js
+export const setCategories = (payload) => {
+    return {
+        type: 'SET_CATEGORY',
+        payload :payload,
+    };
+};
+

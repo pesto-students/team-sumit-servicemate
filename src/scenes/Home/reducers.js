@@ -3,9 +3,10 @@
 const initialState = {
     // Define your initial state here
     someData: null,
+    categories: null,
 };
 
-const HomeReducer = (state = initialState, action) => {
+export const HomeReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SOME_ACTION':
             return { ...state, someData: action.payload };
@@ -15,4 +16,16 @@ const HomeReducer = (state = initialState, action) => {
 };
 
 
-export default HomeReducer;
+
+
+
+
+export const CategoriesReducer = (state = {}, action) => {
+    switch (action.type) {
+        case 'SET_CATEGORY':
+            return { ...state, categories: action.payload };
+        default:
+            return state;
+    }
+};
+
