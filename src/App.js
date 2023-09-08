@@ -19,6 +19,7 @@ import Header from "./components/Header/header";
 import Home from "./scenes/Home";
 import AdminDashboard from "./scenes/AdminDashboard";
 import ContactUs from "./scenes/ContactUs";
+import routes from "./config/routeConstants"
 
 function App() {
   return (
@@ -32,7 +33,7 @@ function App() {
         <main>
           <Routes>
             {/** <Route path="/" element={<Home />} /> */}
-            <Route path="/login" element={<Login />} />
+            <Route path={routes.HOME} element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<Home />} />
             <Route path="/services/:category" element={<Services />} />
@@ -44,7 +45,7 @@ function App() {
             <Route
               path="/dashboard"
               element={
-                <PrivateRoute isAuthenticated={true}>
+                <PrivateRoute >
                   <DashBoard />
                 </PrivateRoute>
               }
@@ -52,7 +53,7 @@ function App() {
             <Route
               path="/dashboard2/:tab?"
               element={
-                <PrivateRoute isAuthenticated={true}>
+                <PrivateRoute >
                   <DashBoard2 />
                 </PrivateRoute>
               }
@@ -60,7 +61,7 @@ function App() {
             <Route
               path="/book-appointment"
               element={
-                <PrivateRoute isAuthenticated={true}>
+                <PrivateRoute >
                   <BookAppointment />
                 </PrivateRoute>
               }
@@ -68,7 +69,7 @@ function App() {
             <Route
               path="/admin"
               element={
-                <PrivateRoute isAuthenticated={true}>
+                <PrivateRoute >
                   <AdminDashboard />
                 </PrivateRoute>
               }

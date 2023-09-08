@@ -124,6 +124,17 @@ const MyProfile = () => {
         }
     }, [loggedInUser])
 
+    const phoneNumberRegex = /^[6-9]\d{9}$/;
+
+    const validatePhone = () => {
+        return phoneNumberRegex.test(formData?.phoneNo)
+    }
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault()
+        // const apiUrl = '/api/vendor'
+    }
+
     return (
         <form onSubmit={(e) => e.preventDefault()}>
             <section className='mb-4 dl-container'>
@@ -147,7 +158,12 @@ const MyProfile = () => {
                         <FormControlLabel value="freelancer" control={<Radio />} label="Freelancer" />
                     </RadioGroup>
                 </FormControl>
+
                 <TextField label="Email ID" sx={{ marginBottom: "1rem", marginRight: '1rem' }} variant="outlined" name='email' type="email" value={formData.email} required onChange={handleFormChange} />
+                <TextField label="Contact Number" sx={{ marginBottom: "1rem", marginRight: '1rem' }} variant="outlined" name='phoneNo'
+                    error={!validatePhone()}
+                    helperText={!validatePhone() && 'Invalid phone number'}
+                    value={formData.phoneNo} required onChange={handleFormChange} />
 
                 <section className='profile-images mb-4'>
                     <label htmlFor="images">
@@ -177,7 +193,7 @@ const MyProfile = () => {
                     </ImageList>
                 </section>
                 <section>
-                    <Button variant='outlined'>Save</Button>
+                    <Button variant='outlined' onClick={handleFormSubmit}>Save</Button>
                 </section>
             </section>
             <article className='address'>

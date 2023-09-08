@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate, } from 'react-router-dom'
-import { data } from '../../config/db'
-import routeConstant from '../../config/routeConstant'
+import { useNavigate, } from 'react-router-dom'
 import { connect, } from 'react-redux';
 import { someAction } from './actions';
 import PropTypes from "prop-types";
@@ -159,6 +157,7 @@ CategoryView.propTypes = {
 }
 
 export const CategoryItemListing = (props) => {
+    const navigate = useNavigate()
     const { title = "Electrician Work",
         categoryItems = [
             {
@@ -225,7 +224,7 @@ export const CategoryItemListing = (props) => {
                 <Slider dots adaptiveHeight className='top-vendors-by-category' prevArrow={<h3>back</h3>} nextArrow={<h3>next</h3>} slidesToShow={4} slidesToScroll={4}>
                     {
                         categoryItems.map((categoryItem) => (
-                            <section key={"category-item-" + categoryItem.name} className='cat-item'>
+                            <section key={"category-item-" + categoryItem.name} className='cat-item' onClick={() => { navigate("/vendor/details/" + categoryItem.serviceProviderEmalId) }}>
                                 <img className='service-image flex-1' src={categoryItem.image} alt={categoryItem.serviceName}></img>
                                 <section className='pt-2'>
                                     <section className='vendor-name'>
@@ -252,7 +251,7 @@ export const CategoryItemListing = (props) => {
                         ))
                     }
                     {
-                        categoryItems === null && Array.from({ length: 4 }, () => ({})).map((categoryItem) => (
+                        !categoryItems && Array.from({ length: 4 }, () => ({})).map((categoryItem) => (
                             <section key={"category-item-" + categoryItem.name} className='cat-item'>
                                 <Skeleton className='service-image flex-1' ></Skeleton>
                                 <section className='pt-2'>
