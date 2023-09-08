@@ -1,19 +1,24 @@
 import { useState, useEffect } from 'react';
 import restClient from '../../config/axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentLocation } from './actions';
 
 const useCityLocation = () => {
-    const [city, setCity] = useState('');
+    const currentLocation = useSelector(state => state.location?.currentLocation)
+    const dispatch = useDispatch()
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getPermission()
+        if (!currentLocation) {
+            getPermission()
+        }
     }, []);
 
     const getCityName = async (latitude, longitude) => {
         try {
             const { data } = await restClient(`/api/getLocation/${latitude}/${longitude}?by=city`)
             const city = data.city;
-            setCity(city);
+            dispatch(setCurrentLocation(city))
             setLoading(false);
         } catch (error) {
             console.error('Error fetching city:', error);
@@ -25,12 +30,17 @@ const useCityLocation = () => {
         if (latitude && longitude) {
             getCityName(latitude, longitude);
         } else if (latitude) {
-            setCity(latitude);
+            dispatch(setCurrentLocation(latitude))
         }
     };
 
     const getPermission = () => {
         if (navigator.geolocation) {
+            navigator.permissions.query({ name: 'geolocation' }).then(response => {
+                if (response.state === "denied") {
+                    revokePermission(getPermission)
+                }
+            })
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     const { latitude, longitude } = position.coords;
@@ -47,7 +57,11 @@ const useCityLocation = () => {
         }
     }
 
-    return { city, loading, setLocation, getPermission };
+    const revokePermission = () => {
+        alert("please allow location from browser's settings")
+    }
+
+    return { currentLocation, loading, setLocation, getPermission };
 };
 
 export default useCityLocation;

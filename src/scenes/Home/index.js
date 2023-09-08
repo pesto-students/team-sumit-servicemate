@@ -2,22 +2,27 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, } from 'react-router-dom'
 import { data } from '../../config/db'
 import routeConstant from '../../config/routeConstant'
-import { connect, useDispatch, useSelector } from 'react-redux';
+
+
+import { connect, } from 'react-redux';
 import { someAction } from './actions';
 import PropTypes from "prop-types";
-import { Grid, Icon, Rating, Stack, } from '@mui/material';
+import { Grid, Icon, Rating, Skeleton, Stack, } from '@mui/material';
 import Slider from "react-slick";
+
 import PaymentsIcon from '@mui/icons-material/Payments';
 import ChatIcon from '@mui/icons-material/Chat';
 import BookOnlineIcon from '@mui/icons-material/BookOnline';
 import "./styles/home.scss"
 import restClient from '../../config/axios';
-import { setCategories } from "./actions";
-import Footer from '../../components/footer/footer';
+
 
 const Home = (props) => {
     const { someData, dispatchSomeAction } = props
     const location = useLocation()
+    // const { allCategories } = useSelector(state => state.categories)
+    const [topCategories, setTopCategories] = useState([])
+    const [vendorsByTopCategories, setVendorsByTopCategories] = useState([])
     console.log("someData", someData)
     useEffect(() => {
         const { navigatedFrom, userDetails } = location?.state || {}
@@ -29,10 +34,25 @@ const Home = (props) => {
             console.log("🚀 ~ file: index.js:10 ~ useEffect ~ data.users:", data.users)
         }
         dispatchSomeAction()
-
+        getTopCategories()
+        getVendorsByTopCategories()
     }, [])
 
+    const getTopCategories = async () => {
+        const apiUrl = '/api/categories/topCategories'
+        const { data } = await restClient(apiUrl)
+        if (data && data.length) {
+            setTopCategories(data)
+        }
+    }
 
+    const getVendorsByTopCategories = async () => {
+        const apiUrl = '/api/vendor/vendorsByTopCategories'
+        const { data } = await restClient(apiUrl)
+        if (data && data.length) {
+            setVendorsByTopCategories(data)
+        }
+    }
 
     return (
         <>
@@ -81,11 +101,14 @@ const Home = (props) => {
                     ))}
                 </Grid>
             </article>
-            <CategoryView></CategoryView>
-            <CategoryItemListing></CategoryItemListing>
-            <div style={{marginTop:"10%"}}>
-      <Footer  />
-      </div>
+
+            <CategoryView categories={topCategories}></CategoryView>
+            {
+                vendorsByTopCategories.map(vendor => {
+                    return <CategoryItemListing key={"vendor-" + vendor.title} title={vendor.title} categoryItems={vendor.data}></CategoryItemListing>
+                })
+            }
+
         </>
     )
 }
@@ -109,64 +132,38 @@ Home.propTypes = {
     dispatchSomeAction: PropTypes.func,
 }
 
-const CategoryView = (props) => {
-    const dispatch = useDispatch()
-  const categories = useSelector((state) => state.categories.categories )
-  const [categoryData, setCategoryData] = useState([])
-  const [loading,setLoading] = useState(true)
-  const handleCategories = async () => {
-    try {
-      const response = await restClient.get("/api/vendor/catagories");
-      console.log("Categories:", JSON.stringify(response.data));
-      dispatch(setCategories(response.data))
-      setLoading(false)
-    } catch (error) {
-        console.log(loading)
-      console.log(error)
-    }
-  }
 
+export const CategoryView = (props) => {
+    const { categories = [{ image: "https://le-cdn.hibuwebsites.com/4fbcba4ddf5f4d57ad1799560278d928/dms3rep/multi/opt/RSshutterstock_8610913-640w.jpg", name: "Electrician" },
+    { image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCwWCUeYSm3Audhz429cpIJU4O_ObA7vPGaw&usqp=CAU", name: "Plumber" }], title = 'Top categories' } = props;
 
-  useEffect(() => {
-    // if (!categories)
-    handleCategories();
-  }, [])
-
-  useEffect(() => {
-    if (categories && categories.length) {
-      setCategoryData(formatCategories(categories))
-    }
-    console.log("arpit"+categoryData)
-  }, [categories])
-
-  const formatCategories = (data = []) => {
-    console.log(data.length)
-    if (Array.isArray(data) && data.length) {
-      return data.map((category) => ({
-        id: category._id,
-        name1: category.categories,
-        imageUrl: category.image
-
-      }));
-    }
-    return []
-  }
-    const { title = 'Top categories' } = props;
 
     return (
         <article className='category-view'>
             <h3 className='capitalize'>
                 {title}
             </h3>
-            <Grid container>
-                {categoryData.map(category => (
-                    <Grid key={"category-" + category.name1} item sm={3} spacing={2} className='pt-5 pb-5 pl-2 pr-2'>
+
+            <Grid container spacing={2}>
+                {categories.map(category => (
+                    <Grid key={"category-" + category.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
                         <section className='card-block flex flex-col'>
-                            <img className='image-cover-h100 flex-1' src={category.imageUrl} alt={category.name1} ></img>
-                            <p><strong>{category.name1}</strong></p>
+                            <img className='image-cover-h100 flex-1' loading='lazy' src={category.image} alt={category.name} ></img>
+                            <p><strong>{category.name}</strong></p>
+
                         </section>
                     </Grid>
-                ))}
+                ))
+                }
+                {!categories.length && Array.from({ length: 4 }, () => ({})).map(category => (
+                    <Grid key={"category-" + category.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
+                        <section className='card-block flex flex-col'>
+                            <Skeleton variant='rectangular' className='image-cover-h100 flex-1' ></Skeleton>
+                            <Skeleton variant='text' ></Skeleton>
+                        </section>
+                    </Grid>
+                ))
+                }
             </Grid>
         </article>
     )
@@ -177,52 +174,54 @@ CategoryView.propTypes = {
     title: PropTypes.string,
 }
 
-const CategoryItemListing = (props) => {
-    
-    const { title = "Electrician Work", categoryItems = [
-        {
-            vendorName: "Home Service Pvt Ltd 1",
-            serviceName: 'Switch board and wiring',
-            rating: 4,
-            charges: 500,
-            imgSrc: "https://p1.pxfuel.com/preview/837/958/534/electrician-electric-electricity-worker-royalty-free-thumbnail.jpg",
-        },
-        {
-            vendorName: "Pump Service Pvt Ltd 2",
-            serviceName: 'Motor setup and wiring',
-            rating: 4,
-            charges: 1000,
-            imgSrc: 'https://media.istockphoto.com/id/1096101716/photo/three-phase-induction-motor-bearing-repair.jpg?s=612x612&w=0&k=20&c=8Xok3xy2CZTZw_u9YUj4uxMAfZN5Eb5ZYJa5eYe8kzo='
-        },
-        {
-            vendorName: "Home Service Pvt Ltd 3",
-            serviceName: 'Switch board and wiring',
-            rating: 4,
-            charges: 500,
-            imgSrc: "https://p1.pxfuel.com/preview/837/958/534/electrician-electric-electricity-worker-royalty-free-thumbnail.jpg",
-        },
-        {
-            vendorName: "Pump Service Pvt Ltd 4",
-            serviceName: 'Motor setup and wiring',
-            rating: 4,
-            charges: 1000,
-            imgSrc: 'https://media.istockphoto.com/id/1096101716/photo/three-phase-induction-motor-bearing-repair.jpg?s=612x612&w=0&k=20&c=8Xok3xy2CZTZw_u9YUj4uxMAfZN5Eb5ZYJa5eYe8kzo='
-        },
-        {
-            vendorName: "Home Service Pvt Ltd 5",
-            serviceName: 'Switch board and wiring',
-            rating: 4,
-            charges: 500,
-            imgSrc: "https://p1.pxfuel.com/preview/837/958/534/electrician-electric-electricity-worker-royalty-free-thumbnail.jpg",
-        },
-        {
-            vendorName: "Pump Service Pvt Ltd 6",
-            serviceName: 'Motor setup and wiring',
-            rating: 4,
-            charges: 1000,
-            imgSrc: 'https://media.istockphoto.com/id/1096101716/photo/three-phase-induction-motor-bearing-repair.jpg?s=612x612&w=0&k=20&c=8Xok3xy2CZTZw_u9YUj4uxMAfZN5Eb5ZYJa5eYe8kzo='
-        }
-    ] } = props;
+
+export const CategoryItemListing = (props) => {
+    const { title = "Electrician Work",
+        categoryItems = [
+            {
+                vendorName: "Home Service Pvt Ltd 1",
+                serviceName: 'Switch board and wiring',
+                rating: 4,
+                charges: 500,
+                image: "https://p1.pxfuel.com/preview/837/958/534/electrician-electric-electricity-worker-royalty-free-thumbnail.jpg",
+            },
+            {
+                vendorName: "Pump Service Pvt Ltd 2",
+                serviceName: 'Motor setup and wiring',
+                rating: 4,
+                charges: 1000,
+                image: 'https://media.istockphoto.com/id/1096101716/photo/three-phase-induction-motor-bearing-repair.jpg?s=612x612&w=0&k=20&c=8Xok3xy2CZTZw_u9YUj4uxMAfZN5Eb5ZYJa5eYe8kzo='
+            },
+            {
+                vendorName: "Home Service Pvt Ltd 3",
+                serviceName: 'Switch board and wiring',
+                rating: 4,
+                charges: 500,
+                image: "https://p1.pxfuel.com/preview/837/958/534/electrician-electric-electricity-worker-royalty-free-thumbnail.jpg",
+            },
+            {
+                vendorName: "Pump Service Pvt Ltd 4",
+                serviceName: 'Motor setup and wiring',
+                rating: 4,
+                charges: 1000,
+                image: 'https://media.istockphoto.com/id/1096101716/photo/three-phase-induction-motor-bearing-repair.jpg?s=612x612&w=0&k=20&c=8Xok3xy2CZTZw_u9YUj4uxMAfZN5Eb5ZYJa5eYe8kzo='
+            },
+            {
+                vendorName: "Home Service Pvt Ltd 5",
+                serviceName: 'Switch board and wiring',
+                rating: 4,
+                charges: 500,
+                image: "https://p1.pxfuel.com/preview/837/958/534/electrician-electric-electricity-worker-royalty-free-thumbnail.jpg",
+            },
+            {
+                vendorName: "Pump Service Pvt Ltd 6",
+                serviceName: 'Motor setup and wiring',
+                rating: 4,
+                charges: 1000,
+                image: 'https://media.istockphoto.com/id/1096101716/photo/three-phase-induction-motor-bearing-repair.jpg?s=612x612&w=0&k=20&c=8Xok3xy2CZTZw_u9YUj4uxMAfZN5Eb5ZYJa5eYe8kzo='
+            }
+        ] } = props;
+
     return (
         <article className='category-item-listing'>
             <section className='header'>
@@ -240,14 +239,14 @@ const CategoryItemListing = (props) => {
                     {
                         categoryItems.map((categoryItem) => (
                             <section key={"category-item-" + categoryItem.name} className='cat-item'>
-                                <img className='service-image flex-1' src={categoryItem.imgSrc} alt={categoryItem.serviceName}></img>
+                                <img className='service-image flex-1' src={categoryItem.image} alt={categoryItem.serviceName}></img>
                                 <section className='pt-2'>
                                     <section className='vendor-name'>
                                         {categoryItem.vendorName}
                                     </section>
                                     <section>
                                         <section className='service-name'>
-                                            Switch board and wiring
+                                            {categoryItem.serviceName}
                                         </section>
                                         <section>
                                             <Rating

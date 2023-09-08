@@ -1,14 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import "./styles/header.scss"
 import PersonIcon from '@mui/icons-material/Person';
 import { useNavigate } from "react-router-dom";
 import useCityLocation from '../../hooks/Location';
 import { IconButton } from '@mui/material';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
+import restClient from '../../config/axios';
+import { setAllCategories, } from '../../scenes/Categories/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Header = () => {
     const navigate = useNavigate()
-    const { city, loading, setLocation, getPermission } = useCityLocation()
+    const { currentLocation, setLocation, getPermission } = useCityLocation()
+    const dispatch = useDispatch()
+    const { allCategories } = useSelector(state => state.categories)
+
+    useEffect(() => {
+        getAllCategories()
+    }, [])
+
+    const getAllCategories = async () => {
+        const apiUrl = 'api/vendor/catagories'
+        const { data } = await restClient(apiUrl)
+        const categories = [{ name: 'All', value: 'all' }, ...data]
+        dispatch(setAllCategories(categories))
+    }
+
     return (
         <header className='header'>
             <section className="header__top">
@@ -26,7 +43,7 @@ const Header = () => {
                         <section className='quick-search-wrapper flex'>
                             <section>
                                 <select className='select-category'>
-                                    {[{ id: 'all', name: 'All', value: 'all' }, { id: 'plumber', name: 'Plumber', value: 'plumber' }].map(option => (
+                                    {allCategories.map(option => (
                                         <option key={option.id} value={option.value} >{option.name}</option>
                                     ))}
                                 </select>
@@ -45,11 +62,11 @@ const Header = () => {
                                 <PersonIcon sx={{ height: 50, width: 50 }}></PersonIcon>
                             </section>
                             <section>
-                                <section>
-                                    <a href='./login'>    Login</a>
+                                <section onClick={() => { navigate('/login') }}>
+                                    Login
                                 </section>
-                                <section>
-                                    <a href='./register'> Register</a>
+                                <section onClick={() => { navigate('/register') }}>
+                                    Register
                                 </section>
                             </section>
                         </section>
@@ -58,17 +75,16 @@ const Header = () => {
             </section>
             <section className='header-navigation pt-4 pb-4'>
                 <ul className='menu'>
-                    <li className='menu-item'>Services</li>
-                    <li className='menu-item'>About Us</li>
-                    <li className='menu-item'>Contact Us</li>
+                    <li className='menu-item' onClick={() => { navigate('/services') }}>Services</li>
+                    <li className='menu-item' onClick={() => { navigate('/about') }}>About Us</li>
+                    <li className='menu-item' onClick={() => { navigate('/contact') }}>Contact Us</li>
                     <li>
                         <section className='get-location'>
-                            <select className='location-select p-0.5' value={city} onChange={(e) => setLocation(e.target.value)}>
+                            <select className='location-select p-0.5' value={currentLocation} onChange={(e) => setLocation(e.target.value)}>
                                 {[{ name: "Bengaluru" }, { name: "Mumbai" }, { name: "Delhi" }, { name: "Hyderabad" }].map(city => (
                                     <option key={city.name} value={city.name}>{city.name}</option>
                                 ))}
                             </select>
-                            {loading ? 'fetching location...' : null}
                             <IconButton onClick={() => getPermission()}><MyLocationIcon /></IconButton>
                         </section>
                     </li>
