@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import ErrorMessage from './error'
+import NotificationSnackBar from './error'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import restClient from '../../../config/axios';
@@ -115,7 +115,7 @@ export default function SignIn() {
               autoComplete="current-password"
               onChange={handleFormChange}
             />
-            <ErrorMessage open={showError} handleClose={() => { setShowError(false) }} message='you have entered invalid credentials'></ErrorMessage>
+            <NotificationSnackBar open={showError} handleClose={() => { setShowError(false) }} message='you have entered invalid credentials'></NotificationSnackBar>
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"

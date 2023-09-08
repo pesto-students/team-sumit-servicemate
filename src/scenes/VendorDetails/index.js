@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Grid, Container, Button, Typography, Rating, AppBar, Toolbar } from "@mui/material";
-import BookingModal from "../../components/Modal";
+import BookingModal from "../../components/BookingModal";
 import CarouselItem from "../../components/Carousel";
 import ServiceDetail from "../../components/ServiceDetails";
 import { useSelector } from "react-redux";
@@ -19,45 +19,45 @@ const VendorDetails = () => {
     ? filteredData[0].serviceProviderId?.serviceProviderName
     : '';
 
-    const rat = filteredData.length > 0
+  const rat = filteredData.length > 0
     ? filteredData[0].serviceProviderId?.rating
     : '0';
-    const price = filteredData.length > 0 ? filteredData[0].price:"0"
-    
+  const price = filteredData.length > 0 ? filteredData[0].price : "0"
+
   const vendorImage1 = filteredData[0]?.serviceProviderId?.profilePic
   const id = filteredData[0]?.serviceProviderId
     || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSc06eerlTKwKfhxFYjheNbEs-h6yvpM0F9kbY_WGbw7Q&s';
   const number = filteredData.length > 0
     ? filteredData[0].serviceProviderId?.phoneNo
     : '';
-    const year = filteredData[0].serviceProviderId?.createdOn.slice(0, 4)
-    const addd = filteredData[0]?.serviceProviderId?.location.map((datas) =>
-  Array.isArray(datas.address) // Check if it's an array
-    ? datas.address.map((slot1) => ({
+  const year = filteredData[0].serviceProviderId?.createdOn.slice(0, 4)
+  const addd = filteredData[0]?.serviceProviderId?.location.map((datas) =>
+    Array.isArray(datas.address) // Check if it's an array
+      ? datas.address.map((slot1) => ({
         street: slot1?.street || '',
         city: slot1?.city || '',
         state: slot1?.state || '',
         postalCode: slot1?.postalCode || '',
         country: slot1?.country || '',
       }))
-    : [] // Return an empty array if it's not an array
-);
-    
-    
+      : [] // Return an empty array if it's not an array
+  );
 
-    const extractedData = filteredData[0]?.serviceProviderId?.openHours.map((entry) =>
+
+
+  const extractedData = filteredData[0]?.serviceProviderId?.openHours.map((entry) =>
     entry.timeSlot.map((slot) => ({
       day: slot.day, // Assuming there's only one day in the array
       fromTime: slot.fromTime,
       toTime: slot.toTime,
-      
+
     }))
-    
+
   );
-  
 
 
-  
+
+
 
   const handleBookNow = () => {
     setIsModalOpen(true);
@@ -67,15 +67,15 @@ const VendorDetails = () => {
     setIsModalOpen(false);
   };
 
-  
+
 
   const vendor = {
-    id :id,
-    vendorImage:vendorImage1,
+    id: id,
+    vendorImage: vendorImage1,
     vendorName: vendorName1,
-    vendorEmail:email,
-    Price:price,
-    rating:rat,
+    vendorEmail: email,
+    Price: price,
+    rating: rat,
     openingHours: extractedData ? extractedData.map((dayData, index) => (
       <div key={index}>
         {dayData.map((slotData, slotIndex) => (
@@ -87,19 +87,19 @@ const VendorDetails = () => {
     )) : (
       <Typography>No opening hours available</Typography>
     ),
-    address: addd  ? addd.map((dayData1, index1) => (
+    address: addd ? addd.map((dayData1, index1) => (
       <div key={index1}>
         {Array.isArray(dayData1) // Check if it's an array
           ? dayData1.map((slotData1, slotIndex1) => (
-              <Typography key={slotIndex1}>
-                {slotData1.street} : {slotData1.city} - {slotData1.country}
-              </Typography>
-            ))
-          : null} 
+            <Typography key={slotIndex1}>
+              {slotData1.street} : {slotData1.city} - {slotData1.country}
+            </Typography>
+          ))
+          : null}
       </div>
     ))
-  : <Typography>No opening hours available</Typography>
-,
+      : <Typography>No opening hours available</Typography>
+    ,
     services: [
       {
         name: "Plumbing Service",
@@ -174,7 +174,7 @@ const VendorDetails = () => {
   const boxStyle = {
     marginTop: '3%',
   };
-  
+
 
   return (
     <Container maxWidth="lg" sx={{ py: 5, fontFamily: "Arial, sans-serif" }}>
@@ -195,20 +195,20 @@ const VendorDetails = () => {
             readOnly
           />
           <div>
-          <Typography variant="h6" gutterBottom>
-        Price: ₹{vendor.Price}/hr
-      </Typography>
-      <div>
-  <Typography variant="h6" sx={{ mt: 2 }}>
-    Address:
-  </Typography>
-  {vendor.address.map((addressElement, index) => (
-    <div key={index}>
-      {addressElement}
-    </div>
-  ))}
-</div>
-            
+            <Typography variant="h6" gutterBottom>
+              Price: ₹{vendor.Price}/hr
+            </Typography>
+            <div>
+              <Typography variant="h6" sx={{ mt: 2 }}>
+                Address:
+              </Typography>
+              {vendor.address.map((addressElement, index) => (
+                <div key={index}>
+                  {addressElement}
+                </div>
+              ))}
+            </div>
+
           </div>
           <div>
             <Typography variant="h6" sx={{ mt: 2 }}>
@@ -228,7 +228,7 @@ const VendorDetails = () => {
             <Typography variant="h6" sx={{ mt: 2 }}>
               Year of Establishment: {vendor.yearOfEstablishment}
             </Typography>
-            
+
             <Typography variant="h6" sx={{ mt: 2 }}>
               Opening Hours:
             </Typography>
@@ -244,13 +244,13 @@ const VendorDetails = () => {
           </Button>
         </Grid>
         <Grid item xs={12}>
-        <AppBar position="static" sx={boxStyle}>
-           <Toolbar variant="dense" sx={{ justifyContent: "center" }}>
-           <Typography variant="h6" color="inherit" component="div"  >
-           Portfolio
-           </Typography>
-           </Toolbar>
-        </AppBar>
+          <AppBar position="static" sx={boxStyle}>
+            <Toolbar variant="dense" sx={{ justifyContent: "center" }}>
+              <Typography variant="h6" color="inherit" component="div"  >
+                Portfolio
+              </Typography>
+            </Toolbar>
+          </AppBar>
           <Grid container spacing={4}>
             {vendor.portfolios.map((portfolio) => (
               <Grid key={portfolio.portfolioName} item xs={12} md={4}>

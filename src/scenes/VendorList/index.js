@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import VendorCard from "../../components/VendorCard";
 import { Container, Grid } from "@mui/material";
-import BookingModal from "../../components/Modal";
+import BookingModal from "../../components/BookingModal";
 import { useParams } from 'react-router-dom';
 //import { useSelector } from "react-redux";
 import restClient from "../../config/axios";

@@ -7,7 +7,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import routeConstant from '../../../config/routeConstant'
 import PropTypes from "prop-types"
 import restClient from '../../../config/axios'
-// import ErrorMessage from '../../Login/components/error'
+// import NotificationSnackBar from '../../Login/components/error'
 const RegisterForm = (props) => {
     const { registerUser } = props
 

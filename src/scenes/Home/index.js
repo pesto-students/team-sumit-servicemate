@@ -145,7 +145,7 @@ export const CategoryView = (props) => {
                     </Grid>
                 ))
                 }
-                {!categories.length && Array.from({ length: 3 }, () => ({})).map(category => (
+                {!categories.length && Array.from({ length: 4 }, () => ({})).map(category => (
                     <Grid key={"category-" + category.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
                         <section className='card-block flex flex-col'>
                             <Skeleton variant='rectangular' className='image-cover-h100 flex-1' ></Skeleton>
@@ -223,7 +223,7 @@ export const CategoryItemListing = (props) => {
                 </section>
             </section>
             <section className='item-list pt-14'>
-                <Slider dots slidesToShow={4} slidesToScroll={4}>
+                <Slider dots adaptiveHeight className='top-vendors-by-category' prevArrow={<h3>back</h3>} nextArrow={<h3>next</h3>} slidesToShow={4} slidesToScroll={4}>
                     {
                         categoryItems.map((categoryItem) => (
                             <section key={"category-item-" + categoryItem.name} className='cat-item'>
@@ -234,7 +234,7 @@ export const CategoryItemListing = (props) => {
                                     </section>
                                     <section>
                                         <section className='service-name'>
-                                            Switch board and wiring
+                                            {categoryItem.serviceName}
                                         </section>
                                         <section>
                                             <Rating

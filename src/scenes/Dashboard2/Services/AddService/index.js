@@ -52,53 +52,51 @@ export default function AddService({ showDialog, setShowDialog, handleServiceDat
     const categories = [{ name: "Plumber" }, { name: "Carpenter" }, { name: "Electrician" }]
 
     return (
-        <div>
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Add Service</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        <Typography variant='subtitle2' sx={{ marginBottom: 1 }}> Add a service details to display on the portal.</Typography>
-                    </DialogContentText>
-                    <section key={"service"} className="flex flex-col gap-4 mb-2 time-slots app-flex-1-1-33">
-                        <TextField name='name' label="Name" onChange={handleFormChange}></TextField>
-                        <section className='emp-pictures-upload flex items-center gap-4'>
-                            <section className='emp-pictures'>
-                                <label htmlFor={"emp-pictures"}>
-                                    <Button variant="outlined" component="span">
-                                        Upload Service Pictures
-                                        <input type="file" style={{ display: "none" }} id={"service-pictures"} name='pictures'
-                                            accept="image/*" multiple={true}
-                                            onChange={handleServiceImagesUpload}
-                                        />
-                                    </Button>
-                                </label>
-                                {pictures && (
-                                    <section>
-                                        <h2>Preview:</h2>
-                                        {pictures.map((picture, index) => (
-                                            <img key={"pic-" + index} src={picture} alt={"picture" + picture.name} style={{ width: '100%', maxHeight: 120, objectFit: "contain" }} />
-                                        ))}
-                                    </section>
-                                )}
-                            </section>
+        <Dialog open={open} onClose={handleClose}>
+            <DialogTitle>Add Service</DialogTitle>
+            <DialogContent>
+                <DialogContentText>
+                    <Typography variant='subtitle2' sx={{ marginBottom: 1 }}> Add a service details to display on the portal.</Typography>
+                </DialogContentText>
+                <section key={"service"} className="flex flex-col gap-4 mb-2 time-slots app-flex-1-1-33">
+                    <TextField name='name' label="Name" onChange={handleFormChange}></TextField>
+                    <section className='emp-pictures-upload flex items-center gap-4'>
+                        <section className='emp-pictures'>
+                            <label htmlFor={"emp-pictures"}>
+                                <Button variant="outlined" component="span">
+                                    Upload Service Pictures
+                                    <input type="file" style={{ display: "none" }} id={"service-pictures"} name='pictures'
+                                        accept="image/*" multiple={true}
+                                        onChange={handleServiceImagesUpload}
+                                    />
+                                </Button>
+                            </label>
+                            {pictures && (
+                                <section>
+                                    <h2>Preview:</h2>
+                                    {pictures.map((picture, index) => (
+                                        <img key={"pic-" + index} src={picture} alt={"picture" + picture.name} style={{ width: '100%', maxHeight: 120, objectFit: "contain" }} />
+                                    ))}
+                                </section>
+                            )}
                         </section>
-                        <Autocomplete multiple options={categories} getOptionLabel={(option) => option.name} renderInput={(params) => <TextField {...params} onChange={handleFormChange} label={"Categories"}></TextField>}></Autocomplete>
-                        <TextField label='Charges' name='charges' placeholder='Rs/hour' variant='outlined' required onChange={handleFormChange}></TextField>
                     </section>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button
-                        variant='outlined'
-                        onClick={() => {
-                            handleServiceDataSubmit({ ...serviceData, pictures, id: rowId })
-                            handleClose()
-                        }}
-                        disabled={!serviceData.name}
-                    >+ Add</Button>
-                </DialogActions>
-            </Dialog>
-        </div>
+                    <Autocomplete multiple options={categories} getOptionLabel={(option) => option.name} renderInput={(params) => <TextField {...params} onChange={handleFormChange} label={"Categories"}></TextField>}></Autocomplete>
+                    <TextField label='Charges' name='charges' placeholder='Rs/hour' variant='outlined' required onChange={handleFormChange}></TextField>
+                </section>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button
+                    variant='outlined'
+                    onClick={() => {
+                        handleServiceDataSubmit({ ...serviceData, pictures, id: rowId })
+                        handleClose()
+                    }}
+                    disabled={!serviceData.name}
+                >+ Add</Button>
+            </DialogActions>
+        </Dialog>
     );
 }
 

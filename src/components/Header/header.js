@@ -13,14 +13,14 @@ const Header = () => {
     const navigate = useNavigate()
     const { currentLocation, setLocation, getPermission } = useCityLocation()
     const dispatch = useDispatch()
-    const { allCategories } = useSelector(state => state.categories)
+    const { allCategories = [] } = useSelector(state => state.categories)
 
     useEffect(() => {
         getAllCategories()
     }, [])
 
     const getAllCategories = async () => {
-        const apiUrl = 'api/vendor/catagories'
+        const apiUrl = 'api/vendor/categories'
         const { data } = await restClient(apiUrl)
         const categories = [{ name: 'All', value: 'all' }, ...data]
         dispatch(setAllCategories(categories))

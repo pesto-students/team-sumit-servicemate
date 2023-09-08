@@ -2,7 +2,7 @@ import { Alert, Snackbar } from '@mui/material'
 import React from 'react'
 import PropTypes from 'prop-types';
 
-const ErrorMessage = ({ message = "invalid data entered", variant = "outlined", severity = "error", open = false, hideDuration = 3000, handleClose = () => { },
+const NotificationSnackBar = ({ message = "invalid data entered", variant = "outlined", severity = "error", open = false, hideDuration = 3000, handleClose = () => { },
     vertical = "bottom", horizontal = "right" }) => {
     return (
         <Snackbar open={open} autoHideDuration={hideDuration} onClose={handleClose}
@@ -14,9 +14,9 @@ const ErrorMessage = ({ message = "invalid data entered", variant = "outlined", 
         </Snackbar>
     )
 }
-export default ErrorMessage
+export default NotificationSnackBar
 
-ErrorMessage.propTypes = {
+NotificationSnackBar.propTypes = {
     message: PropTypes.string,
     variant: PropTypes.string,
     severity: PropTypes.string,
