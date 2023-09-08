@@ -25,7 +25,7 @@ const VendorList = () => {
 
   const getSearchedResult = (async (category) => {
     try {
-      const apiUrl = `/api/vendor/serviceSearch?catagories=${category}`
+      const apiUrl = `/api/vendor/serviceSearch?category=${category}`
       const { data: apiResponse } = await restClient.get(apiUrl)
       console.log("arpit" + apiResponse);
       setLoading(false);

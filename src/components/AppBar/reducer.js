@@ -1,6 +1,6 @@
 const initialCategoriesState = {};
 const initialLoggedInUserState = { user: {} };
-const initialRegisterState = { registerUser: null };
+const initialRegisterState = { registeredUser: null };
 
 const rootReducer = (state = {}, action) => {
   switch (action.type) {
@@ -9,13 +9,13 @@ const rootReducer = (state = {}, action) => {
         categories: { ...initialCategoriesState },
         loggedInUser: { ...initialLoggedInUserState },
         register: { ...initialRegisterState },
-        
+
       };
-      
+
     default:
       return state;
   }
-  
+
 };
 
 export default rootReducer;

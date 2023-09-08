@@ -14,6 +14,7 @@ const Header = () => {
     const { currentLocation, setLocation, getPermission } = useCityLocation()
     const dispatch = useDispatch()
     const { allCategories = [] } = useSelector(state => state.categories)
+    const loggedInUser = useSelector(state => state.loggedInUser)
 
     useEffect(() => {
         getAllCategories()
@@ -26,6 +27,13 @@ const Header = () => {
         dispatch(setAllCategories(categories))
     }
 
+    const userActions = [{ name: "Login", path: "/login" }, { name: "Register", path: '/register' }]
+
+    const AuthUserAction = [{ name: "My Profile", path: "/dashboard2/profile" }, { name: "Appointments", path: "/dashboard2/appointments" }]
+
+    const getUserActions = () => {
+        return loggedInUser && loggedInUser.user ? AuthUserAction : userActions
+    }
     return (
         <header className='header'>
             <section className="header__top">
@@ -62,12 +70,11 @@ const Header = () => {
                                 <PersonIcon sx={{ height: 50, width: 50 }}></PersonIcon>
                             </section>
                             <section>
-                                <section onClick={() => { navigate('/login') }}>
-                                    Login
-                                </section>
-                                <section onClick={() => { navigate('/register') }}>
-                                    Register
-                                </section>
+                                {getUserActions().map(action => (
+                                    <section className='cursor-pointer' key={"path-" + action.name} onClick={() => { navigate(action.path) }}>
+                                        {action.name}
+                                    </section>
+                                ))}
                             </section>
                         </section>
                     </section>

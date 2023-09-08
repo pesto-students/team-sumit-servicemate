@@ -31,6 +31,14 @@ const theme = createTheme({
       defaultProps: { size: "small" },
     }
   },
+  palette: {
+    primary: {
+      main: '#fcb800',
+    },
+    secondary: {
+      main: '#000', // Change the secondary color to your desired color
+    },
+  }
 });
 
 root.render(

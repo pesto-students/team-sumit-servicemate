@@ -182,7 +182,7 @@ const Category = (props) => {
             </CommonModal>
             <section className='mt-10'>
                 <Grid container spacing={2}>
-                    {categories.slice(1, categories.length - 1).map(category => (
+                    {categories.map(category => (
                         <Grid key={"category-" + category.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
                             <section className='card-block flex flex-col'>
                                 <img className='image-cover-h100 flex-1' loading='lazy' src={category.image} alt={category.name} ></img>

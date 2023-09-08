@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, } from 'react-router-dom'
+import { useLocation, useNavigate, } from 'react-router-dom'
 import { data } from '../../config/db'
 import routeConstant from '../../config/routeConstant'
 import { connect, } from 'react-redux';
@@ -130,6 +130,7 @@ Home.propTypes = {
 export const CategoryView = (props) => {
     const { categories = [{ image: "https://le-cdn.hibuwebsites.com/4fbcba4ddf5f4d57ad1799560278d928/dms3rep/multi/opt/RSshutterstock_8610913-640w.jpg", name: "Electrician" },
     { image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCwWCUeYSm3Audhz429cpIJU4O_ObA7vPGaw&usqp=CAU", name: "Plumber" }], title = 'Top categories' } = props;
+    const navigate = useNavigate()
 
     return (
         <article className='category-view'>
@@ -139,7 +140,7 @@ export const CategoryView = (props) => {
             <Grid container spacing={2}>
                 {categories.map(category => (
                     <Grid key={"category-" + category.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
-                        <section className='card-block flex flex-col'>
+                        <section className='card-block flex flex-col' onClick={() => { navigate("/services/" + category.value) }}>
                             <img className='image-cover-h100 flex-1' loading='lazy' src={category.image} alt={category.name} ></img>
                             <p><strong>{category.name}</strong></p>
 
@@ -213,6 +214,10 @@ export const CategoryItemListing = (props) => {
             }
         ] } = props;
 
+    if (categoryItems.length === 0) {
+        return null
+    }
+
     return (
         <article className='category-item-listing'>
             <section className='header'>
@@ -249,6 +254,29 @@ export const CategoryItemListing = (props) => {
                                         </section>
                                         <section className='flex'>
                                             <span className='mr-1'> &#8377; </span><p className='mr-1'> {categoryItem.charges} </p>
+                                        </section>
+                                    </section>
+                                </section>
+                            </section>
+                        ))
+                    }
+                    {
+                        categoryItems === null && Array.from({ length: 4 }, () => ({})).map((categoryItem) => (
+                            <section key={"category-item-" + categoryItem.name} className='cat-item'>
+                                <Skeleton className='service-image flex-1' ></Skeleton>
+                                <section className='pt-2'>
+                                    <section className='vendor-name'>
+                                        <Skeleton variant='text'></Skeleton>
+                                    </section>
+                                    <section>
+                                        <section className='service-name'>
+                                            <Skeleton variant='text' className='w-full'></Skeleton>
+                                        </section>
+                                        <section>
+                                            <Skeleton variant="text" className='w-full'></Skeleton>
+                                        </section>
+                                        <section className='flex'>
+                                            <Skeleton className='w-full'></Skeleton>
                                         </section>
                                     </section>
                                 </section>

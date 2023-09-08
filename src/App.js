@@ -35,7 +35,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<Home />} />
-            <Route path="/services" element={<Services />} />
+            <Route path="/services/:category" element={<Services />} />
             <Route path="/vendor-list/:category" element={<VendorList />} />
             <Route path="/vendor/details/:email" element={<VendorDetails />} />
             <Route path="/about" element={<AboutUs />} />
@@ -50,7 +50,7 @@ function App() {
               }
             />
             <Route
-              path="/dashboard2"
+              path="/dashboard2/:tab?"
               element={
                 <PrivateRoute isAuthenticated={true}>
                   <DashBoard2 />
@@ -76,7 +76,7 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />}></Route>
           </Routes>
         </main>
-       
+
       </div>
     </BrowserRouter>
   );

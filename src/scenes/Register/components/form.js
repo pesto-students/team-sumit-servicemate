@@ -32,7 +32,7 @@ const RegisterForm = (props) => {
         try {
             const { data } = await restClient.post("/api/user/register", JSON.parse(JSON.stringify(formData)))
             if (data) {
-                navigate('/dashboard', {
+                navigate('/dashboard2', {
                     state: {
                         userDetails: formData,
                         navigatedFrom: routeConstant.register

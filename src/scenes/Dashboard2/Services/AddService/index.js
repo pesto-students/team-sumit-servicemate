@@ -81,7 +81,7 @@ export default function AddService({ showDialog, setShowDialog, handleServiceDat
                             )}
                         </section>
                     </section>
-                    <Autocomplete multiple options={categories} getOptionLabel={(option) => option.name} renderInput={(params) => <TextField {...params} onChange={handleFormChange} label={"Categories"}></TextField>}></Autocomplete>
+                    <Autocomplete options={categories} getOptionLabel={(option) => option.name} renderInput={(params) => <TextField {...params} onChange={handleFormChange} label={"Categories"}></TextField>}></Autocomplete>
                     <TextField label='Charges' name='charges' placeholder='Rs/hour' variant='outlined' required onChange={handleFormChange}></TextField>
                 </section>
             </DialogContent>
