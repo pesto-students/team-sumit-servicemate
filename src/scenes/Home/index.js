@@ -7,6 +7,7 @@ import { someAction } from './actions';
 import PropTypes from "prop-types";
 import { Grid, Icon, Rating, Skeleton, Stack, } from '@mui/material';
 import Slider from "react-slick";
+
 import PaymentsIcon from '@mui/icons-material/Payments';
 import ChatIcon from '@mui/icons-material/Chat';
 import BookOnlineIcon from '@mui/icons-material/BookOnline';
@@ -141,6 +142,7 @@ export const CategoryView = (props) => {
                         <section className='card-block flex flex-col'>
                             <img className='image-cover-h100 flex-1' loading='lazy' src={category.image} alt={category.name} ></img>
                             <p><strong>{category.name}</strong></p>
+
                         </section>
                     </Grid>
                 ))
@@ -155,7 +157,7 @@ export const CategoryView = (props) => {
                 ))
                 }
             </Grid>
-        </article >
+        </article>
     )
 }
 
@@ -210,6 +212,7 @@ export const CategoryItemListing = (props) => {
                 image: 'https://media.istockphoto.com/id/1096101716/photo/three-phase-induction-motor-bearing-repair.jpg?s=612x612&w=0&k=20&c=8Xok3xy2CZTZw_u9YUj4uxMAfZN5Eb5ZYJa5eYe8kzo='
             }
         ] } = props;
+
     return (
         <article className='category-item-listing'>
             <section className='header'>
@@ -254,9 +257,10 @@ export const CategoryItemListing = (props) => {
                     }
                 </Slider>
             </section>
-        </article >
+        </article>
     )
 }
+
 
 CategoryItemListing.propTypes = {
     title: PropTypes.string,

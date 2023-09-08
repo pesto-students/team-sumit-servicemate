@@ -1,5 +1,6 @@
 import React from 'react'
 import LoginForm from './components/form'
+import Footer from '../../components/footer/footer'
 
 const Login = () => {
     // const [formData, setFormData] = useSta
@@ -25,6 +26,9 @@ const Login = () => {
       </div>
     </div>
   </div>
+  <div style={{marginTop:"10%"}}>
+      <Footer  />
+      </div>
 
             
         </>

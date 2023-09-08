@@ -110,6 +110,13 @@ const Category = (props) => {
             console.error('Data and image upload error:', error);
             showErrorAlert("Data and image upload error")
         }
+
+    }
+
+    const getAllCategories = async () => {
+        const apiUrl = 'api/vendor/catagories'
+        const { data } = await restClient(apiUrl)
+        setCategories(data)
     }
 
     const validateCategoryForm = () => {
@@ -137,6 +144,26 @@ const Category = (props) => {
             onClick: handleCloseModal,
         },
     ];
+
+    // const handleCategorySubmit = async (e) => {
+    //     e.preventDefault()
+    //     if (!categoryForm.image) return;
+    //     try {
+    //         const formData = new FormData();
+    //         formData.append('image', categoryForm.image);
+    //         formData.append('name', categoryForm.name);
+    //         const apiUrl = '/api/categories/addCategory'
+    //         const { data: responseData } = await restClient(apiUrl, {
+    //             method: "POST",
+    //             headers: { 'Content-Type': 'multipart/form-data' },
+    //             data: formData
+    //         })
+    //         console.log('Data and image uploaded successfully:', responseData);
+    //         setCategoryForm(categoryFormInitialData)
+    //     } catch (error) {
+    //         console.error('Data and image upload error:', error);
+    //     }
+    // }
 
     return (
         <article className='category-view'>
