@@ -71,11 +71,11 @@ const Category = (props) => {
 
     }
 
-    const getAllCategories = async () => {
-        const apiUrl = 'api/vendor/catagories'
-        const { data } = await restClient(apiUrl)
-        setCategories(data)
-    }
+    // const getAllCategories = async () => {
+    //     const apiUrl = 'api/vendor/catagories'
+    //     const { data } = await restClient(apiUrl)
+    //     setCategories(data)
+    // }
 
     useEffect(() => {
         getAllCategories()
@@ -114,7 +114,7 @@ const Category = (props) => {
     }
 
     const getAllCategories = async () => {
-        const apiUrl = 'api/vendor/catagories'
+        const apiUrl = 'api/vendor/categories'
         const { data } = await restClient(apiUrl)
         setCategories(data)
     }
