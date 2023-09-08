@@ -24,6 +24,8 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
   //  const { email } = useParams();
   //  const collectivedata = useSelector((state) => state.collectiveData.fulldata);
   const loggedInUser = useSelector((state) => state.loggedInUser.user)
+  
+  
   console.log("lop" + loggedInUser?.address?.address?.street)
   const [date, setDate] = useState("");
   const [services, setServices] = useState("");
@@ -108,7 +110,7 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
 
         <TextField
           label="Date"
-          type="date"
+          
           //   value={date}
           onChange={handleDateChange}
           fullWidth
@@ -125,7 +127,7 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
         <TextField
           label="Address"
           onChange={handleAddressChange}
-          value={`${loggedInUser?.address?.address?.street}`}
+          value={`${loggedInUser?._id.location}`}
           fullWidth
           sx={{ marginBottom: "1rem" }}
         />

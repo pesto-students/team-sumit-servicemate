@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, } from 'react-router-dom'
 import { data } from '../../config/db'
 import routeConstant from '../../config/routeConstant'
-import { connect, useDispatch, useSelector } from 'react-redux';import { someAction } from './actions';
+import { connect, useDispatch, useSelector } from 'react-redux';
+import { someAction } from './actions';
 import PropTypes from "prop-types";
 import { Grid, Icon, Rating, Stack, } from '@mui/material';
-//import Slider from "react-slick";
+import Slider from "react-slick";
 import PaymentsIcon from '@mui/icons-material/Payments';
 import ChatIcon from '@mui/icons-material/Chat';
 import BookOnlineIcon from '@mui/icons-material/BookOnline';
@@ -143,7 +144,7 @@ const CategoryView = (props) => {
     if (Array.isArray(data) && data.length) {
       return data.map((category) => ({
         id: category._id,
-        name1: category.catagories,
+        name1: category.categories,
         imageUrl: category.image
 
       }));
@@ -235,7 +236,7 @@ const CategoryItemListing = (props) => {
                 </section>
             </section>
             <section className='item-list pt-14'>
-               {/* <Slider dots slidesToShow={4} slidesToScroll={4}> */}
+               <Slider dots slidesToShow={4} slidesToScroll={4}>
                     {
                         categoryItems.map((categoryItem) => (
                             <section key={"category-item-" + categoryItem.name} className='cat-item'>
@@ -264,7 +265,7 @@ const CategoryItemListing = (props) => {
                             </section>
                         ))
                     }
-            {/* </Slider> */}
+            </Slider>
             </section>
         </article>
     )

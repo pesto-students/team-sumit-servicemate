@@ -11,15 +11,16 @@
   import "./styles/service.scss";
   //import { List } from "@mui/material";
   import { useDispatch, useSelector } from "react-redux";
-  import {    Rating, Slider } from "@mui/material";
+  import {    CircularProgress, Grid, Rating, Slider } from "@mui/material";
   import restClient from "../../config/axios";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import Footer from "../../components/footer/footer";
   //import CategoryItem from "../../components/CategoryItem";
 
   const Categories = () => {
     const dispatch = useDispatch();
     const categories = useSelector((state) => state.categories.categories);
+    const [page,setPage] = useState(0);
 
 
     const [categoryData, setCategoryData] = useState([]);
@@ -27,6 +28,8 @@ import Footer from "../../components/footer/footer";
   const [filteredCardData, setFilteredCardData] = useState([]);
     // const [value, setValue] = React.useState(0);
     const [loading, setLoading] = useState(true);
+    const [scrollLoad, setScrollLoad] = useState(true);
+    const [isFetchingData, setIsFetchingData] = useState(false);
     //const [activeCategory, setActiveCategory] = useState("all");
 
 
@@ -40,14 +43,33 @@ import Footer from "../../components/footer/footer";
       setSelectedPrice(value);
       // You can implement filtering logic based on the selectedPrice here
     };
-    useEffect(() => {
-      // Fetch filtered results when the component mounts
+
+    const handleInfiniteScroll = async () => {
+      try {
+        if (
+          !isFetchingData && // Check if data is not already being fetched
+          window.innerHeight + document.documentElement.scrollTop + 1 >=
+            document.documentElement.scrollHeight
+        ) {
+          setIsFetchingData(true);
+          setPage((prev) => prev + 1);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };   
+     useEffect(() => {
+     
       getFilteredResult();
     }, []);
 
+    useEffect(() => {
+      window.addEventListener("scroll", handleInfiniteScroll);
+      return () => window.removeEventListener("scroll", handleInfiniteScroll);
+    }, [isFetchingData,page]);
+
     const handleCategoryChange = async (categoryName) => {
-      // Handle category change and fetch filtered results
-      getFilteredResult(categoryName,selectedPrice);
+      getFilteredResult(categoryName);
     //  setActiveCategory(categoryName);
     };
 
@@ -61,20 +83,24 @@ import Footer from "../../components/footer/footer";
     //   },
     // });
 
-    const getFilteredResult = async (categoryName=" ", price = " ") => {
+    const getFilteredResult = async (categoryName=" ") => {
+      
+      if (!scrollLoad) {
+        return;
+      }
       let apiUrl = `/api/vendor/serviceSearch?`;
       if (categoryName){
         apiUrl += `catagories=${categoryName}`;
       }
-      if (price) {
-        apiUrl += `${categoryName ? "&" : ""}price=${price}`;
-      }
-     
+           
       try {
+       
         const { data: apiResponse } = await restClient.get(apiUrl);
         dispatch(setCollectiveDate(apiResponse));
-        setFilteredCardData(apiResponse);
+        setFilteredCardData((prev) => [...prev,...apiResponse]);
+   
         setLoading(false);
+        setScrollLoad(false);
       } catch (error) {
         console.log(loading)
         console.error("Error fetching data: ", error);
@@ -93,7 +119,8 @@ import Footer from "../../components/footer/footer";
     {categoryData.length > 0 ? (
       categoryData.map((Items) => (
         <li key={Items.id}>
-          <a onClick={() => handleCategoryChange(Items.catagories)}>{Items.catagories}</a>
+       
+          <a onClick={() => handleCategoryChange(Items.value)}>{Items.value}</a>
         </li>
       ))
     ) : (
@@ -156,12 +183,12 @@ import Footer from "../../components/footer/footer";
                     </ol>
                 </section>
             </section> */}
-            <section className='pt-14'>
+            <Grid container className="pt-15" >
                     {
                    
                       filteredCardData.map((categoryItem) => (
                         <Link to={`/vendor/details/${categoryItem.serviceProviderId?.serviceProviderEmalId}`} key={categoryItem._id}>
-                            <section style={{ marginLeft: '-40px' }}  className='cat-item'>
+                            <Grid item  className='cat-item'>
                             
                                 <img className='service-image flex-1' src={categoryItem.catagories?.[0]?.image} alt={categoryItem.serviceName}></img>
                                 <section className='pt-2'>
@@ -185,15 +212,18 @@ import Footer from "../../components/footer/footer";
                                         </section>
                                     </section>
                                 </section>
-                            </section>
-                            </Link>
+                            </Grid>
+                          </Link>
                         ))
                     }
       
-            </section>
+            </Grid>
         </article>
         </div>
         
+        </div>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
+          {scrollLoad && <CircularProgress />}
         </div>
       <CategoryItemListing/>
       
@@ -267,11 +297,11 @@ import Footer from "../../components/footer/footer";
                     </ol>
                 </section>
             </section>
-            <section className='pt-15'>
+            <Grid container className='pt-15'>
                
                     {
                         categoryItems.map((categoryItem) => (
-                            <section key={categoryItem.vendorName} className='cat-item'>
+                            <Grid item key={categoryItem.vendorName} className='cat-item'>
                                 <img className='service-image flex-1' src={categoryItem.imgSrc} alt={categoryItem.serviceName}></img>
                                 <section className='pt-2'>
                                     <section className='vendor-name'>
@@ -294,11 +324,11 @@ import Footer from "../../components/footer/footer";
                                         </section>
                                     </section>
                                 </section>
-                            </section>
+                            </Grid>
                         ))
                     }
       
-            </section>
+            </Grid>
         </article>
     )
                   }
