@@ -10,6 +10,7 @@ import { setAllCategories, } from '../../scenes/Categories/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLogoutUser } from './actions';
 import { useAlert } from '../../hooks/NotificationSnackbar';
+import routes from '../../config/routeConstants';
 
 const Header = () => {
     const navigate = useNavigate()
@@ -30,7 +31,7 @@ const Header = () => {
         dispatch(setAllCategories(categories))
     }
 
-    const userActions = [{ name: "Login", handleAction: () => handleAction("/login") }, { name: "Register", handleAction: () => handleAction('/register') }]
+    const userActions = [{ name: "Login", handleAction: () => handleAction(routes.LOGIN) }, { name: "Register", handleAction: () => handleAction(routes.REGISTER) }]
 
     const handleAction = (path, callback) => {
         navigate(path)
@@ -42,8 +43,8 @@ const Header = () => {
         showSuccessAlert("You have been logged out")
     }
 
-    const AuthUserAction = [{ name: "My Profile", handleAction: () => handleAction("/dashboard2/profile",) },
-    { name: "Appointments", handleAction: () => handleAction("/dashboard2/appointments") }, { name: "Logout", handleAction: () => handleAction("/", handleLogout) }]
+    const AuthUserAction = [{ name: "My Profile", handleAction: () => handleAction(routes.DASHBOARD2PROFILE) },
+    { name: "Appointments", handleAction: () => handleAction(routes.DASHBOARD2APPOINTMENT) }, { name: "Logout", handleAction: () => handleAction(routes.HOME, handleLogout) }]
 
     const getUserActions = () => {
         return loggedInUser ? AuthUserAction : userActions
@@ -58,7 +59,7 @@ const Header = () => {
                             fontWeight: '900',
                             fontSize: '1.2rem',
                             cursor: "pointer",
-                        }} onClick={() => { navigate('/') }}>
+                        }} onClick={() => { navigate(routes.HOME) }}>
                             <span style={{ color: 'black' }}>service</span><span style={{ color: 'white' }}>mate</span>
                         </section>
                     </section>
@@ -100,9 +101,9 @@ const Header = () => {
             </section>
             <section className='header-navigation pt-4 pb-4'>
                 <ul className='menu'>
-                    <li className='menu-item' onClick={() => { navigate('/services') }}>Services</li>
-                    <li className='menu-item' onClick={() => { navigate('/about') }}>About Us</li>
-                    <li className='menu-item' onClick={() => { navigate('/contact') }}>Contact Us</li>
+                    <li className='menu-item' onClick={() => { navigate(routes.SERVICES) }}>Services</li>
+                    <li className='menu-item' onClick={() => { navigate(routes.ABOUT) }}>About Us</li>
+                    <li className='menu-item' onClick={() => { navigate(routes.CONTACT) }}>Contact Us</li>
                     <li>
                         <section className='get-location'>
                             <select className='location-select p-0.5' value={currentLocation} onChange={(e) => setLocation(e.target.value)}>

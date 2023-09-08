@@ -11,6 +11,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import BookOnlineIcon from '@mui/icons-material/BookOnline';
 import "./styles/home.scss"
 import restClient from '../../config/axios';
+import routes from '../../config/routeConstants';
 
 const Home = (props) => {
     const { someData, dispatchSomeAction } = props
@@ -129,7 +130,7 @@ export const CategoryView = (props) => {
             <Grid container spacing={2}>
                 {categories.map(category => (
                     <Grid key={"category-" + category.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
-                        <section className='card-block flex flex-col' onClick={() => { navigate("/services/" + category.value) }}>
+                        <section className='card-block flex flex-col' onClick={() => { navigate(routes.SERVICES_BY_CATEGORY.replace(":category", category.value)) }}>
                             <img className='image-cover-h100 flex-1' loading='lazy' src={category.image} alt={category.name} ></img>
                             <p><strong>{category.name}</strong></p>
 
@@ -224,7 +225,7 @@ export const CategoryItemListing = (props) => {
                 <Slider dots adaptiveHeight className='top-vendors-by-category' prevArrow={<h3>back</h3>} nextArrow={<h3>next</h3>} slidesToShow={4} slidesToScroll={4}>
                     {
                         categoryItems.map((categoryItem) => (
-                            <section key={"category-item-" + categoryItem.name} className='cat-item' onClick={() => { navigate("/vendor/details/" + categoryItem.serviceProviderEmalId) }}>
+                            <section key={"category-item-" + categoryItem.name} className='cat-item' onClick={() => { navigate(routes.VENDOR_DETAILS.replace(":email", categoryItem.serviceProviderEmalId)) }}>
                                 <img className='service-image flex-1' src={categoryItem.image} alt={categoryItem.serviceName}></img>
                                 <section className='pt-2'>
                                     <section className='vendor-name'>

@@ -7,6 +7,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PropTypes from "prop-types"
 import restClient from '../../../config/axios'
 import { useAlert } from '../../../hooks/NotificationSnackbar';
+import routes from '../../../config/routeConstants';
 // import NotificationSnackBar from '../../Login/components/error'
 const RegisterForm = (props) => {
     const { registerUser } = props
@@ -34,7 +35,7 @@ const RegisterForm = (props) => {
             if (data) {
                 showSuccessAlert("You are registered successfully")
                 registerUser(data)
-                navigate('/dashboard2')
+                navigate(routes.DASHBOARD2)
             }
         } catch (error) {
             showErrorAlert("Something went wrong")

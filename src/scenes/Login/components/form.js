@@ -19,6 +19,7 @@ import restClient from '../../../config/axios';
 import { useDispatch } from 'react-redux';
 import { setLoggedInUser } from '../actions';
 import { useAlert } from '../../../hooks/NotificationSnackbar';
+import routes from '../../../config/routeConstants';
 
 function Copyright(props) {
   return (
@@ -69,7 +70,7 @@ export default function SignIn() {
       showSuccessAlert("You have been logged in successfully")
       dispatch(setLoggedInUser(data))
       setShowError(false)
-      navigate("/")
+      navigate(routes.HOME)
     } catch (error) {
       setShowError(true)
       console.log(error)

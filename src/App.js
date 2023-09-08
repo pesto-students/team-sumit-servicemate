@@ -6,7 +6,7 @@ import Login from "./scenes/Login";
 import Register from "./scenes/Register";
 import "./index.css";
 import DashBoard from "./scenes/Dashboard";
-import PrivateRoute from "./config/routes";
+import PrivateRoute from "./config/privateRoute";
 import BookAppointment from "./scenes/BookAppointment";
 // import Categories from "./scenes/Categories";
 import Services from "./scenes/Services";
@@ -33,17 +33,17 @@ function App() {
         <main>
           <Routes>
             {/** <Route path="/" element={<Home />} /> */}
-            <Route path={routes.HOME} element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/services/:category" element={<Services />} />
-            <Route path="/vendor-list/:category" element={<VendorList />} />
-            <Route path="/vendor/details/:email" element={<VendorDetails />} />
-            <Route path="/about" element={<AboutUs />} />
-            <Route path="/contact" element={<ContactUs />} />
+            <Route path={routes.LOGIN} element={<Login />} />
+            <Route path={routes.REGISTER} element={<Register />} />
+            <Route path={routes.HOME} element={<Home />} />
+            <Route path={routes.SERVICES} element={<Services />} />
+            <Route path={routes.VENDOR_LIST} element={<VendorList />} />
+            <Route path={routes.VENDOR_DETAILS} element={<VendorDetails />} />
+            <Route path={routes.ABOUT} element={<AboutUs />} />
+            <Route path={routes.CONTACT} element={<ContactUs />} />
 
             <Route
-              path="/dashboard"
+              path={routes.DASHBOARD}
               element={
                 <PrivateRoute >
                   <DashBoard />
@@ -51,7 +51,7 @@ function App() {
               }
             />
             <Route
-              path="/dashboard2/:tab?"
+              path={routes.DASHBOARD2}
               element={
                 <PrivateRoute >
                   <DashBoard2 />
@@ -59,7 +59,7 @@ function App() {
               }
             />
             <Route
-              path="/book-appointment"
+              path={routes.BOOK_APPOINTMENT}
               element={
                 <PrivateRoute >
                   <BookAppointment />
@@ -67,14 +67,14 @@ function App() {
               }
             />
             <Route
-              path="/admin"
+              path={routes.ADMIN}
               element={
                 <PrivateRoute >
                   <AdminDashboard />
                 </PrivateRoute>
               }
             />
-            <Route path="*" element={<Navigate to="/" replace />}></Route>
+            <Route path="*" element={<Navigate to={routes.HOME} replace />}></Route>
           </Routes>
         </main>
 
