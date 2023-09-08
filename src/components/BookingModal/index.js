@@ -23,8 +23,8 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
   console.log(vendor)
   //  const { email } = useParams();
   //  const collectivedata = useSelector((state) => state.collectiveData.fulldata);
-  const loggedInUser = useSelector((state) => state.loggedInUser.user)
-  console.log("lop" + loggedInUser?.address?.address?.street)
+  const loggedInUser = useSelector((state) => state.user.authUser)
+  // console.log("lop" + loggedInUser?.address?.address?.street)
   const [date, setDate] = useState("");
   const [services, setServices] = useState("");
   const [address, setAddress] = useState("");

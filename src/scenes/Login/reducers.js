@@ -1,16 +1,18 @@
 // reducers.js
 
 const initialState = {
-    user: null,
+    authUser: null,
 };
 
-const LoginReducer = (state = initialState, action) => {
+const UserReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_LOGGED_IN_USER':
-            return { ...state, user: action.payload };
+            return { ...state, authUser: action.payload };
+        case "SET_LOGOUT_USER":
+            return { ...state, authUser: null };
         default:
             return state;
     }
 };
 
-export default LoginReducer;
+export default UserReducer;

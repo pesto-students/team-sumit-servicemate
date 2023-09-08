@@ -8,13 +8,16 @@ import MyLocationIcon from '@mui/icons-material/MyLocation';
 import restClient from '../../config/axios';
 import { setAllCategories, } from '../../scenes/Categories/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { setLogoutUser } from './actions';
+import { useAlert } from '../../hooks/NotificationSnackbar';
 
 const Header = () => {
     const navigate = useNavigate()
     const { currentLocation, setLocation, getPermission } = useCityLocation()
     const dispatch = useDispatch()
     const { allCategories = [] } = useSelector(state => state.categories)
-    const loggedInUser = useSelector(state => state.loggedInUser)
+    const loggedInUser = useSelector(state => state.user.authUser)
+    const { showSuccessAlert } = useAlert()
 
     useEffect(() => {
         getAllCategories()
@@ -27,13 +30,25 @@ const Header = () => {
         dispatch(setAllCategories(categories))
     }
 
-    const userActions = [{ name: "Login", path: "/login" }, { name: "Register", path: '/register' }]
+    const userActions = [{ name: "Login", handleAction: () => handleAction("/login") }, { name: "Register", handleAction: () => handleAction('/register') }]
 
-    const AuthUserAction = [{ name: "My Profile", path: "/dashboard2/profile" }, { name: "Appointments", path: "/dashboard2/appointments" }]
+    const handleAction = (path, callback) => {
+        navigate(path)
+        callback && callback()
+    }
+
+    const handleLogout = () => {
+        dispatch(setLogoutUser())
+        showSuccessAlert("You have been logged out")
+    }
+
+    const AuthUserAction = [{ name: "My Profile", handleAction: () => handleAction("/dashboard2/profile",) },
+    { name: "Appointments", handleAction: () => handleAction("/dashboard2/appointments") }, { name: "Logout", handleAction: () => handleAction("/", handleLogout) }]
 
     const getUserActions = () => {
-        return loggedInUser && loggedInUser.user ? AuthUserAction : userActions
+        return loggedInUser ? AuthUserAction : userActions
     }
+
     return (
         <header className='header'>
             <section className="header__top">
@@ -71,7 +86,10 @@ const Header = () => {
                             </section>
                             <section>
                                 {getUserActions().map(action => (
-                                    <section className='cursor-pointer' key={"path-" + action.name} onClick={() => { navigate(action.path) }}>
+                                    <section className='user-action cursor-pointer font-bold' key={"path-" + action.name} onClick={() => {
+                                        console.log("action--->", action)
+                                        action.handleAction && action.handleAction()
+                                    }}>
                                         {action.name}
                                     </section>
                                 ))}

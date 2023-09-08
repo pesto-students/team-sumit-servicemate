@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 // import Delete from '@mui/icons-material/Delete';
 
 const MyProfile = () => {
-    const loggedInUser = useSelector(state => state.loggedInUser)
+    const loggedInUser = useSelector(state => state.user.authUser)
 
     const [selectedImages, setSelectedImages] = useState([]);
     const [formData, setFormData] = useState({
@@ -117,7 +117,7 @@ const MyProfile = () => {
 
     useEffect(() => {
         if (loggedInUser) {
-            const { name, email } = loggedInUser.user
+            const { name, email } = loggedInUser
             updateFormData({
                 name, email
             })

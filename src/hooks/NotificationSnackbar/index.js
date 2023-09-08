@@ -2,7 +2,8 @@ import React, { createContext, useContext, useState } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import PropTypes from "prop-types"
-const AlertContext = createContext();
+
+const AlertContext = createContext({ showSuccessAlert: () => { }, showErrorAlert: () => { } });
 
 export const useAlert = () => {
     return useContext(AlertContext);

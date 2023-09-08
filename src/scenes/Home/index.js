@@ -16,20 +16,11 @@ import restClient from '../../config/axios';
 
 const Home = (props) => {
     const { someData, dispatchSomeAction } = props
-    const location = useLocation()
-    // const { allCategories } = useSelector(state => state.categories)
     const [topCategories, setTopCategories] = useState([])
     const [vendorsByTopCategories, setVendorsByTopCategories] = useState([])
     console.log("someData", someData)
+
     useEffect(() => {
-        const { navigatedFrom, userDetails } = location?.state || {}
-        if (navigatedFrom === routeConstant.register && userDetails) {
-            const loggedInUser = data.users.find(user => user.emailId === userDetails.emailId)
-            if (loggedInUser) {
-                console.log("log", loggedInUser)
-            }
-            console.log("🚀 ~ file: index.js:10 ~ useEffect ~ data.users:", data.users)
-        }
         dispatchSomeAction()
         getTopCategories()
         getVendorsByTopCategories()
