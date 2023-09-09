@@ -55,6 +55,9 @@ div {
     line-height: 25px;
     text-transform: uppercase;
 }
+.ps-list--categories li a:hover {
+    color: #fcb800;
+  }
 
 .image-cover-h100{
     height: 100%;
@@ -464,20 +467,12 @@ h1, h2, h3, h4, h5, h6 {
         border-bottom:1px solid silver;
     }
 }
-.pt-14{
-    display: flex;
-    flex-flow:wrap;
-    justify-content: space-evenly;
-    margin-top: -80px;
-    margin-right: 100px;
 
-    
-}
 
 .pt-15{
     display: flex;
     flex-flow:wrap;
-    justify-content: space-evenly;
+    justify-content: flex-start;
     margin-top: -80px;
     margin-right: 100px;
     padding-top: 6rem;

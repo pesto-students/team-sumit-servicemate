@@ -7,7 +7,7 @@ import { connect, } from 'react-redux';
 import { someAction } from './actions';
 import PropTypes from "prop-types";
 import { Grid, Icon, Rating, Skeleton, Stack, } from '@mui/material';
-import Slider from "react-slick";
+//import Slider from "react-slick";
 
 import PaymentsIcon from '@mui/icons-material/Payments';
 import ChatIcon from '@mui/icons-material/Chat';
