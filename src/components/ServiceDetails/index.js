@@ -1,21 +1,22 @@
 import React from "react";
-import { Typography } from "@mui/material";
 import PropTypes from "prop-types";
+
 const ServiceDetail = ({ service }) => {
+  const titleStyle = {
+    fontSize: "24px", // Adjust the font size as needed // Make the title bold
+    color: "#000", // Set the color to your preferred value
+    marginBottom: "9px", // Add some space at the bottom
+    textTransform: "uppercase", // Convert text to uppercase
+    fontFamily: "Arial, sans-serif",
+    fontWeight: "400", // Use camelCase for property names
+    lineHeight: "1.2", // Use camelCase for property names
+  };
+
   return (
     <>
-      <Typography variant="h5" component="h2" gutterBottom>
-       <strong>{service.title}</strong>
-       </Typography>
-      {/* <Typography variant="h6" gutterBottom>
-        Price: {service.price}
-      </Typography>
-      <Typography variant="body1" gutterBottom>
-        {service.description}
-      </Typography>
-      <Typography variant="subtitle1" gutterBottom>
-        Ratings: {service.ratings}
-      </Typography> */}
+      <section className='vendor-name' style={titleStyle}>
+        {service.title}
+      </section>
     </>
   );
 };

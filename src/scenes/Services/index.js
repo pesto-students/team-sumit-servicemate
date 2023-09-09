@@ -4,22 +4,26 @@ import PropTypes from "prop-types";
 //import Card from "../../components/Card";
 
 
+
 //import { Link as RouterLink } from "react-router-dom";
 //import { useDispatch} from "react-redux";
 //import restClient from "../../config/axios";
 import { setCollectiveDate } from "./action";
 import "./styles/service.scss";
 //import { List } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { Rating, Slider } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { Grid, Rating, Skeleton, Slider } from "@mui/material";
 import restClient from "../../config/axios";
+
 import { Link } from "react-router-dom";
 import Footer from "../../components/footer/footer";
 //import CategoryItem from "../../components/CategoryItem";
 
+
 const Categories = () => {
   const dispatch = useDispatch();
-  const categories = useSelector((state) => state.categories.categories);
+  // const categories = useSelector((state) => state.categories.categories);
+  const [page, setPage] = useState(1);
 
 
   const [categoryData, setCategoryData] = useState([]);
@@ -27,56 +31,85 @@ const Categories = () => {
   const [filteredCardData, setFilteredCardData] = useState([]);
   // const [value, setValue] = React.useState(0);
   const [loading, setLoading] = useState(true);
+  const [scrollLoad, setScrollLoad] = useState(false);
+  const [isFetchingData, setIsFetchingData] = useState(false);
   //const [activeCategory, setActiveCategory] = useState("all");
 
 
-  useEffect(() => {
-    // Set the category data when the component mounts or when categories change
-    setCategoryData(categories);
-
-  }, [categories]);
+  const getTopCategories = async () => {
+    console.log(scrollLoad)
+    const apiUrl = '/api/categories/topCategories'
+    const { data } = await restClient(apiUrl)
+    if (data && data.length) {
+      setCategoryData(data)
+    }
+  }
 
   const handlePriceChange = (event, value) => {
     setSelectedPrice(value);
-    // You can implement filtering logic based on the selectedPrice here
+
   };
+
+  const handleInfiniteScroll = async () => {
+    try {
+      if (
+        !isFetchingData &&
+        window.innerHeight + document.documentElement.scrollTop + 1 >=
+        document.documentElement.scrollHeight
+      ) {
+        setIsFetchingData(true);
+        setPage((prev) => prev + 1);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    // Fetch filtered results when the component mounts
-    getFilteredResult();
-  }, []);
+    getTopCategories()
+  }, [])
 
-  const handleCategoryChange = async (categoryName) => {
-    // Handle category change and fetch filtered results
+
+  useEffect(() => {
+    getFilteredResult();
+  }, [page]);
+
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleInfiniteScroll);
+    return () => window.removeEventListener("scroll", handleInfiniteScroll);
+  }, [isFetchingData, page]);
+
+
+  const handleCategoryChange = async (categoryName, selectedPrice) => {
     getFilteredResult(categoryName, selectedPrice);
-    //  setActiveCategory(categoryName);
+
   };
 
-  // const theme = createTheme({
-  //   components: {
-  //     MuiButtonBase: {
-  //       defaultProps: {
-  //         disableRipple: true,
-  //       },
-  //     },
-  //   },
-  // });
 
-  const getFilteredResult = async (categoryName = " ", price = " ") => {
-    let apiUrl = `/api/vendor/serviceSearch?`;
+  const getFilteredResult = async (categoryName = " ", selectedPrice, page) => {
+    console.log(selectedPrice)
+
+    let apiUrl = `/api/vendor/serviceSearch?page=${page}&&`;
     if (categoryName) {
       apiUrl += `category=${categoryName}`;
     }
-    if (price) {
-      apiUrl += `${categoryName ? "&" : ""}price=${price}`;
-    }
 
+    if (selectedPrice) {
+      apiUrl += `&&price=${selectedPrice}`;
+    }
     try {
+      console.log(apiUrl)
       const { data: apiResponse } = await restClient.get(apiUrl);
+      console.log(apiResponse.length)
       dispatch(setCollectiveDate(apiResponse));
       setFilteredCardData(apiResponse);
+
       setLoading(false);
+      setScrollLoad(false);
     } catch (error) {
       console.log(loading)
+      setLoading(true);
       console.error("Error fetching data: ", error);
     }
   };
@@ -90,10 +123,12 @@ const Categories = () => {
               <h4 className="widget-title"><u>Categories</u></h4>
 
               <ul className="ps-list--categories">
-                {categoryData?.length > 0 ? (
-                  categoryData?.map((Items) => (
+                {categoryData.length > 0 ? (
+                  categoryData.map((Items) => (
                     <li key={Items.id}>
-                      <a onClick={() => handleCategoryChange(Items.catagories)}>{Items.catagories}</a>
+
+                      <a onClick={() => handleCategoryChange(Items.value, selectedPrice)}>{Items.name}</a>
+
                     </li>
                   ))
                 ) : (
@@ -124,14 +159,14 @@ const Categories = () => {
 
           </div>
           {/* <div className="ps-block--shop-features">
-      <div className="ps-block__header">
-      <h3>Best Sale Items</h3>
-      <div className="ps-block__navigation">
-      <a className="ps-carousel__prev">
-      <i className="icon-chevron-left"></i></a>
-      <a className="ps-carousel__next">
-      <i className="icon-chevron-right"></i></a></div></div>
-      </div> */}
+    <div className="ps-block__header">
+    <h3>Best Sale Items</h3>
+    <div className="ps-block__navigation">
+    <a className="ps-carousel__prev">
+    <i className="icon-chevron-left"></i></a>
+    <a className="ps-carousel__next">
+    <i className="icon-chevron-right"></i></a></div></div>
+    </div> */}
           <div className="ps-layout__right">
             <div className="ps-shopping">
               <div className="ps-shopping__header">
@@ -142,28 +177,39 @@ const Categories = () => {
                     <option>Sort by price: high to low</option>
                   </select>
                 </div>
+
               </div>
             </div>
 
             <article className='category-item-listing'>
               {/* <section className='header'>
-                <h3 >
-                    <strong>title</strong>
-                </h3>
-                <section className='header-menu'>
-                    <ol>
-                        <li>View all</li>
-                    </ol>
-                </section>
-            </section> */}
-              <section className='pt-14'>
-                {
+              <h3 >
+                  <strong>title</strong>
+              </h3>
+              <section className='header-menu'>
+                  <ol>
+                      <li>View all</li>
+                  </ol>
+              </section>
+          </section> */}
+              <Grid container className="pt-15" >
 
-                  filteredCardData.map((categoryItem) => (
-                    <Link to={`/vendor/details/${categoryItem.serviceProviderId?.serviceProviderEmalId}`} key={categoryItem._id}>
-                      <section style={{ marginLeft: '-40px' }} className='cat-item'>
+                {loading ? (
 
-                        <img className='service-image flex-1' src={categoryItem.catagories?.[0]?.image} alt={categoryItem.serviceName}></img>
+                  <>
+                    <Skeleton variant="rect" width="25%" height={200} />
+                    <Skeleton variant="rect" width="25%" height={200} />
+                    <Skeleton variant="rect" width="25%" height={200} />
+                    <Skeleton variant="rect" width="25%" height={200} />
+                  </>
+                ) : (filteredCardData.length > 0 ? (
+                  filteredCardData.map((categoryItem, index) => (
+
+                    <Link to={`/vendor/details/${categoryItem.serviceProviderId?.serviceProviderEmalId}`} key={index}>
+
+                      <Grid item className='cat-item'>
+
+                        <img className='service-image flex-1' src={categoryItem.serviceProviderId?.profilePic} alt={categoryItem.serviceName}></img>
                         <section className='pt-2'>
                           <section className='vendor-name'>
                             {categoryItem.serviceProvider}
@@ -185,16 +231,22 @@ const Categories = () => {
                             </section>
                           </section>
                         </section>
-                      </section>
+                      </Grid>
                     </Link>
-                  ))
+                  ))) : (
+                  <>
+                    <Grid container className="pt-15" style={{ justifyContent: 'center' }}>
+                      <p>No Serviceprovider Found..!!!</p>
+                    </Grid>
+                  </>
+                ))
                 }
-
-              </section>
+              </Grid>
             </article>
           </div>
 
         </div>
+
         <CategoryItemListing />
 
       </div>
@@ -267,11 +319,11 @@ const CategoryItemListing = (props) => {
           </ol>
         </section>
       </section>
-      <section className='pt-15'>
+      <Grid container className='pt-15'>
 
         {
-          categoryItems.map((categoryItem) => (
-            <section key={categoryItem.vendorName} className='cat-item'>
+          categoryItems.map((categoryItem, indexs) => (
+            <Grid item key={indexs} className='cat-item'>
               <img className='service-image flex-1' src={categoryItem.imgSrc} alt={categoryItem.serviceName}></img>
               <section className='pt-2'>
                 <section className='vendor-name'>
@@ -294,11 +346,11 @@ const CategoryItemListing = (props) => {
                   </section>
                 </section>
               </section>
-            </section>
+            </Grid>
           ))
         }
 
-      </section>
+      </Grid>
     </article>
   )
 }
@@ -307,4 +359,3 @@ CategoryItemListing.propTypes = {
   title: PropTypes.string,
   categoryItems: PropTypes.array,
 }
-
