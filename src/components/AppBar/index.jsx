@@ -68,7 +68,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const AppTopBar = () => {
   const dispatch = useDispatch();
-  const loggedInUser = useSelector((state) => state.loggedInUser.user)
+  const loggedInUser = useSelector((state) => state.user.authUser)
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [isLogin, setLogin] = React.useState(false)
@@ -94,11 +94,11 @@ const AppTopBar = () => {
 
   const handleLogout = () => {
     dispatch(resetStore());
-    
+
     // Close the user menu and handle any other logout logic
     setLogin(false);
     handleCloseUserMenu();
-   
+
   }
 
   return (

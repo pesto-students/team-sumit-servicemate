@@ -6,6 +6,7 @@ import "./styles/vendorDashboard.scss"
 import { Autocomplete, Button, Divider, ImageList, ImageListItem, TextField } from '@mui/material';
 import { TimePicker } from '@mui/x-date-pickers';
 import { useNavigate } from 'react-router-dom';
+import routes from '../../../config/routeConstants';
 // import EngineeringIcon from '@mui/icons-material/Engineering';
 // import ButtonComponent from '../../../components/Buttons';
 
@@ -232,7 +233,7 @@ const VendorDashboard = (props) => {
                 </section>
                 <section className='flex gap-4'>
                     <Button variant='contained' type='submit'>Save</Button>
-                    <Button variant="outlined" color="primary" onClick={() => navigate('/')}>Cancel</Button>
+                    <Button variant="outlined" color="primary" onClick={() => navigate(routes.HOME)}>Cancel</Button>
                 </section>
             </form>
         </article>

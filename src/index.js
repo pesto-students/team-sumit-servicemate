@@ -11,6 +11,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { ThemeProvider, createTheme } from '@mui/material';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import AlertProvider from './hooks/NotificationSnackbar';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -30,6 +31,14 @@ const theme = createTheme({
       defaultProps: { size: "small" },
     }
   },
+  palette: {
+    primary: {
+      main: '#fcb800',
+    },
+    secondary: {
+      main: '#000', // Change the secondary color to your desired color
+    },
+  }
 });
 
 root.render(
@@ -38,7 +47,9 @@ root.render(
       <PersistGate loading={null} persistor={persistor}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <ThemeProvider theme={theme}>
-            <App />
+            <AlertProvider>
+              <App />
+            </AlertProvider>
           </ThemeProvider>
         </LocalizationProvider>
       </PersistGate>

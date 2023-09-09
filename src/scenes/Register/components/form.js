@@ -4,14 +4,16 @@ import "./styles/form.scss"
 // import { data } from '../../../config/db'
 import { useNavigate } from 'react-router-dom'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import routeConstant from '../../../config/routeConstant'
 import PropTypes from "prop-types"
 import restClient from '../../../config/axios'
-// import ErrorMessage from '../../Login/components/error'
+import { useAlert } from '../../../hooks/NotificationSnackbar';
+import routes from '../../../config/routeConstants';
+// import NotificationSnackBar from '../../Login/components/error'
 const RegisterForm = (props) => {
     const { registerUser } = props
 
     const navigate = useNavigate()
+    const { showSuccessAlert, showErrorAlert } = useAlert()
     const [formData, setFormData] = useState({})
     // const [showError, setShowError] = useState(false)
 
@@ -28,18 +30,15 @@ const RegisterForm = (props) => {
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        registerUser(formData)
         try {
             const { data } = await restClient.post("/api/user/register", JSON.parse(JSON.stringify(formData)))
             if (data) {
-                navigate('/dashboard', {
-                    state: {
-                        userDetails: formData,
-                        navigatedFrom: routeConstant.register
-                    }
-                })
+                showSuccessAlert("You are registered successfully")
+                registerUser(data)
+                navigate(routes.DASHBOARD2)
             }
         } catch (error) {
+            showErrorAlert("Something went wrong")
             console.log(error)
         }
     }

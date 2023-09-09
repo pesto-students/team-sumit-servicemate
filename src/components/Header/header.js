@@ -6,54 +6,70 @@ import useCityLocation from '../../hooks/Location';
 import { IconButton } from '@mui/material';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import restClient from '../../config/axios';
-import { setAllCategories, } from '../../scenes/Categories/actions';
+import { setAllCategories, setCategories, } from '../../scenes/Categories/actions';
 import { useDispatch, useSelector } from 'react-redux';
+// import { setLogoutUser } from './actions';
+// import { useAlert } from '../../hooks/NotificationSnackbar';
+import routes from '../../config/routeConstants';
 
 const Header = () => {
     const navigate = useNavigate()
     const { currentLocation, setLocation, getPermission } = useCityLocation()
     const dispatch = useDispatch()
-    const { allCategories } = useSelector(state => state.categories)
+    const { allCategories = [] } = useSelector(state => state.categories)
+    // const loggedInUser = useSelector(state => state.user.authUser)
+    // const { showSuccessAlert } = useAlert()
 
     useEffect(() => {
         getAllCategories()
     }, [])
 
     const getAllCategories = async () => {
-        const apiUrl = 'api/vendor/catagories'
+        const apiUrl = 'api/vendor/categories'
         const { data } = await restClient(apiUrl)
-        const categories = [{ name: 'All', value: 'all' }, ...data]
-        dispatch(setAllCategories(categories))
+        const allCategories = [{ name: 'All', value: 'all' }, ...data]
+        dispatch(setCategories(data))
+        dispatch(setAllCategories(allCategories))
     }
+
+    // const userActions = [{ name: "Login", handleAction: () => handleAction(routes.LOGIN) }, { name: "Register", handleAction: () => handleAction(routes.REGISTER) }]
+
+    // const handleAction = (path, callback) => {
+    //     navigate(path)
+    //     callback && callback()
+    // }
+
+    // const handleLogout = () => {
+    //     dispatch(setLogoutUser())
+    //     showSuccessAlert("You have been logged out")
+    // }
+
+    // const AuthUserAction = [{ name: "My Profile", handleAction: () => handleAction(routes.DASHBOARD2PROFILE) },
+    // { name: "Appointments", handleAction: () => handleAction(routes.DASHBOARD2APPOINTMENT) }, { name: "Logout", handleAction: () => handleAction(routes.HOME, handleLogout) }]
+
+    // const getUserActions = () => {
+    //     return loggedInUser ? AuthUserAction : userActions
+    // }
 
     return (
         <header className='header'>
             <section className="header__top">
-                <section className='header-wrapper'>
-                    <section className='header__left flex-1'>
-                        <section style={{
-                            fontWeight: '900',
-                            fontSize: '1.2rem',
-                            cursor: "pointer",
-                        }} onClick={() => { navigate('/') }}>
-                            <span style={{ color: 'black' }}>service</span><span style={{ color: 'white' }}>mate</span>
+                <section className='header-wrapper justify-between'>
+                    <section className='header__left'>
+                        <section className='header-logo' onClick={() => { navigate(routes.HOME) }}>
+                            <span className='first-word' >service</span>
+                            <span className='last-word' >mate</span>
                         </section>
                     </section>
-                    <section className='header__center flex-1'>
+                    <section className='header__center'>
                         <section className='quick-search-wrapper flex'>
-                            <section>
-                                <select className='select-category'>
-                                    {allCategories.map(option => (
-                                        <option key={option.id} value={option.value} >{option.name}</option>
-                                    ))}
-                                </select>
-                            </section>
-                            <section>
-                                <input className='search-input' name='quick-search' placeholder="I'm looking for..."></input>
-                            </section>
-                            <section>
-                                <button className='black-button' >Search</button>
-                            </section>
+                            <select className='select-category'>
+                                {allCategories.map(option => (
+                                    <option key={option.id} value={option.value} >{option.name}</option>
+                                ))}
+                            </select>
+                            <input className='search-input' name='quick-search' placeholder="I'm looking for..."></input>
+                            <button className='black-button' >Search</button>
                         </section>
                     </section>
                     <section className='header__right'>
@@ -61,23 +77,25 @@ const Header = () => {
                             <section>
                                 <PersonIcon sx={{ height: 50, width: 50 }}></PersonIcon>
                             </section>
-                            <section>
-                                <section onClick={() => { navigate('/login') }}>
-                                    Login
-                                </section>
-                                <section onClick={() => { navigate('/register') }}>
-                                    Register
-                                </section>
-                            </section>
+                            {/* <section>
+                                {getUserActions().map(action => (
+                                    <section className='user-action cursor-pointer font-bold' key={"path-" + action.name} onClick={() => {
+                                        console.log("action--->", action)
+                                        action.handleAction && action.handleAction()
+                                    }}>
+                                        {action.name}
+                                    </section>
+                                ))}
+                            </section> */}
                         </section>
                     </section>
                 </section>
             </section>
             <section className='header-navigation pt-4 pb-4'>
                 <ul className='menu'>
-                    <li className='menu-item' onClick={() => { navigate('/services') }}>Services</li>
-                    <li className='menu-item' onClick={() => { navigate('/about') }}>About Us</li>
-                    <li className='menu-item' onClick={() => { navigate('/contact') }}>Contact Us</li>
+                    <li className='menu-item' onClick={() => { navigate(routes.SERVICES) }}>Services</li>
+                    <li className='menu-item' onClick={() => { navigate(routes.ABOUT) }}>About Us</li>
+                    <li className='menu-item' onClick={() => { navigate(routes.CONTACT) }}>Contact Us</li>
                     <li>
                         <section className='get-location'>
                             <select className='location-select p-0.5' value={currentLocation} onChange={(e) => setLocation(e.target.value)}>

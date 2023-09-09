@@ -12,12 +12,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import ErrorMessage from './error'
+import NotificationSnackBar from './error'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import restClient from '../../../config/axios';
 import { useDispatch } from 'react-redux';
 import { setLoggedInUser } from '../actions';
+import { useAlert } from '../../../hooks/NotificationSnackbar';
+import routes from '../../../config/routeConstants';
 
 function Copyright(props) {
   return (
@@ -43,6 +45,7 @@ export default function SignIn() {
   const [formData, setFormData] = useState({})
   const [showError, setShowError] = useState(false)
   const [loading, setLoading] = useState(false)
+  const { showSuccessAlert, showErrorAlert } = useAlert()
   console.log("🚀 ~ file: form.js:15 ~ LoginForm ~ loading:", loading)
 
   const handleFormChange = (e) => {
@@ -57,7 +60,6 @@ export default function SignIn() {
     e.preventDefault()
     setLoading(true);
     try {
-
       const config = {
         headers: {
           "content-type": "application/json",
@@ -65,12 +67,14 @@ export default function SignIn() {
       };
       const { data } = await restClient.post("/api/User/login", { ...formData }, config);
       // localStorage.setItem("userInfo", JSON.stringify(data));
+      showSuccessAlert("You have been logged in successfully")
       dispatch(setLoggedInUser(data))
       setShowError(false)
-      navigate("/")
+      navigate(routes.HOME)
     } catch (error) {
       setShowError(true)
       console.log(error)
+      showErrorAlert("Something went wrong, please enter correct email and password")
     }
   }
 
@@ -115,7 +119,7 @@ export default function SignIn() {
               autoComplete="current-password"
               onChange={handleFormChange}
             />
-            <ErrorMessage open={showError} handleClose={() => { setShowError(false) }} message='you have entered invalid credentials'></ErrorMessage>
+            <NotificationSnackBar open={showError} handleClose={() => { setShowError(false) }} message='you have entered invalid credentials'></NotificationSnackBar>
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
@@ -124,7 +128,7 @@ export default function SignIn() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, backgroundColor:"#fcb800" }}
+              sx={{ mt: 3, mb: 2, backgroundColor: "#fcb800" }}
             >
               Sign In
             </Button>

@@ -36,7 +36,6 @@
     }
 }
 
-
 .capitalize{
     text-transform: capitalize;
 }
@@ -60,6 +59,7 @@
         padding: 20px 20px 0;
         border: 1px solid transparent;
         max-width: 16rem;
+        min-width: 16rem;
         height: 23rem;
         display: flex;
         flex-direction: column;
@@ -83,5 +83,11 @@
     .cat-item:hover{
         border-color: silver;
         border-bottom:1px solid silver;
+    }
+}
+
+.top-vendors-by-category{
+    .slick-track{
+        margin-left: 0;
     }
 }

@@ -1,38 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, } from 'react-router-dom'
-import { data } from '../../config/db'
-import routeConstant from '../../config/routeConstant'
-
-
+import { useNavigate, } from 'react-router-dom'
 import { connect, } from 'react-redux';
 import { someAction } from './actions';
 import PropTypes from "prop-types";
 import { Grid, Icon, Rating, Skeleton, Stack, } from '@mui/material';
-//import Slider from "react-slick";
+import Slider from "react-slick";
 
 import PaymentsIcon from '@mui/icons-material/Payments';
 import ChatIcon from '@mui/icons-material/Chat';
 import BookOnlineIcon from '@mui/icons-material/BookOnline';
 import "./styles/home.scss"
 import restClient from '../../config/axios';
-
+import routes from '../../config/routeConstants';
 
 const Home = (props) => {
     const { someData, dispatchSomeAction } = props
-    const location = useLocation()
-    // const { allCategories } = useSelector(state => state.categories)
     const [topCategories, setTopCategories] = useState([])
     const [vendorsByTopCategories, setVendorsByTopCategories] = useState([])
     console.log("someData", someData)
+
     useEffect(() => {
-        const { navigatedFrom, userDetails } = location?.state || {}
-        if (navigatedFrom === routeConstant.register && userDetails) {
-            const loggedInUser = data.users.find(user => user.emailId === userDetails.emailId)
-            if (loggedInUser) {
-                console.log("log", loggedInUser)
-            }
-            console.log("🚀 ~ file: index.js:10 ~ useEffect ~ data.users:", data.users)
-        }
         dispatchSomeAction()
         getTopCategories()
         getVendorsByTopCategories()
@@ -101,14 +88,12 @@ const Home = (props) => {
                     ))}
                 </Grid>
             </article>
-
             <CategoryView categories={topCategories}></CategoryView>
             {
                 vendorsByTopCategories.map(vendor => {
                     return <CategoryItemListing key={"vendor-" + vendor.title} title={vendor.title} categoryItems={vendor.data}></CategoryItemListing>
                 })
             }
-
         </>
     )
 }
@@ -136,6 +121,7 @@ Home.propTypes = {
 export const CategoryView = (props) => {
     const { categories = [{ image: "https://le-cdn.hibuwebsites.com/4fbcba4ddf5f4d57ad1799560278d928/dms3rep/multi/opt/RSshutterstock_8610913-640w.jpg", name: "Electrician" },
     { image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCwWCUeYSm3Audhz429cpIJU4O_ObA7vPGaw&usqp=CAU", name: "Plumber" }], title = 'Top categories' } = props;
+    const navigate = useNavigate()
 
 
     return (
@@ -143,11 +129,12 @@ export const CategoryView = (props) => {
             <h3 className='capitalize'>
                 {title}
             </h3>
-
             <Grid container spacing={2}>
                 {categories.map(category => (
                     <Grid key={"category-" + category.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
-                        <section className='card-block flex flex-col'>
+                        <section className='card-block flex flex-col' onClick={() => {
+                            navigate(routes.SERVICES_BY_CATEGORY.replace(":category", category.value))
+                        }}>
                             <img className='image-cover-h100 flex-1' loading='lazy' src={category.image} alt={category.name} ></img>
                             <p><strong>{category.name}</strong></p>
 
@@ -174,8 +161,8 @@ CategoryView.propTypes = {
     title: PropTypes.string,
 }
 
-
 export const CategoryItemListing = (props) => {
+    const navigate = useNavigate()
     const { title = "Electrician Work",
         categoryItems = [
             {
@@ -222,6 +209,10 @@ export const CategoryItemListing = (props) => {
             }
         ] } = props;
 
+    if (categoryItems.length === 0) {
+        return null
+    }
+
     return (
         <article className='category-item-listing'>
             <section className='header'>
@@ -235,10 +226,10 @@ export const CategoryItemListing = (props) => {
                 </section>
             </section>
             <section className='item-list pt-14'>
-               <Slider dots slidesToShow={4} slidesToScroll={4}>
+                <Slider dots adaptiveHeight className='top-vendors-by-category' prevArrow={<h3>back</h3>} nextArrow={<h3>next</h3>} slidesToShow={4} slidesToScroll={4}>
                     {
                         categoryItems.map((categoryItem) => (
-                            <section key={"category-item-" + categoryItem.name} className='cat-item'>
+                            <section key={"category-item-" + categoryItem.name} className='cat-item' onClick={() => { navigate(routes.VENDOR_DETAILS.replace(":email", categoryItem.serviceProviderEmalId)) }}>
                                 <img className='service-image flex-1' src={categoryItem.image} alt={categoryItem.serviceName}></img>
                                 <section className='pt-2'>
                                     <section className='vendor-name'>
@@ -264,7 +255,30 @@ export const CategoryItemListing = (props) => {
                             </section>
                         ))
                     }
-            </Slider>
+                    {
+                        !categoryItems && Array.from({ length: 4 }, () => ({})).map((categoryItem) => (
+                            <section key={"category-item-" + categoryItem.name} className='cat-item'>
+                                <Skeleton className='service-image flex-1' ></Skeleton>
+                                <section className='pt-2'>
+                                    <section className='vendor-name'>
+                                        <Skeleton variant='text'></Skeleton>
+                                    </section>
+                                    <section>
+                                        <section className='service-name'>
+                                            <Skeleton variant='text' className='w-full'></Skeleton>
+                                        </section>
+                                        <section>
+                                            <Skeleton variant="text" className='w-full'></Skeleton>
+                                        </section>
+                                        <section className='flex'>
+                                            <Skeleton className='w-full'></Skeleton>
+                                        </section>
+                                    </section>
+                                </section>
+                            </section>
+                        ))
+                    }
+                </Slider>
             </section>
         </article>
     )

@@ -3,15 +3,15 @@
 import { actionTypes } from "./actions";
 
 const initialState = {
-    categories: null,
+    categoriesExcludeAll: [],
     allCategories: [],
     topCategories: []
 };
 
-const CategoriesReducer = (state = initialState, action) => {
+const CategoriesReducer2 = (state = initialState, action) => {
     switch (action.type) {
-        case 'SET_CATEGORIES':
-            return { ...state, categories: action.payload };
+        case actionTypes.SET_CATEGORIES:
+            return { ...state, categoriesExcludeAll: action.payload };
         case actionTypes.SET_ALL_CATEGORIES:
             return { ...state, allCategories: action.payload };
         case actionTypes.SET_TOP_CATEGORIES:
@@ -21,4 +21,4 @@ const CategoriesReducer = (state = initialState, action) => {
     }
 };
 
-export default CategoriesReducer;
+export default CategoriesReducer2;

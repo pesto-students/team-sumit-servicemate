@@ -7,6 +7,9 @@ import Box from '@mui/material/Box';
 import Employees from '../Employees';
 import Services from '../Services';
 import MyProfile from '../MyProfile';
+import { useParams } from 'react-router';
+import { useEffect } from 'react';
+// import { useSelector } from 'react-redux';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -45,6 +48,16 @@ function a11yProps(index) {
 export default function TabNavigation() {
     const [value, setValue] = React.useState(0);
     const [subTab, setSubTab] = React.useState(0);
+    const { tab } = useParams()
+    // const loggedInUser = useSelector(state => state.loggedInUser)
+
+    useEffect(() => {
+        if (tab === "appointments") {
+            setValue(1);
+        } else if (value !== 0) {
+            setValue(0);
+        }
+    }, [tab])
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -52,13 +65,22 @@ export default function TabNavigation() {
 
     const tabMenu = [{
         id: "",
-        label: "Vendor portfolio",
+        label: "My Profile",
     },
     {
         id: "",
         label: "Appointments",
+    }, {
+        id: '',
+        label: "Orders"
     }
     ]
+
+    // const myProfileTabs=[{ name: "My Profile" }, { name: "Services" }, { name: "Employees" }]
+
+    // const getMyProfileTabs=()=>{
+    //     return loggedInUser&&loggedInUser.user? myProfileTabs:
+    // }
 
     return (
         <Box
@@ -99,8 +121,10 @@ export default function TabNavigation() {
                 </TabPanel>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                {/* <EmployeeForm></EmployeeForm> */}
-                <h1>Appointments</h1>
+                <h1>No Appointments found</h1>
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+                <h1>No Orders found</h1>
             </TabPanel>
         </Box>
     );

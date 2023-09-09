@@ -1,16 +1,16 @@
-// reducers.js
+// // reducers.js
 
-const initialState = {
-    registerUser: null,
-};
+// const initialState = {
+//     registeredUser: null,
+// };
 
-const RegisterReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case 'REGISTER_USER':
-            return { ...state, registerUser: action.payload };
-        default:
-            return state;
-    }
-};
+// const RegisterReducer = (state = initialState, action) => {
+//     switch (action.type) {
+//         case 'REGISTER_USER':
+//             return { ...state, registeredUser: action.payload };
+//         default:
+//             return state;
+//     }
+// };
 
-export default RegisterReducer;
+// export default RegisterReducer;

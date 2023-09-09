@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Grid, Container, Button, Typography, Rating, Divider, Icon, Dialog,
+import {
+  Grid, Container, Button, Typography, Rating, Divider, Icon, Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions, } from "@mui/material";
-import BookingModal from "../../components/Modal";
+  DialogActions,
+} from "@mui/material";
+import BookingModal from "../../components/BookingModal";
 import CarouselItem from "../../components/Carousel";
 import ServiceDetail from "../../components/ServiceDetails";
 import { useSelector } from "react-redux";
@@ -20,11 +22,11 @@ const VendorDetails = () => {
   const collectivedata = useSelector((state) => state.collectiveData.fulldata);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPhotoPopupOpen, setIsPhotoPopupOpen] = useState(false);
-  
+
   const [activeTab, setActiveTab] = useState("Address");
   // const [openHours, setOpenHours] = useState([]);
   const { email } = useParams();
-  const filteredData = collectivedata.filter((item) => item.serviceProviderId?.serviceProviderEmalId === email  );
+  const filteredData = collectivedata.filter((item) => item.serviceProviderId?.serviceProviderEmalId === email);
   const vendorName1 = filteredData.length > 0 ? filteredData[0].serviceProviderId?.serviceProviderName : '';
 
   const rat = filteredData.length > 0 ? filteredData[0].serviceProviderId?.rating : '0';
@@ -41,41 +43,47 @@ const VendorDetails = () => {
     : '';
   const year = filteredData[0].serviceProviderId?.createdOn.slice(0, 4);
   const serv = filteredData[0].services.join(', ');
-   const serviceList = filteredData[0].services.map((servic, index) => (
-      <div key={index} style={{
-        margin: '2px',
-        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)', 
-        padding: '8px',}}>
-        {servic}
-      </div>
-    ))
+  const serviceList = filteredData[0].services.map((servic, index) => (
+    <div key={index} style={{
+      margin: '2px',
+      boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+      padding: '8px',
+    }}>
+      {servic}
+    </div>
+  ))
 
-  const addd = filteredData[0].serviceProviderId?.location.length >0 ?( filteredData[0].serviceProviderId?.location.map((datas,index) =>
-   <div key={index}>
+  const addd = filteredData[0].serviceProviderId?.location.length > 0 ? (filteredData[0].serviceProviderId?.location.map((datas, index) =>
+    <div key={index}>
 
-    <div style={{
+      <div style={{
         margin: '2px', // Add 2px spacing around each block
         boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)', // Add a light border shadow
-        padding: '8px',}}>street : {datas.address.street}</div>
-    <div style={{
+        padding: '8px',
+      }}>street : {datas.address.street}</div>
+      <div style={{
         margin: '2px', // Add 2px spacing around each block
         boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)', // Add a light border shadow
-        padding: '8px',}}>city : {datas.address.city}</div>
-    <div style={{
+        padding: '8px',
+      }}>city : {datas.address.city}</div>
+      <div style={{
         margin: '2px', // Add 2px spacing around each block
         boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)', // Add a light border shadow
-        padding: '8px',}}>state : {datas.address.state}</div>
-    <div style={{
+        padding: '8px',
+      }}>state : {datas.address.state}</div>
+      <div style={{
         margin: '2px', // Add 2px spacing around each block
         boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)', // Add a light border shadow
-        padding: '8px',}}>pincode : {datas.address.postalCode}</div>
-     
+        padding: '8px',
+      }}>pincode : {datas.address.postalCode}</div>
+
     </div> // Return an empty array if it's not an array
 
-  )):(
+  )) : (
     <div style={{
-      margin: '2px'}}>No Address to display</div>
- 
+      margin: '2px'
+    }}>No Address to display</div>
+
 
   );
 
@@ -90,29 +98,29 @@ const VendorDetails = () => {
 
   const tabContent = {
 
-    Address: addd ,
+    Address: addd,
 
     Review: "No Reviews Found...",
     Services: serviceList,
     WorkingDays: extractedData ? extractedData.map((dayData, index) => (
-     
+
       <div key={index}  >
         {dayData.map((slotData, slotIndex) => (
-          
+
           <Typography variant="h7" key={slotIndex}>
-          <table  key={index} style={{width:"100%"}}>
-          <tr>
-          <td>{slotData.day}</td>
-          <td>{slotData.fromTime}</td>
-          <td>{slotData.toTime}</td>
-          </tr>
-          </table>  
+            <table key={index} style={{ width: "100%" }}>
+              <tr>
+                <td>{slotData.day}</td>
+                <td>{slotData.fromTime}</td>
+                <td>{slotData.toTime}</td>
+              </tr>
+            </table>
           </Typography>
-           
-          
+
+
         ))}
       </div>
-    
+
     )) : (
       <Typography>No opening hours available</Typography>
     ), // Just a placeholder; please replace with appropriate content
@@ -134,19 +142,19 @@ const VendorDetails = () => {
 
 
   // Render the View Photos button
-  
+
 
   const handleBookNow = () => {
     setIsModalOpen(true);
   };
 
-  
+
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
- 
+
 
   const vendor = {
     id: id,
@@ -306,19 +314,19 @@ const VendorDetails = () => {
               >
                 <strong>Book Now</strong>
               </Button>
-              
+
               <Button
-          variant="contained"
-          color="secondary"
-          sx={{ mt: 2, backgroundColor: "black", color: "white", marginRight: "14px", height: "50px" }}
-          onClick={handleOpenPhotoPopup}
-        >
-          <strong>View Photos</strong>
-        </Button>
+                variant="contained"
+                color="secondary"
+                sx={{ mt: 2, backgroundColor: "black", color: "white", marginRight: "14px", height: "50px" }}
+                onClick={handleOpenPhotoPopup}
+              >
+                <strong>View Photos</strong>
+              </Button>
             </div>
           </Grid>
 
-         
+
 
           {/* <Grid item xs={12}>
 
@@ -364,17 +372,17 @@ const VendorDetails = () => {
             </Typography>
           </DialogTitle>
           <DialogContent>
-        
+
             <Grid container spacing={2}>
               {vendor.portfolios.map((portfolio) => (
                 portfolio.photos.map((photo, index) => (
-                  
+
                   <Grid item xs={6} md={4} key={index}>
-                  
+
                     <img src={photo.url} alt={`Photo ${index}`} width="100%" />
-                    
+
                   </Grid>
-                  
+
                 ))
               ))}
             </Grid>
@@ -386,40 +394,40 @@ const VendorDetails = () => {
           </DialogActions>
         </Dialog>
         <div className="tabs-container">
-      <div className="tabs-header">
-        <div style={{fontSize: "20px", fontWeight: "500"}}
-          className={`tab ${activeTab === "Address" ? "active" : ""}`}
-          onClick={() => handleTabClick("Address")}
-        >
-          Address
+          <div className="tabs-header">
+            <div style={{ fontSize: "20px", fontWeight: "500" }}
+              className={`tab ${activeTab === "Address" ? "active" : ""}`}
+              onClick={() => handleTabClick("Address")}
+            >
+              Address
+            </div>
+            <div style={{ fontSize: "20px", fontWeight: "500" }}
+              className={`tab ${activeTab === "Services" ? "active" : ""}`}
+              onClick={() => handleTabClick("Services")}
+            >
+              List Of Services
+            </div>
+            <div style={{ fontSize: "20px", fontWeight: "500" }}
+              className={`tab ${activeTab === "WorkingDays" ? "active" : ""}`}
+              onClick={() => handleTabClick("WorkingDays")}
+            >
+              Working Days
+            </div>
+            <div style={{ fontSize: "20px", fontWeight: "500" }}
+              className={`tab ${activeTab === "Review" ? "active" : ""}`}
+              onClick={() => handleTabClick("Review")}
+            >
+              Review
+            </div>
+          </div>
+          <div className="tab-content" style={{
+            width: '100%',
+            border: '1px solid #ddd',
+            padding: '16px',
+          }}>
+            <p>{tabContent[activeTab]}</p>
+          </div>
         </div>
-        <div style={{fontSize: "20px", fontWeight: "500"}}
-          className={`tab ${activeTab === "Services" ? "active" : ""}`}
-          onClick={() => handleTabClick("Services")}
-        >
-          List Of Services
-        </div>
-        <div style={{fontSize: "20px", fontWeight: "500"}}
-          className={`tab ${activeTab === "WorkingDays" ? "active" : ""}`}
-          onClick={() => handleTabClick("WorkingDays")}
-        >
-          Working Days
-        </div>
-        <div style={{fontSize: "20px", fontWeight: "500"}}
-          className={`tab ${activeTab === "Review" ? "active" : ""}`}
-          onClick={() => handleTabClick("Review")}
-        >
-          Review
-        </div>
-      </div>
-      <div className="tab-content"  style={{
-        width: '100%',
-        border: '1px solid #ddd',
-        padding: '16px',
-      }}>
-        <p>{tabContent[activeTab]}</p>
-      </div>
-    </div>
       </Container>
     </article>
   );
