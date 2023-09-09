@@ -1,5 +1,5 @@
 import { Button, Grid, Skeleton } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AddService from './AddService';
 // import ServiceCard from './ServiceCard';
 // import ImagePreview from '../common/ImagePreview';
@@ -37,18 +37,22 @@ const Services = () => {
     const handleServiceDataSubmit = (data = {}) => {
         if (data && Object.keys(data).length) {
             const apiUrl = '/api/vendor/addService/' + loggedInUser._id
-            restClient(apiUrl, { method: "PUT", data })
+            restClient(apiUrl, { method: "POST", data })
             setServices([...services, data]);
         }
     }
 
-    // const handleDeleteEmployee = (data = {}) => {
-    //     console.log("delete data", data);
-    // }
+    const getMyServices = async () => {
+        const apiUrl = '/api/vendor/services/' + loggedInUser._id
+        const { data } = await restClient(apiUrl)
+        if (data.responseData) {
+            setServices(data.responseData)
+        }
+    }
 
-    // const handleEditEmployee = (data = {}) => {
-    //     console.log("edit data", data);
-    // }
+    useEffect(() => {
+        getMyServices()
+    }, [])
 
     return (
         <article>
@@ -62,7 +66,7 @@ const Services = () => {
                 />
             </section>
             <section>
-                {<ServiceCards services={undefined}></ServiceCards>}
+                {<ServiceCards services={services}></ServiceCards>}
             </section>
         </article >
     );
@@ -80,18 +84,31 @@ const ServiceCards = (props) => {
                 {title}
             </h3>
             <Grid container spacing={2}>
-                {services.map(category => (
-                    <Grid key={"category-" + category.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
+                {services?.map(service => (
+                    <Grid key={"service-" + service.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
                         <section className='card-block flex flex-col' >
-                            <img className='image-cover-h100 flex-1' loading='lazy' src={category.image} alt={category.name} ></img>
-                            <p><strong>{category.name}</strong></p>
-
+                            <img className='image-cover-h100 flex-1' loading='lazy' src={service.image} alt={service.name} ></img>
+                            <p>{service?.servicesOffered?.join(", ")}</p>
+                            <p>{service.description}</p>
+                            <section className='pt-2'>
+                                <section className='vendor-name'>
+                                    {service.serviceProvider}
+                                </section>
+                                <section>
+                                    <section className='service-name break-words'>
+                                        {service.categories?.[0]?.name}
+                                    </section>
+                                    <section className='flex'>
+                                        <span className='mr-1'> &#8377; </span><p className='mr-1'> {service.charges} </p>
+                                    </section>
+                                </section>
+                            </section>
                         </section>
                     </Grid>
                 ))
                 }
-                {!services.length && Array.from({ length: 4 }, () => ({})).map(category => (
-                    <Grid key={"category-" + category.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
+                {!services.length && Array.from({ length: 4 }, () => ({})).map(service => (
+                    <Grid key={"service-" + service.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
                         <section className='card-block flex flex-col'>
                             <Skeleton variant='rectangular' className='image-cover-h100 flex-1' ></Skeleton>
                             <Skeleton variant='text' ></Skeleton>
