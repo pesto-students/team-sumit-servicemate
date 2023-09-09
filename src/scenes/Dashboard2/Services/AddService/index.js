@@ -8,11 +8,13 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import PropTypes from "prop-types";
 import { Autocomplete, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 export default function AddService({ showDialog, setShowDialog, handleServiceDataSubmit, rowId }) {
     const [open, setOpen] = React.useState(false);
     const [pictures, setPictures] = React.useState([]);
     const [serviceData, setServiceData] = React.useState({})
+    const categories = useSelector(state => state.category2.categoriesExcludeAll)
     console.log("🚀 ~ file: index.js:16 ~ AddService ~ serviceData:", serviceData)
 
     const handleClose = () => {
@@ -49,7 +51,7 @@ export default function AddService({ showDialog, setShowDialog, handleServiceDat
     // const idProofTypes = [{ name: "Aadhar Card" }, { name: "PAN Card" }, { name: "Voter ID" }]
     // const cities = [{ name: "Delhi" }, { name: "Maharashtra" }, { name: "Karnataka" }]
     // const countries = [{ name: "India" }]
-    const categories = [{ name: "Plumber" }, { name: "Carpenter" }, { name: "Electrician" }]
+    // const categories = [{ name: "Plumber" }, { name: "Carpenter" }, { name: "Electrician" }]
 
     return (
         <Dialog open={open} onClose={handleClose}>

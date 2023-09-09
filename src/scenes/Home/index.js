@@ -130,7 +130,9 @@ export const CategoryView = (props) => {
             <Grid container spacing={2}>
                 {categories.map(category => (
                     <Grid key={"category-" + category.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
-                        <section className='card-block flex flex-col' onClick={() => { navigate(routes.SERVICES_BY_CATEGORY.replace(":category", category.value)) }}>
+                        <section className='card-block flex flex-col' onClick={() => {
+                            navigate(routes.SERVICES_BY_CATEGORY.replace(":category", category.value))
+                        }}>
                             <img className='image-cover-h100 flex-1' loading='lazy' src={category.image} alt={category.name} ></img>
                             <p><strong>{category.name}</strong></p>
 

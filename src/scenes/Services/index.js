@@ -90,8 +90,8 @@ const Categories = () => {
               <h4 className="widget-title"><u>Categories</u></h4>
 
               <ul className="ps-list--categories">
-                {categoryData.length > 0 ? (
-                  categoryData.map((Items) => (
+                {categoryData?.length > 0 ? (
+                  categoryData?.map((Items) => (
                     <li key={Items.id}>
                       <a onClick={() => handleCategoryChange(Items.catagories)}>{Items.catagories}</a>
                     </li>

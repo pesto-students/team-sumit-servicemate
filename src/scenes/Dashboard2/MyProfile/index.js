@@ -8,6 +8,7 @@ import { FormControl } from '@mui/base';
 import { useSelector } from 'react-redux';
 // import { format } from 'date-fns';
 // import Delete from '@mui/icons-material/Delete';
+import restClient from "../../../config/axios"
 
 const MyProfile = () => {
     const loggedInUser = useSelector(state => state.user.authUser)
@@ -117,9 +118,9 @@ const MyProfile = () => {
 
     useEffect(() => {
         if (loggedInUser) {
-            const { name, email } = loggedInUser
+            const { name, email, phoneNo } = loggedInUser
             updateFormData({
-                name, email
+                name, email, phoneNo
             })
         }
     }, [loggedInUser])
@@ -132,7 +133,14 @@ const MyProfile = () => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault()
-        // const apiUrl = '/api/vendor'
+        const apiUrl = '/api/vendor/updateVendor/' + loggedInUser._id
+        const payload = {
+            name: formData.name,
+            workingAs: formData.workingAs,
+            email: formData.email,
+            phoneNo: formData.phoneNo,
+        }
+        restClient(apiUrl, { method: "PUT", data: payload })
     }
 
     return (
