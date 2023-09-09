@@ -49,8 +49,10 @@ const VendorDetails = () => {
         {servic}
       </div>
     ))
+
   const addd = filteredData[0].serviceProviderId?.location.length >0 ?( filteredData[0].serviceProviderId?.location.map((datas,index) =>
    <div key={index}>
+
     <div style={{
         margin: '2px', // Add 2px spacing around each block
         boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)', // Add a light border shadow
@@ -69,10 +71,12 @@ const VendorDetails = () => {
         padding: '8px',}}>pincode : {datas.address.postalCode}</div>
      
     </div> // Return an empty array if it's not an array
+
   )):(
     <div style={{
       margin: '2px'}}>No Address to display</div>
  
+
   );
 
 
@@ -85,7 +89,9 @@ const VendorDetails = () => {
   );
 
   const tabContent = {
+
     Address: addd ,
+
     Review: "No Reviews Found...",
     Services: serviceList,
     WorkingDays: extractedData ? extractedData.map((dayData, index) => (
@@ -126,6 +132,7 @@ const VendorDetails = () => {
     setIsPhotoPopupOpen(false);
   };
 
+
   // Render the View Photos button
   
 
@@ -160,7 +167,7 @@ const VendorDetails = () => {
     )) : (
       <Typography>No opening hours available</Typography>
     ),
-   
+
     service: serv,
 
     mobileNumber: number,

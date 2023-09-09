@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 //import Card from "../../components/Card";
 
 
+
+
 //import { Link as RouterLink } from "react-router-dom";
 //import { useDispatch} from "react-redux";
 //import restClient from "../../config/axios";
@@ -13,9 +15,11 @@ import "./styles/service.scss";
 import { useDispatch } from "react-redux";
 import {  Grid, Rating, Skeleton, Slider } from "@mui/material";
 import restClient from "../../config/axios";
+
 import { Link} from "react-router-dom";
 import Footer from "../../components/footer/footer";
 //import CategoryItem from "../../components/CategoryItem";
+
 
 const Categories = () => {
   const dispatch = useDispatch();
@@ -31,6 +35,7 @@ const [filteredCardData, setFilteredCardData] = useState([]);
   const [scrollLoad, setScrollLoad] = useState(false);
   const [isFetchingData, setIsFetchingData] = useState(false);
   //const [activeCategory, setActiveCategory] = useState("all");
+
 
   const getTopCategories = async () => {
     console.log(scrollLoad)
@@ -65,6 +70,7 @@ const [filteredCardData, setFilteredCardData] = useState([]);
     getTopCategories()
   },[])
 
+
   useEffect(() => {
     getFilteredResult();
   }, [page]);
@@ -75,11 +81,11 @@ const [filteredCardData, setFilteredCardData] = useState([]);
     return () => window.removeEventListener("scroll", handleInfiniteScroll);
   }, [isFetchingData, page]);
 
+
   const handleCategoryChange = async (categoryName,selectedPrice) => {
     getFilteredResult(categoryName,selectedPrice);
   
   };
-
 
 
   const getFilteredResult = async (categoryName=" ",selectedPrice, page) => {
@@ -123,6 +129,7 @@ const [filteredCardData, setFilteredCardData] = useState([]);
       <li key={Items.id}>
      
         <a onClick={() => handleCategoryChange(Items.value,selectedPrice)}>{Items.name}</a>
+
       </li>
     ))
   ) : (
@@ -171,6 +178,7 @@ const [filteredCardData, setFilteredCardData] = useState([]);
         <option>Sort by price: high to low</option>
       </select>
       </div>
+
       </div>
       </div>
       

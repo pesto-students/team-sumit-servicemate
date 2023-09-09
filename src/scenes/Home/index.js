@@ -3,6 +3,7 @@ import { useLocation, } from 'react-router-dom'
 import { data } from '../../config/db'
 import routeConstant from '../../config/routeConstant'
 
+
 import { connect, } from 'react-redux';
 import { someAction } from './actions';
 import PropTypes from "prop-types";
@@ -131,9 +132,11 @@ Home.propTypes = {
     dispatchSomeAction: PropTypes.func,
 }
 
+
 export const CategoryView = (props) => {
     const { categories = [{ image: "https://le-cdn.hibuwebsites.com/4fbcba4ddf5f4d57ad1799560278d928/dms3rep/multi/opt/RSshutterstock_8610913-640w.jpg", name: "Electrician" },
     { image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCwWCUeYSm3Audhz429cpIJU4O_ObA7vPGaw&usqp=CAU", name: "Plumber" }], title = 'Top categories' } = props;
+
 
     return (
         <article className='category-view'>
@@ -232,7 +235,7 @@ export const CategoryItemListing = (props) => {
                 </section>
             </section>
             <section className='item-list pt-14'>
-               {/* <Slider dots slidesToShow={4} slidesToScroll={4}> */}
+               <Slider dots slidesToShow={4} slidesToScroll={4}>
                     {
                         categoryItems.map((categoryItem) => (
                             <section key={"category-item-" + categoryItem.name} className='cat-item'>
@@ -261,7 +264,7 @@ export const CategoryItemListing = (props) => {
                             </section>
                         ))
                     }
-            {/* </Slider> */}
+            </Slider>
             </section>
         </article>
     )
