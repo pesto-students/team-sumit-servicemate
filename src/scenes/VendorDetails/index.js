@@ -5,7 +5,7 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
-import BookingModal from "../../components/Modal";
+import BookingModal from "../../components/BookingModal";
 import CarouselItem from "../../components/Carousel";
 import ServiceDetail from "../../components/ServiceDetails";
 import { useSelector } from "react-redux";
