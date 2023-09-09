@@ -128,7 +128,7 @@ const MyProfile = () => {
     const phoneNumberRegex = /^[6-9]\d{9}$/;
 
     const validatePhone = () => {
-        return phoneNumberRegex.test(formData?.phoneNo)
+        return !formData?.phoneNo || phoneNumberRegex.test(formData?.phoneNo)
     }
 
     const handleFormSubmit = (e) => {

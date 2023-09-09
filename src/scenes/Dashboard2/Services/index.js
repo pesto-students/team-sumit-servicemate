@@ -3,12 +3,14 @@ import React, { useState } from 'react';
 import AddService from './AddService';
 // import ServiceCard from './ServiceCard';
 // import ImagePreview from '../common/ImagePreview';
-import PropTypes from "prop-types"
-import "./styles/services.scss"
+import PropTypes from "prop-types";
+import { useSelector } from 'react-redux';
+import restClient from '../../../config/axios';
+import "./styles/services.scss";
 
 const Services = () => {
     const [showDialog, setDialog] = useState({ name: "add-service", show: false })
-
+    const loggedInUser = useSelector(state => state.user.authUser)
     // const columns = [
     //     { field: 'id', headerName: 'ID', },
     //     { field: 'name', headerName: 'Name', flex: 1 },
@@ -34,6 +36,8 @@ const Services = () => {
 
     const handleServiceDataSubmit = (data = {}) => {
         if (data && Object.keys(data).length) {
+            const apiUrl = '/api/vendor/addService/' + loggedInUser._id
+            restClient(apiUrl, { method: "PUT", data })
             setServices([...services, data]);
         }
     }
