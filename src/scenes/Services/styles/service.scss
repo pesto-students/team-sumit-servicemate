@@ -55,6 +55,9 @@ div {
     line-height: 25px;
     text-transform: uppercase;
 }
+.ps-list--categories li a:hover {
+    color: #fcb800;
+  }
 
 .image-cover-h100{
     height: 100%;
@@ -466,7 +469,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-
+.pt-15{
+    display: flex;
+    flex-flow:wrap;
+    justify-content: flex-start;
+    margin-top: -80px;
+    margin-right: 100px;
+    padding-top: 6rem;
+    
+}
 body {
     color: rgba(66, 57, 57, 0.65);
     font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;
