@@ -108,7 +108,7 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
 
         <TextField
           label="Date"
-          type="date"
+
           //   value={date}
           onChange={handleDateChange}
           fullWidth
@@ -125,7 +125,7 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
         <TextField
           label="Address"
           onChange={handleAddressChange}
-          value={`${loggedInUser?.address?.address?.street}`}
+          value={`${loggedInUser?.address}`}
           fullWidth
           sx={{ marginBottom: "1rem" }}
         />

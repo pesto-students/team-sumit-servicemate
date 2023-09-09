@@ -4,7 +4,7 @@ import { connect, } from 'react-redux';
 import { someAction } from './actions';
 import PropTypes from "prop-types";
 import { Grid, Icon, Rating, Skeleton, Stack, } from '@mui/material';
-import Slider from "react-slick";
+//import Slider from "react-slick";
 
 import PaymentsIcon from '@mui/icons-material/Payments';
 import ChatIcon from '@mui/icons-material/Chat';
@@ -117,10 +117,12 @@ Home.propTypes = {
     dispatchSomeAction: PropTypes.func,
 }
 
+
 export const CategoryView = (props) => {
     const { categories = [{ image: "https://le-cdn.hibuwebsites.com/4fbcba4ddf5f4d57ad1799560278d928/dms3rep/multi/opt/RSshutterstock_8610913-640w.jpg", name: "Electrician" },
     { image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCwWCUeYSm3Audhz429cpIJU4O_ObA7vPGaw&usqp=CAU", name: "Plumber" }], title = 'Top categories' } = props;
     const navigate = useNavigate()
+
 
     return (
         <article className='category-view'>
