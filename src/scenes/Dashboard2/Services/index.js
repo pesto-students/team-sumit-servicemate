@@ -6,7 +6,8 @@ import AddService from './AddService';
 import PropTypes from "prop-types";
 import { useSelector } from 'react-redux';
 import restClient from '../../../config/axios';
-import "./styles/services.scss";
+import "./styles/services.module.scss";
+import ServiceCard from './ServiceCard';
 
 const Services = () => {
     const [showDialog, setDialog] = useState({ name: "add-service", show: false })
@@ -86,24 +87,7 @@ const ServiceCards = (props) => {
             <Grid container spacing={2}>
                 {services?.map(service => (
                     <Grid key={"service-" + service.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
-                        <section className='card-block flex flex-col' >
-                            <img className='image-cover-h100 flex-1' loading='lazy' src={service.image} alt={service.name} ></img>
-                            <p>{service?.servicesOffered?.join(", ")}</p>
-                            <p>{service.description}</p>
-                            <section className='pt-2'>
-                                <section className='vendor-name'>
-                                    {service.serviceProvider}
-                                </section>
-                                <section>
-                                    <section className='service-name break-words'>
-                                        {service.categories?.[0]?.name}
-                                    </section>
-                                    <section className='flex'>
-                                        <span className='mr-1'> &#8377; </span><p className='mr-1'> {service.charges} </p>
-                                    </section>
-                                </section>
-                            </section>
-                        </section>
+                        <ServiceCard service={service} />
                     </Grid>
                 ))
                 }
