@@ -1,14 +1,17 @@
 import { Button, Grid, Skeleton } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AddService from './AddService';
 // import ServiceCard from './ServiceCard';
 // import ImagePreview from '../common/ImagePreview';
-import PropTypes from "prop-types"
-import "./styles/services.scss"
+import PropTypes from "prop-types";
+import { useSelector } from 'react-redux';
+import restClient from '../../../config/axios';
+import "./styles/services.module.scss";
+import ServiceCard from './ServiceCard';
 
 const Services = () => {
     const [showDialog, setDialog] = useState({ name: "add-service", show: false })
-
+    const loggedInUser = useSelector(state => state.user.authUser)
     // const columns = [
     //     { field: 'id', headerName: 'ID', },
     //     { field: 'name', headerName: 'Name', flex: 1 },
@@ -34,17 +37,23 @@ const Services = () => {
 
     const handleServiceDataSubmit = (data = {}) => {
         if (data && Object.keys(data).length) {
+            const apiUrl = '/api/vendor/addService/' + loggedInUser._id
+            restClient(apiUrl, { method: "POST", data })
             setServices([...services, data]);
         }
     }
 
-    // const handleDeleteEmployee = (data = {}) => {
-    //     console.log("delete data", data);
-    // }
+    const getMyServices = async () => {
+        const apiUrl = '/api/vendor/services/' + loggedInUser._id
+        const { data } = await restClient(apiUrl)
+        if (data.responseData) {
+            setServices(data.responseData)
+        }
+    }
 
-    // const handleEditEmployee = (data = {}) => {
-    //     console.log("edit data", data);
-    // }
+    useEffect(() => {
+        getMyServices()
+    }, [])
 
     return (
         <article>
@@ -58,7 +67,7 @@ const Services = () => {
                 />
             </section>
             <section>
-                {<ServiceCards services={undefined}></ServiceCards>}
+                {<ServiceCards services={services}></ServiceCards>}
             </section>
         </article >
     );
@@ -76,18 +85,14 @@ const ServiceCards = (props) => {
                 {title}
             </h3>
             <Grid container spacing={2}>
-                {services.map(category => (
-                    <Grid key={"category-" + category.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
-                        <section className='card-block flex flex-col' >
-                            <img className='image-cover-h100 flex-1' loading='lazy' src={category.image} alt={category.name} ></img>
-                            <p><strong>{category.name}</strong></p>
-
-                        </section>
+                {services?.map(service => (
+                    <Grid key={"service-" + service.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
+                        <ServiceCard service={service} />
                     </Grid>
                 ))
                 }
-                {!services.length && Array.from({ length: 4 }, () => ({})).map(category => (
-                    <Grid key={"category-" + category.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
+                {!services.length && Array.from({ length: 4 }, () => ({})).map(service => (
+                    <Grid key={"service-" + service.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
                         <section className='card-block flex flex-col'>
                             <Skeleton variant='rectangular' className='image-cover-h100 flex-1' ></Skeleton>
                             <Skeleton variant='text' ></Skeleton>

@@ -47,10 +47,10 @@ const Categories = () => {
   const dispatch = useDispatch()
   const categories = useSelector((state) => state.categories.categories)
   const [categoryData, setCategoryData] = useState([])
-  const [loading,setLoading] = useState(true)
+  const [loading, setLoading] = useState(true)
   const handleCategories = async () => {
     try {
-      const response = await restClient.get("/api/vendor/catagories");
+      const response = await restClient.get("/api/vendor/categories");
       console.log("Categories:", JSON.stringify(response.data));
       dispatch(setCategories(response.data))
       setLoading(false)
@@ -95,26 +95,26 @@ const Categories = () => {
               Categories
             </Typography>
             <Grid container className="sm:justify-evenly" spacing={2}>
-            {loading ? (
+              {loading ? (
                 <Box sx={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center", minHeight: "300px" }}>
                   <CircularProgress /> {/* Centered CircularProgress */}
                 </Box>
               ) : (
-              categoryData.map((category) => (
-                <Grid item xs={12} sm={6} md={2} key={category.id}>
-                  <Link
-                    component={RouterLink}
-                    to={`/vendor-list?category=${category.name}`}
-                    underline="none"
-                    color="inherit"
-                  >
-                    <CategoryItem
-                      name={category.name}
-                      imageUrl={category.imageUrl}
-                    />
-                  </Link>
-                </Grid>
-              )))}
+                categoryData.map((category) => (
+                  <Grid item xs={12} sm={6} md={2} key={category.id}>
+                    <Link
+                      component={RouterLink}
+                      to={`/vendor-list?category=${category.name}`}
+                      underline="none"
+                      color="inherit"
+                    >
+                      <CategoryItem
+                        name={category.name}
+                        imageUrl={category.imageUrl}
+                      />
+                    </Link>
+                  </Grid>
+                )))}
             </Grid>
           </div>
         </Box>
