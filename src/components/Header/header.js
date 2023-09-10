@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./styles/header.scss"
 import PersonIcon from '@mui/icons-material/Person';
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,9 @@ import routes from '../../config/routeConstants';
 
 const Header = () => {
     const navigate = useNavigate()
+
     const { currentLocation, setLocation, getPermission } = useCityLocation()
+   const [input, setInput] = useState('');
     const dispatch = useDispatch()
     const { allCategories = [] } = useSelector(state => state.categories)
     // const loggedInUser = useSelector(state => state.user.authUser)
@@ -32,6 +34,10 @@ const Header = () => {
         dispatch(setAllCategories(allCategories))
     }
 
+    const handleChange = event => {
+        setInput(event.target.value);
+      };
+   
     // const userActions = [{ name: "Login", handleAction: () => handleAction(routes.LOGIN) }, { name: "Register", handleAction: () => handleAction(routes.REGISTER) }]
 
     // const handleAction = (path, callback) => {
@@ -64,12 +70,12 @@ const Header = () => {
                     <section className='header__center'>
                         <section className='quick-search-wrapper flex'>
                             <select className='select-category'>
-                                {allCategories.map(option => (
+                                {allCategories?.map(option => (
                                     <option key={option.id} value={option.value} >{option.name}</option>
                                 ))}
                             </select>
-                            <input className='search-input' name='quick-search' placeholder="I'm looking for..."></input>
-                            <button className='black-button' >Search</button>
+                            <input className='search-input' name='quick-search' onChange={handleChange} value={input}  placeholder="I'm looking for..."></input>
+                            <button className='black-button' onClick={() => { navigate(routes.SERVICES_BY_CATEGORY.replace(":category", input)) }}>Search</button>
                         </section>
                     </section>
                     <section className='header__right'>

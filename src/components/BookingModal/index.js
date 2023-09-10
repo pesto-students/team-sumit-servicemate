@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Alert,
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -11,7 +12,8 @@ import {
   // MenuItem,
   // Select,
   TextField,
-  TextareaAutosize,
+  Typography,
+  
   //  Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
@@ -24,18 +26,19 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
   //  const { email } = useParams();
   //  const collectivedata = useSelector((state) => state.collectiveData.fulldata);
   const loggedInUser = useSelector((state) => state.user.authUser)
-  // console.log("lop" + loggedInUser?.address?.address?.street)
+   console.log("lop" + loggedInUser?.address?.address?.street)
   const [date, setDate] = useState("");
-  const [services, setServices] = useState("");
-  const [address, setAddress] = useState("");
+  //const [services, setServices] = useState("");
+ // const [address, setAddress] = useState("");
   const [timeslot, setTimeslot] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
 
 
   const serviceProviderId = vendor.id;
   const appointmentDate = date;
-  const service = services;
+  const service =vendor.service;
   const time = appointmentDate
+
 
 
   const handleDateChange = (event) => {
@@ -45,16 +48,16 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
   const handleTimeslotChange = (event) => {
     setTimeslot(event.target.value); // Update timeslot state when the user selects a time slot
   };
-  const handleAddressChange = (event) => {
-    setAddress(event.target.value);
-    console.log(address)
+  // const handleAddressChange = (event) => {
+  //   setAddress(event.target.value);
+  //   console.log(address)
 
-  };
+  // };
 
-  const handleServicesChange = (event) => {
-    setServices(event.target.value);
+  // const handleServicesChange = () => {
+  //   setServices(service);
 
-  };
+  // };
   // console.log("userAddress:", userAddress.street);
   // const filteredData = collectivedata.filter(
   //   (item) => item.serviceProviderId?.serviceProviderEmalId === email
@@ -94,7 +97,7 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
 
   return (
     <Dialog open={isOpen} onClose={onClose}>
-      <DialogTitle>Book Appointment </DialogTitle>
+      <DialogTitle style={{ textAlign: 'center' }} >Book Appointment </DialogTitle>
       <DialogContent>
         <div style={{ marginBottom: "20px" }}>
           {alertMessage && <Alert severity="success">{alertMessage}</Alert>}
@@ -118,22 +121,63 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
 
         <TextField
           type="time"
-          onChange={handleTimeslotChange} fullWidth
-          sx={{ marginBottom: "1rem" }}
-        > {timeslot} </TextField>
-
-        <TextField
-          label="Address"
-          onChange={handleAddressChange}
-          value={`${loggedInUser?.address}`}
+        onChange={handleTimeslotChange}
           fullWidth
           sx={{ marginBottom: "1rem" }}
-        />
-        <TextareaAutosize
+        > {timeslot} </TextField>
+         
+<Box sx={{
+        marginBottom: "1rem",
+        border: "1px solid #ccc", // Add border style here
+        borderRadius: "4px", // Optional: Add border radius for rounded corners
+        padding: "0.5rem", // Optional: Add padding for spacing
+      }}>
+      <Typography variant="h7">Address</Typography>
+      <TextField
+        label="street"
+        fullWidth
+        variant="outlined"
+        sx={{
+          marginBottom: '1rem',
+        }}
+      />
+      
+      <TextField
+        label="city"
+        fullWidth
+        variant="outlined"
+        sx={{
+          marginBottom: '1rem',
+        }}
+      />
+      <TextField
+        label="state"
+        fullWidth
+        variant="outlined"
+        sx={{
+          marginBottom: '1rem',
+        }}
+      />
+      <TextField
+        label="postalCode"
+        fullWidth
+        variant="outlined"
+        sx={{
+          marginBottom: '1rem',
+        }}
+      />
+      <TextField
+        label="country"
+        fullWidth
+        variant="outlined"
+        sx={{
+          marginBottom: '1rem',
+        }}
+      />
+    </Box>
+        <TextField
           label="services"
-          value="washroom desigin painting"
-          onChange={handleServicesChange}
-
+          value={service}
           minRows={3}
           fullWidth
           sx={{ marginBottom: "1rem" }}
