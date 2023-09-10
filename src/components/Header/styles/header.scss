@@ -1,0 +1,103 @@
+.header {
+    text-align: left;
+	color: rgba(0,0,0,.65);
+	font-variant: tabular-nums;
+	line-height: 1.5715;
+	font-feature-settings: "tnum","tnum";
+	font-size: 14px;
+	box-sizing: border-box;
+	font-family: Work Sans,sans-serif;
+	font-weight: 400;
+	display: block;
+    .header__top{
+        padding: 25px 0;
+        background-color: #fcb800;
+        border-bottom: 1px solid rgba(0,0,0,.15);
+        .header-wrapper{
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+    }
+    .header-navigation{
+        background-color: #fcb800;
+        .menu{
+            display: flex;
+            gap: 1rem;
+            font-size: large;
+            padding: 0 2.5rem;
+            align-items: center;
+        }
+        .menu-item{
+            cursor: pointer;
+        }
+        .location-select{
+            background-color: #fcb800;
+            border: 1px solid #0000001f;
+        }
+    }
+    .header__left{
+            max-width: 300px;
+        }
+        .header__center{
+            @apply flex justify-center flex-1;
+            @apply order-1 md:order-none;
+            .quick-search-wrapper{
+                @apply flex justify-center w-[95%];
+                .select-category{
+                    min-width: 5rem;
+                    border-right: 1px solid #ccc;
+                    padding: calc(1rem + 2px);
+                    width: 10%;
+                }
+                .search-input{
+                    padding: 1rem ;
+                    width: 60%;
+                    min-width: 6rem;
+                }
+                .black-button{
+                    padding: 1rem 2rem;
+                }
+            }
+        }
+        .header-logo{
+            @apply cursor-pointer font-bold flex items-center gap-1 text-4xl tracking-wide;
+            .first-word{
+                color: black;
+                font-weight: bold;
+                font-family: cursive;
+                text-transform: capitalize;
+            }
+            .last-word{
+                color: #fff;
+                font-weight: bold;
+                font-family: cursive;
+                text-transform: capitalize;
+            }
+        }
+}
+
+.black-button{
+    max-width: 100px;
+    color: #fff;
+    border: none;
+    font-weight: 700;
+    padding: 1rem;
+    border-radius: 0 4px 4px 0;
+    background-color: #000;
+}
+
+a{
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+a:hover{
+    color: #fff;
+}
+
+.user-action:hover{
+    color: #fff;
+}
