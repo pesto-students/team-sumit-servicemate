@@ -21,10 +21,10 @@ const categories = [
         subcategoryLabel: 'Payment methods',
         link: '#',
       },
-      {
-        subcategoryLabel: 'Appointment Confirmation',
-        link: '#',
-      },
+      // {
+      //   subcategoryLabel: 'Appointment Confirmation',
+      //   link: '#',
+      // },
       {
         subcategoryLabel: 'Track Appointment',
         link: '#',
@@ -38,10 +38,10 @@ const categories = [
   {
     label: 'Help',
     subcategories: [
-      {
-        subcategoryLabel: 'Help centers',
-        link: '#',
-      },
+      // {
+      //   subcategoryLabel: 'Help centers',
+      //   link: '#',
+      // },
       {
         subcategoryLabel: 'Security & fraud',
         link: '#',
