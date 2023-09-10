@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 //import { useDispatch} from "react-redux";
 //import restClient from "../../config/axios";
 import { setCollectiveDate } from "./action";
-import "./styles/service.scss";
+import "./styles/service.module.scss";
 //import { List } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { Grid, Rating, Skeleton, Slider } from "@mui/material";

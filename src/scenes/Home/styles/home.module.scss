@@ -1,0 +1,109 @@
+.imageCoverH100 {
+  height: 100%;
+  object-fit: contain;
+}
+
+.imageBackground {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--bg-image);
+    z-index: -1;
+    filter: blur(15px);
+  }
+}
+
+.features {
+  border: 1px solid #d9d9d9;
+  padding: 2.25rem;
+  margin: 0 2.5rem;
+}
+
+.categoryView {
+  margin: 0 2.5rem;
+  h3 {
+    font-size: 20px;
+    line-height: 1em;
+    color: #000;
+    font-weight: 600;
+  }
+  .cardBlock {
+    padding: 20px 10px;
+    text-align: center;
+    -webkit-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    border: 1px solid #bfbfbf;
+    width: 11.5rem;
+    height: 14.25rem;
+
+    &:hover {
+      border-color: #fcb800;
+
+      p {
+        color: #09c;
+      }
+    }
+  }
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.categoryItemListing {
+  margin: 0rem 2.5rem;
+  .header {
+    padding: 16px 20px;
+    background-color: #f4f4f4;
+    border-bottom: 1px solid #e3e3e3;
+    display: flex;
+    justify-content: space-between;
+    .headerMenu {
+      &:hover {
+        color: #fcb800;
+        cursor: pointer;
+      }
+    }
+  }
+  .catItem {
+    padding: 20px 20px 0;
+    border: 1px solid transparent;
+    max-width: 16rem;
+    min-width: 16rem;
+    height: 23rem;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    border-color: silver;
+    @apply rounded-md;
+
+    .vendorName {
+      text-transform: uppercase;
+      border-bottom: 1px solid #e1e1e1;
+    }
+    .serviceName {
+      color: #06c;
+
+      &:hover {
+        color: #fcb800;
+      }
+    }
+    .serviceImage {
+      object-fit: cover;
+      width: 100%;
+      height: 65%;
+    }
+
+    &:hover {
+      border-color: #fcb800;
+    }
+  }
+}
+
+.topVendorsByCategory {
+  :global(.slick-track) {
+    margin-left: 0;
+  }
+}

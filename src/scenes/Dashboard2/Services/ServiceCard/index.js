@@ -1,123 +1,83 @@
-import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-// import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-// import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-// import MoreVertIcon from '@mui/icons-material/MoreVert';
-import "./styles/cardView.scss"
+import React, { SfButton, SfLink, SfIconDelete, SfIconMoreVert } from '@storefront-ui/react';
 import PropTypes from "prop-types"
-// import ImageStepper from '../../common/ImageStepper';
-import { Skeleton } from '@mui/material';
 
-const ExpandMore = styled((props) => {
-    const { ...other } = props;
-    return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-    }),
-}));
-
-export default function ServiceCard({ labels, index, data, key }) {
-
-    console.log(index)
-    const [expanded, setExpanded] = React.useState(false);
-
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
-
+// const dummy = {
+//     "_id": "64fcd8300de381301acd5314",
+//     "categories": [
+//         {
+//             "images": "https://img.freepik.com/premium-photo/repairman-holds-screwdriver-suitcase-tools-kitchen-looks-camera_353017-487.jpg?w=740",
+//             "_id": "64aa8f49e81a2847240e8b65",
+//             "image": "https://images.unsplash.com/photo-1505798577917-a65157d3320a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2VydmljZXMlMjBwbHVtYmluZ3xlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60",
+//             "name": "Electrician",
+//             "value": "electrician"
+//         }
+//     ],
+//     "services": [],
+//     "address": [],
+//     "serviceProvider": "vendor4",
+//     "serviceProviderId": "64fb22d3ff5a5aa4df422ef2",
+//     "charges": 1000,
+//     "servicesOffered": [
+//         "Service1",
+//         "Service2",
+//         "Service3"
+//     ],
+//     "__v": 2
+// }
+export default function ServiceCard({ service = {} }) {
+    const { categories = [], servicesOffered = [] } = service
     return (
-        <Card key={key} sx={{ width: "100%", marginBottom: "1rem" }}>
-            <CardHeader
-                avatar={
-                    <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                        {data.name?.slice(0, 1).toUpperCase()}
-                    </Avatar>
-                }
-                // action={
-                // <IconButton aria-label="settings">
-                //     <MoreVertIcon />
-                // </IconButton>
-                // }
-                title={data.name}
-                subheader="September 14, 2016"
-            />
-            {/* <CardMedia
-                component="article"
-                // height="104"
-                // image={data.photo}
-                alt={data.proofType}
-                sx={{
-                    height: 194
-                }}
-            >
-                <ImageStepper />
-
-            </CardMedia> */}
-            <CardContent>
-                <Skeleton variant="rectangular" width={200} height={150} />
-                <Typography variant="body2" color="text.secondary">
-                    {/* This impressive paella is a perfect party dish and a fun meal to cook
-                    together with your guests. Add 1 cup of frozen peas along with the mussels,
-                    if you like. */}
-                </Typography>
-                <section>
-                    <section className='flex gap-1'>
-                        <Typography className='flex-1'>
-                            {labels.find(({ field }) => field === "category")?.headerName}
-                        </Typography>
-                        <Typography className='flex-2'>
-                            {data.category}
-                        </Typography>
-                    </section>
-                    <section className='flex gap-1'>
-                        <Typography className='flex-1'>
-                            {labels.find(({ field }) => field === "charges")?.headerName}
-                        </Typography>
-                        <section className='flex-2'>
-                            <Typography>
-                                {data.charges}
-                            </Typography>
-                        </section>
-                    </section>
-                </section>
-            </CardContent>
-            <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                    <FavoriteIcon />
-                </IconButton>
-                <IconButton aria-label="share">
-                    <ShareIcon />
-                </IconButton>
-                <ExpandMore
-                    expand={expanded}
-                    onClick={handleExpandClick}
-                    aria-expanded={expanded}
-                    aria-label="show more"
+        <div className="border border-neutral-200 rounded-md hover:shadow-lg max-w-[300px]">
+            <div className="relative">
+                <SfLink href="#" className="block">
+                    <img
+                        src={categories[0]?.image}
+                        alt={categories[0]?.name}
+                        className="object-cover h-auto rounded-md aspect-square"
+                        width="300"
+                        height="300"
+                    />
+                </SfLink>
+                <SfButton
+                    type="button"
+                    variant="tertiary"
+                    size="sm"
+                    square
+                    className="absolute bottom-0 right-10 mr-2 mb-2 bg-white ring-1 ring-inset ring-neutral-200 !rounded-full"
+                    aria-label="Add to wishlist"
                 >
-                    <ExpandMoreIcon />
-                </ExpandMore>
-            </CardActions>
-        </Card>
+                    <SfIconMoreVert size="sm" />
+                </SfButton>
+                <SfButton
+                    type="button"
+                    variant="tertiary"
+                    size="sm"
+                    square
+                    className="absolute bottom-0 right-0 mr-2 mb-2 bg-white ring-1 ring-inset ring-neutral-200 !rounded-full"
+                    aria-label="Add to wishlist"
+                >
+                    <SfIconDelete size="sm"></SfIconDelete>
+                </SfButton>
+            </div>
+            <div className="p-4 border-t border-neutral-200">
+                <SfLink href="#" variant="secondary" className="no-underline">
+                    {categories[0]?.name}
+                </SfLink>
+                {/* <div className="flex items-center pt-1">
+          <SfRating size="xs" value={rating} max={5} />
+
+          <SfLink href="#" variant="secondary" className="pl-1 no-underline">
+            <SfCounter size="xs">{123}</SfCounter>
+          </SfLink>
+        </div> */}
+                <p className="block py-2 font-normal typography-text-sm text-neutral-700">
+                    {servicesOffered.join(" •")}
+                </p>
+            </div>
+        </div>
     );
 }
 
 ServiceCard.propTypes = {
-    labels: PropTypes.arrayOf(PropTypes.object),
-    data: PropTypes.object,
-    key: PropTypes.string,
-    index: PropTypes.number,
+    service: PropTypes.array
 }

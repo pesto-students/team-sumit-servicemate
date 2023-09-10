@@ -26,7 +26,7 @@ export default function AddService({ showDialog, setShowDialog, handleServiceDat
     }, [showDialog.show])
 
     const handleFormChange = (e, dropDownValue) => {
-        const { name, value } = e && (dropDownValue ? { name: e?.target.id?.split("-")[0], value: dropDownValue.name } : e.target)
+        const { name, value } = e && (dropDownValue ? { name: e?.target.id?.split("-")[0], value: dropDownValue } : e.target)
         setServiceData({ ...serviceData, [name]: value })
     }
 
@@ -83,7 +83,7 @@ export default function AddService({ showDialog, setShowDialog, handleServiceDat
                             )}
                         </section>
                     </section>
-                    <Autocomplete options={categories} getOptionLabel={(option) => option.name} renderInput={(params) => <TextField {...params} onChange={handleFormChange} label={"Categories"}></TextField>}></Autocomplete>
+                    <Autocomplete options={categories} id='categories' getOptionLabel={(option) => option.name} onChange={handleFormChange} renderInput={(params) => <TextField {...params} label={"Categories"}></TextField>}></Autocomplete>
                     <TextField label='Charges' name='charges' placeholder='Rs/hour' variant='outlined' required onChange={handleFormChange}></TextField>
                 </section>
             </DialogContent>

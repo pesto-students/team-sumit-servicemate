@@ -20,6 +20,7 @@ import Home from "./scenes/Home";
 import AdminDashboard from "./scenes/AdminDashboard";
 import ContactUs from "./scenes/ContactUs";
 import routes from "./config/routeConstants"
+import SFooter from "./components/SFooter";
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
           {/* <AppTopBar></AppTopBar> */}
           <Header></Header>
         </header>
-        <main>
+        <main className='min-h-[60vh]'>
           <Routes>
             {/** <Route path="/" element={<Home />} /> */}
             <Route path={routes.LOGIN} element={<Login />} />
@@ -78,7 +79,9 @@ function App() {
             <Route path="*" element={<Navigate to={routes.HOME} replace />}></Route>
           </Routes>
         </main>
-
+        <footer>
+          <SFooter></SFooter>
+        </footer>
       </div>
     </BrowserRouter>
   );

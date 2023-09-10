@@ -65,12 +65,12 @@ export default function SignIn() {
           "content-type": "application/json",
         },
       };
-      const { data } = await restClient.post("/api/User/login", { ...formData }, config);
+      const { data } = await restClient.post("/api/user/login", { ...formData }, config);
       // localStorage.setItem("userInfo", JSON.stringify(data));
       showSuccessAlert("You have been logged in successfully")
       dispatch(setLoggedInUser(data))
       setShowError(false)
-      navigate(routes.HOME)
+      navigate(routes.DASHBOARD2PROFILE)
     } catch (error) {
       setShowError(true)
       console.log(error)
