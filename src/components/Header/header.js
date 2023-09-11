@@ -1,7 +1,7 @@
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import PersonIcon from '@mui/icons-material/Person';
 import { IconButton } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import restClient from '../../config/axios';
@@ -14,6 +14,7 @@ import "./styles/header.scss";
 
 const Header = () => {
   const navigate = useNavigate()
+  const [input, setInput] = useState('');
   const { currentLocation, setLocation, getPermission } = useCityLocation()
   const dispatch = useDispatch()
   const { allCategories = [] } = useSelector(state => state.categories)
@@ -38,6 +39,9 @@ const Header = () => {
     navigate(path)
     callback && callback()
   }
+  const handleChange = event => {
+    setInput(event.target.value);
+  };
 
   const handleLogout = () => {
     dispatch(setLogoutUser())
@@ -68,8 +72,9 @@ const Header = () => {
                   <option key={option.id} value={option.value} >{option.name}</option>
                 ))}
               </select>
-              <input className='search-input' name='quick-search' placeholder="I'm looking for..."></input>
-              <button className='black-button' >Search</button>
+              <input className='search-input' name='quick-search' onChange={handleChange} value={input}  placeholder="I'm looking for..."></input>
+          <button className='black-button' onClick={() => { navigate(routes.SERVICES_BY_CATEGORY.replace(":category", input)) }}>Search</button>
+
             </section>
           </section>
           <section className='header__right'>

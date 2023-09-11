@@ -9,26 +9,27 @@ import PropTypes from "prop-types";
 //import { useDispatch} from "react-redux";
 //import restClient from "../../config/axios";
 import { setCollectiveDate } from "./action";
-import "./styles/service.module.scss";
+import "./styles/service.scss";
 //import { List } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { Grid, Rating, Skeleton, Slider } from "@mui/material";
 import restClient from "../../config/axios";
 
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Footer from "../../components/footer/footer";
 //import CategoryItem from "../../components/CategoryItem";
 
 
 const Categories = () => {
+  const {category} = useParams();
+
   const dispatch = useDispatch();
   // const categories = useSelector((state) => state.categories.categories);
   const [page, setPage] = useState(1);
-
-
   const [categoryData, setCategoryData] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState(2000);
   const [filteredCardData, setFilteredCardData] = useState([]);
+  
   // const [value, setValue] = React.useState(0);
   const [loading, setLoading] = useState(true);
   const [scrollLoad, setScrollLoad] = useState(false);
@@ -71,8 +72,8 @@ const Categories = () => {
 
 
   useEffect(() => {
-    getFilteredResult();
-  }, [page]);
+    getFilteredResult(category);
+  }, [page,category]);
 
 
   useEffect(() => {
@@ -82,13 +83,14 @@ const Categories = () => {
 
 
   const handleCategoryChange = async (categoryName, selectedPrice) => {
+    
     getFilteredResult(categoryName, selectedPrice);
 
   };
 
 
-  const getFilteredResult = async (categoryName = " ", selectedPrice, page) => {
-    console.log(selectedPrice)
+  const getFilteredResult = async (categoryName = " ", selectedPrice) => {
+   
 
     let apiUrl = `/api/vendor/serviceSearch?page=${page}&&`;
     if (categoryName) {
@@ -202,10 +204,10 @@ const Categories = () => {
                     <Skeleton variant="rect" width="25%" height={200} />
                     <Skeleton variant="rect" width="25%" height={200} />
                   </>
-                ) : (filteredCardData.length > 0 ? (
+              ) : (filteredCardData.length > 0 ? (
                   filteredCardData.map((categoryItem, index) => (
 
-                    <Link to={`/vendor/details/${categoryItem.serviceProviderId?.serviceProviderEmalId}`} key={index}>
+                    <Link to={`/vendor/details/${categoryItem.serviceProviderId?._id}`} key={index}>
 
                       <Grid item className='cat-item'>
 
@@ -227,7 +229,7 @@ const Categories = () => {
                               />
                             </section>
                             <section className='flex'>
-                              <span className='mr-1'> &#8377; </span><p className='mr-1'> {categoryItem.price} </p>
+                              <span className='mr-1'> &#8377; </span><p className='mr-1'> {categoryItem.charge} </p>
                             </section>
                           </section>
                         </section>
