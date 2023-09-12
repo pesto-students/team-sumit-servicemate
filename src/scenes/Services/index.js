@@ -97,8 +97,14 @@ const Categories = () => {
       apiUrl += `category=${categoryName}`;
     }
 
-    if (selectedPrice) {
-      apiUrl += `&&price=${selectedPrice}`;
+    if (selectedPrice === '0') {
+      console.log('Selected Price is 0'); // Add a console log for debugging
+      apiUrl += `&price=0`;
+    }
+    
+    if (selectedPrice && selectedPrice !== '0') {
+      console.log('Selected Price is not 0'); // Add a console log for debugging
+      apiUrl += `&price=${selectedPrice}`;
     }
     try {
       console.log(apiUrl)
@@ -146,7 +152,7 @@ const Categories = () => {
                 <h4 className="widget-title">By Price</h4>
                 <div className="ant-slider">
                   <Slider
-                    min={0}
+                    min={50}
                     max={5000}
                     step={100}
                     value={selectedPrice}
@@ -249,7 +255,7 @@ const Categories = () => {
 
         </div>
 
-        <CategoryItemListing />
+        {/* <CategoryItemListing /> */}
 
       </div>
       <div style={{ marginTop: "10%" }}>
