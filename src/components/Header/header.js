@@ -1,7 +1,9 @@
+
 import MyLocationIcon from '@mui/icons-material/MyLocation';
+
 import PersonIcon from '@mui/icons-material/Person';
 import { IconButton } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import restClient from '../../config/axios';
@@ -13,12 +15,16 @@ import { setLogoutUser } from './actions';
 import "./styles/header.scss";
 
 const Header = () => {
-  const navigate = useNavigate()
-  const { currentLocation, setLocation, getPermission } = useCityLocation()
-  const dispatch = useDispatch()
-  const { allCategories = [] } = useSelector(state => state.categories)
-  const loggedInUser = useSelector(state => state.user.authUser)
-  const { showSuccessAlert } = useAlert()
+
+    const navigate = useNavigate()
+
+    const { currentLocation, setLocation, getPermission } = useCityLocation()
+   const [input, setInput] = useState('');
+    const dispatch = useDispatch()
+    const { allCategories = [] } = useSelector(state => state.categories)
+    // const loggedInUser = useSelector(state => state.user.authUser)
+    // const { showSuccessAlert } = useAlert()
+
 
   useEffect(() => {
     getAllCategories()
@@ -32,7 +38,13 @@ const Header = () => {
     dispatch(setAllCategories(allCategories))
   }
 
+
+    const handleChange = event => {
+        setInput(event.target.value);
+      };
+
   const userActions = [{ name: "Login", handleAction: () => handleAction(routes.LOGIN) }, { name: "Register", handleAction: () => handleAction(routes.REGISTER) }]
+
 
   const handleAction = (path, callback) => {
     navigate(path)
@@ -50,7 +62,6 @@ const Header = () => {
   const getUserActions = () => {
     return loggedInUser ? AuthUserAction : userActions
   }
-
   return (
     <header className='header'>
       <section className="header__top">
@@ -68,8 +79,9 @@ const Header = () => {
                   <option key={option.id} value={option.value} >{option.name}</option>
                 ))}
               </select>
-              <input className='search-input' name='quick-search' placeholder="I'm looking for..."></input>
-              <button className='black-button' >Search</button>
+              <input className='search-input' name='quick-search' onChange={handleChange} value={input}  placeholder="I'm looking for..."></input>
+          <button className='black-button' onClick={() => { navigate(routes.SERVICES_BY_CATEGORY.replace(":category", input)) }}>Search</button>
+
             </section>
           </section>
           <section className='header__right'>
@@ -87,6 +99,7 @@ const Header = () => {
                   </section>
                 ))}
               </section>
+
             </section>
           </section>
         </section>
