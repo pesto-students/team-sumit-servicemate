@@ -1,4 +1,6 @@
+
 import MyLocationIcon from '@mui/icons-material/MyLocation';
+
 import PersonIcon from '@mui/icons-material/Person';
 import { IconButton } from '@mui/material';
 import React, { useEffect,useState } from 'react';
@@ -13,6 +15,7 @@ import { setLogoutUser } from './actions';
 import "./styles/header.scss";
 
 const Header = () => {
+
   const navigate = useNavigate()
   const [input, setInput] = useState('');
   const { currentLocation, setLocation, getPermission } = useCityLocation()
@@ -20,6 +23,7 @@ const Header = () => {
   const { allCategories = [] } = useSelector(state => state.categories)
   const loggedInUser = useSelector(state => state.user.authUser)
   const { showSuccessAlert } = useAlert()
+
 
   useEffect(() => {
     getAllCategories()
@@ -33,7 +37,13 @@ const Header = () => {
     dispatch(setAllCategories(allCategories))
   }
 
+
+    const handleChange = event => {
+        setInput(event.target.value);
+      };
+
   const userActions = [{ name: "Login", handleAction: () => handleAction(routes.LOGIN) }, { name: "Register", handleAction: () => handleAction(routes.REGISTER) }]
+
 
   const handleAction = (path, callback) => {
     navigate(path)
@@ -54,7 +64,6 @@ const Header = () => {
   const getUserActions = () => {
     return loggedInUser ? AuthUserAction : userActions
   }
-
   return (
     <header className='header'>
       <section className="header__top">
@@ -92,6 +101,7 @@ const Header = () => {
                   </section>
                 ))}
               </section>
+
             </section>
           </section>
         </section>
