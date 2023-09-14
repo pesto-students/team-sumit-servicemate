@@ -43,17 +43,19 @@ const theme = createTheme({
 
 root.render(
   <React.StrictMode>
+    {/* <ErrorBoundary fallback={<ErrorPage></ErrorPage>}> */}
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <ThemeProvider theme={theme}>
             <AlertProvider>
-              <App />
-            </AlertProvider>
+                <App />
+              </AlertProvider>
           </ThemeProvider>
         </LocalizationProvider>
       </PersistGate>
     </Provider>
+    {/* </ErrorBoundary> */}
   </React.StrictMode>
 );
 

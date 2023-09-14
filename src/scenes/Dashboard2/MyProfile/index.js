@@ -69,13 +69,23 @@ const MyProfile = () => {
 
     const handleAddressDataSubmit = (data = {}) => {
         if (data && Object.keys(data).length) {
-            setAddresses([...addresses, data]);
+            // setAddresses([...addresses, data]);
+            const apiUrl = '/api/vendor/updateLocation/' + loggedInUser._id
+            const { data: response } = restClient(apiUrl, { method: "PUT", data })
+            if (response.responseData) {
+                setAddresses(response.responseData)
+            }
         }
     }
 
     const handleTimeSlotDataSubmit = (data = {}) => {
         if (data && Object.keys(data).length) {
-            setTimeSlots([...timeSlots, data]);
+            // setTimeSlots([...timeSlots, data]);
+            const apiUrl = '/api/vendor/updateTimeSlot/' + loggedInUser._id
+            const { data: response } = restClient(apiUrl, { method: "PUT", data })
+            if (response.responseData) {
+                setTimeSlots(response.responseData)
+            }
         }
     }
 

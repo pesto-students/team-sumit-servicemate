@@ -25,15 +25,7 @@ const Services = () => {
     //     { field: 'charges', headerName: 'Charges', flex: 1 },
     // ];
 
-    const [services, setServices] = useState([
-        {
-            id: 1,
-            name: "Tanki Repair",
-            photo: "tanki repair",
-            category: "Plumber",
-            charges: "500"
-        },
-    ]);
+    const [services, setServices] = useState([null]);
 
     const handleServiceDataSubmit = (data = {}) => {
         if (data && Object.keys(data).length) {
@@ -82,24 +74,24 @@ const ServiceCards = (props) => {
     return (
         <article className='service-cards-view'>
             <h3 className='capitalize'>
-                {title}
+                {!services.length ? "No services found" : title}
             </h3>
             <Grid container spacing={2}>
-                {services?.map(service => (
-                    <Grid key={"service-" + service.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
-                        <ServiceCard service={service} />
-                    </Grid>
-                ))
-                }
-                {!services.length && Array.from({ length: 4 }, () => ({})).map(service => (
+                {services[0] === null ? Array.from({ length: 4 }, () => ({})).map(service => (
                     <Grid key={"service-" + service.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
                         <section className='card-block flex flex-col'>
                             <Skeleton variant='rectangular' className='image-cover-h100 flex-1' ></Skeleton>
                             <Skeleton variant='text' ></Skeleton>
                         </section>
                     </Grid>
-                ))
+                )) :
+                    services?.map(service => (
+                        <Grid key={"service-" + service.name} item sm={3} className='pt-5 pb-5 pl-2 pr-2'>
+                            <ServiceCard service={service} />
+                        </Grid>
+                    ))
                 }
+
             </Grid>
         </article>
     )

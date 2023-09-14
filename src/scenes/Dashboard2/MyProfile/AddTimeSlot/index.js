@@ -41,8 +41,8 @@ const AddTimeSlot = ({ showDialog, setShowDialog, handleTimeSlotDataSubmit, rowI
                         <TextField name='name' label="Name" onChange={handleFormChange}></TextField>
                         <Autocomplete id="days" multiple options={days} onChange={handleFormChange} renderInput={(params) => <TextField {...params} label="Days"></TextField>}></Autocomplete>
                         <section>
-                            <TimePicker value={formData.from} id="from" label='From' onChange={(time, err) => handleTimePickerChange(time, err, "from")}></TimePicker>
-                            <TimePicker value={formData.to} id="to" label='To' onChange={(time, err) => handleTimePickerChange(time, err, "to")}></TimePicker>
+                            <TimePicker value={formData.from} id="fromTime" label='From' onChange={(time, err) => handleTimePickerChange(time, err, "from")}></TimePicker>
+                            <TimePicker value={formData.to} id="toTime" label='To' onChange={(time, err) => handleTimePickerChange(time, err, "to")}></TimePicker>
                         </section>
                     </section>
                 </DialogContent>
