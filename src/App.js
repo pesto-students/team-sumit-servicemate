@@ -39,6 +39,7 @@ function App() {
             <Route path={routes.REGISTER} element={<Register />} />
             <Route path={routes.HOME} element={<Home />} />
             <Route path={routes.SERVICES_BY_CATEGORY} element={<Services />} />
+            <Route path={routes.SERVICES} element={<Services />} />
             <Route path={routes.VENDOR_LIST} element={<VendorList />} />
             <Route path={routes.VENDOR_DETAILS} element={<VendorDetails />} />
             <Route path={routes.ABOUT} element={<AboutUs />} />

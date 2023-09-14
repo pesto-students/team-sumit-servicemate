@@ -14,6 +14,7 @@ import {
   TextField,
  // TextareaAutosize,
   Typography,
+
   //  Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
@@ -26,8 +27,9 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
   //  const { email } = useParams();
   //  const collectivedata = useSelector((state) => state.collectiveData.fulldata);
   const loggedInUser = useSelector((state) => state.user.authUser)
-  // console.log("lop" + loggedInUser?.address?.address?.street)
+   console.log("lop" + loggedInUser?.address?.address?.street)
   const [date, setDate] = useState("");
+
  // const [services, setServices] = useState("");
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
@@ -36,13 +38,18 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
   const [country, setCountry] = useState("");
 
   const [time, setTime] = useState("");
+
+ 
   const [alertMessage, setAlertMessage] = useState("");
 
 
   const serviceProviderId = vendor.id;
   const appointmentDate = date;
+
   const service = vendor.service;
   //const time = appointmentDate
+
+
 
 
   const handleDateChange = (event) => {
@@ -53,6 +60,7 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
     setTime(event.target.value); // Update timeslot state when the user selects a time slot
     console.log(time)
   };
+
   const handleAddressStreet = (event) => {
     setStreet(event.target.value);
     console.log(street)
@@ -81,6 +89,7 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
 
   // const handleServicesChange = (event) => {
   //   setServices(event.target.value);
+
 
   // };
   // console.log("userAddress:", userAddress.street);
@@ -132,7 +141,9 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
 
   return (
     <Dialog open={isOpen} onClose={onClose}>
+
       <DialogTitle style={{ textAlign: 'center' }}>Book Appointment </DialogTitle>
+
       <DialogContent>
         <div style={{ marginBottom: "20px" }}>
           {alertMessage && <Alert severity="success">{alertMessage}</Alert>}
@@ -162,6 +173,7 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
           sx={{ marginBottom: "1rem" }}
         > {time} </TextField>
 
+
 <Box sx={{
         marginBottom: "1rem",
         border: "1px solid #ccc", // Add border style here
@@ -171,7 +183,9 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
       <Typography variant="h7">Address</Typography>
       <TextField
         label="street"
+
         onChange={handleAddressStreet}
+
         fullWidth
         variant="outlined"
         sx={{
@@ -179,10 +193,12 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
         }}
       />
 
+
       <TextField
         label="city"
         fullWidth
         onChange={handleAddressCity}
+
         variant="outlined"
         sx={{
           marginBottom: '1rem',
@@ -191,7 +207,9 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
       <TextField
         label="state"
         fullWidth
+
         onChange={handleAddressState}
+
         variant="outlined"
         sx={{
           marginBottom: '1rem',
@@ -200,7 +218,9 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
       <TextField
         label="postalCode"
         fullWidth
+
         onChange={handleAddressStatePostalCode}
+
         variant="outlined"
         sx={{
           marginBottom: '1rem',
@@ -209,7 +229,9 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
       <TextField
         label="country"
         fullWidth
+
         onChange={handleAddressCountry}
+
         variant="outlined"
         sx={{
           marginBottom: '1rem',
