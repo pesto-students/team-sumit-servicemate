@@ -21,6 +21,7 @@ import AdminDashboard from "./scenes/AdminDashboard";
 import ContactUs from "./scenes/ContactUs";
 import routes from "./config/routeConstants"
 import SFooter from "./components/SFooter";
+import ForgotPassword from "./scenes/ForgotPassword";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
             <Route path={routes.VENDOR_DETAILS} element={<VendorDetails />} />
             <Route path={routes.ABOUT} element={<AboutUs />} />
             <Route path={routes.CONTACT} element={<ContactUs />} />
+            <Route path={routes.FORGOTPASSWORD} element={<ForgotPassword />} />
 
             <Route
               path={routes.DASHBOARD}

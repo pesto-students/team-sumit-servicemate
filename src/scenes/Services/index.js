@@ -26,6 +26,7 @@ const Categories = () => {
   const dispatch = useDispatch();
   // const categories = useSelector((state) => state.categories.categories);
   const [page, setPage] = useState(1);
+  const [selectedSorting, setSelectedSorting] = useState("lowest");
   const [categoryData, setCategoryData] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState(2000);
   const [filteredCardData, setFilteredCardData] = useState([]);
@@ -45,6 +46,28 @@ const Categories = () => {
       setCategoryData(data)
     }
   }
+  const handleSortingChange = (event) => {
+    const newSorting = event.target.value;
+    setSelectedSorting(newSorting);
+    console.log("sort"+ selectedSorting)
+    sortData(newSorting);
+  };
+
+  const sortData = (sortingOption) => {
+    console.log("option"+sortingOption)
+    const sortedData = [...filteredCardData];
+
+    if (sortingOption === "lowest") {
+      
+      sortedData.sort((a, b) => a.charge - b.charge); // Sort by price: low to high
+    } else if (sortingOption === "higest") {
+      console.log("higest"+sortedData.sort((a, b) => b.charge - a.charge))
+      sortedData.sort((a, b) => b.charge - a.charge); // Sort by price: high to low
+    }
+
+    setFilteredCardData(sortedData);
+    console.log("datas"+sortedData.charge)
+  };
 
   const handlePriceChange = (event, value) => {
     setSelectedPrice(value);
@@ -180,9 +203,9 @@ const Categories = () => {
               <div className="ps-shopping__header">
                 <p style={{ fontFamily: 'Work Sans, sans-serif' }}> {filteredCardData.length} ServiceProvider found.</p>
                 <div className="ps-shopping__actions">
-                  <select className="ps-select form-control" data-placeholder="Sort Items">
-                    <option>Sort by price: low to high</option>
-                    <option>Sort by price: high to low</option>
+                <select className="ps-select form-control" id="sort" data-placeholder="Sort Items" value={selectedSorting}  onChange={handleSortingChange}>
+                    <option value="lowest">Sort by price: low to high</option>
+                    <option value="higest">Sort by price: high to low</option>
                   </select>
                 </div>
 
