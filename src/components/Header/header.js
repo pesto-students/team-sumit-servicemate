@@ -16,14 +16,13 @@ import "./styles/header.scss";
 
 const Header = () => {
 
-    const navigate = useNavigate()
-
-    const { currentLocation, setLocation, getPermission } = useCityLocation()
-   const [input, setInput] = useState('');
-    const dispatch = useDispatch()
-    const { allCategories = [] } = useSelector(state => state.categories)
-    // const loggedInUser = useSelector(state => state.user.authUser)
-    // const { showSuccessAlert } = useAlert()
+  const navigate = useNavigate()
+  const [input, setInput] = useState('');
+  const { currentLocation, setLocation, getPermission } = useCityLocation()
+  const dispatch = useDispatch()
+  const { allCategories = [] } = useSelector(state => state.categories)
+  const loggedInUser = useSelector(state => state.user.authUser)
+  const { showSuccessAlert } = useAlert()
 
 
   useEffect(() => {
@@ -50,6 +49,9 @@ const Header = () => {
     navigate(path)
     callback && callback()
   }
+  const handleChange = event => {
+    setInput(event.target.value);
+  };
 
   const handleLogout = () => {
     dispatch(setLogoutUser())
