@@ -9,6 +9,7 @@ const routes = {
     VENDOR_LIST: "/vendor-list/:category",
     VENDOR_DETAILS: "/vendor/details/:email",
     LOGIN: "login",
+    FORGOTPASSWORD : "ForgotPassword",
     BOOK_APPOINTMENT: "/book-appointment",
     ADMIN: "/admin",
     DASHBOARD2PROFILE: "/dashboard2/profile",
