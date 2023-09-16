@@ -69,13 +69,13 @@ const Header = () => {
       <section className="header__top">
         <section className='header-wrapper justify-between'>
           <section className='header__left'>
-            <section className='header-logo' onClick={() => { navigate(routes.HOME) }}>
+            <section className='header-logo cursor-pointer font-bold flex items-center gap-1 text-4xl tracking-wide' onClick={() => { navigate(routes.HOME) }}>
               <span className='first-word' >service</span>
               <span className='last-word' >mate</span>
             </section>
           </section>
-          <section className='header__center'>
-            <section className='quick-search-wrapper flex'>
+          <section className='header__center flex justify-center flex-1 order-1 md:order-none '>
+            <section className='quick-search-wrapper flex justify-center w-[95%]'>
               <select className='select-category'>
                 {allCategories.map(option => (
                   <option key={option.id} value={option.value} >{option.name}</option>
