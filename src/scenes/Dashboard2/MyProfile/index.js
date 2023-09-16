@@ -143,7 +143,7 @@ const MyProfile = () => {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault()
-        const apiUrl = '/api/vendor/updateVendor/' + loggedInUser._id + "?v=" + loggedInUser?.isVendor
+        const apiUrl = '/api/vendor/updateVendorProfile/' + loggedInUser._id + "?v=" + loggedInUser?.isVendor
         const payload = {
             name: formData.name,
             workingAs: formData.workingAs,

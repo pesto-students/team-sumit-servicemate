@@ -42,9 +42,9 @@ const VendorDetails = () => {
   const number = filteredData.length > 0
     ? filteredData[0].serviceProviderId?.phoneNo
     : '';
-  const year = filteredData[0].serviceProviderId?.createdOn.slice(0, 4);
-  const serv = filteredData[0].servicesOffered.join(', ');
-  const serviceList = filteredData[0].servicesOffered.map((servic, index) => (
+  const year = filteredData[0]?.serviceProviderId?.createdOn.slice(0, 4);
+  const serv = filteredData[0]?.servicesOffered.join(', ');
+  const serviceList = filteredData[0]?.servicesOffered.map((servic, index) => (
     <div key={index} style={{
       margin: '2px',
       boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
@@ -54,7 +54,7 @@ const VendorDetails = () => {
     </div>
   ))
 
-  const addd = filteredData[0].serviceProviderId?.location.length > 0 ? (filteredData[0].serviceProviderId?.location.map((datas, index) =>
+  const addd = filteredData[0]?.serviceProviderId?.location.length > 0 ? (filteredData[0].serviceProviderId?.location.map((datas, index) =>
     <div key={index}>
 
       <div style={{

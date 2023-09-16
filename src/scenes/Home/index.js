@@ -163,51 +163,8 @@ CategoryView.propTypes = {
 
 export const CategoryItemListing = (props) => {
   const navigate = useNavigate()
-  const { title = "Electrician Work",
-    categoryItems = [
-      {
-        vendorName: "Home Service Pvt Ltd 1",
-        serviceName: 'Switch board and wiring',
-        rating: 4,
-        charges: 500,
-        image: "https://p1.pxfuel.com/preview/837/958/534/electrician-electric-electricity-worker-royalty-free-thumbnail.jpg",
-      },
-      {
-        vendorName: "Pump Service Pvt Ltd 2",
-        serviceName: 'Motor setup and wiring',
-        rating: 4,
-        charges: 1000,
-        image: 'https://media.istockphoto.com/id/1096101716/photo/three-phase-induction-motor-bearing-repair.jpg?s=612x612&w=0&k=20&c=8Xok3xy2CZTZw_u9YUj4uxMAfZN5Eb5ZYJa5eYe8kzo='
-      },
-      {
-        vendorName: "Home Service Pvt Ltd 3",
-        serviceName: 'Switch board and wiring',
-        rating: 4,
-        charges: 500,
-        image: "https://p1.pxfuel.com/preview/837/958/534/electrician-electric-electricity-worker-royalty-free-thumbnail.jpg",
-      },
-      {
-        vendorName: "Pump Service Pvt Ltd 4",
-        serviceName: 'Motor setup and wiring',
-        rating: 4,
-        charges: 1000,
-        image: 'https://media.istockphoto.com/id/1096101716/photo/three-phase-induction-motor-bearing-repair.jpg?s=612x612&w=0&k=20&c=8Xok3xy2CZTZw_u9YUj4uxMAfZN5Eb5ZYJa5eYe8kzo='
-      },
-      {
-        vendorName: "Home Service Pvt Ltd 5",
-        serviceName: 'Switch board and wiring',
-        rating: 4,
-        charges: 500,
-        image: "https://p1.pxfuel.com/preview/837/958/534/electrician-electric-electricity-worker-royalty-free-thumbnail.jpg",
-      },
-      {
-        vendorName: "Pump Service Pvt Ltd 6",
-        serviceName: 'Motor setup and wiring',
-        rating: 4,
-        charges: 1000,
-        image: 'https://media.istockphoto.com/id/1096101716/photo/three-phase-induction-motor-bearing-repair.jpg?s=612x612&w=0&k=20&c=8Xok3xy2CZTZw_u9YUj4uxMAfZN5Eb5ZYJa5eYe8kzo='
-      }
-    ] } = props;
+  const { title = "",
+    categoryItems = [] } = props;
 
   if (categoryItems.length === 0) {
     return null
@@ -231,7 +188,7 @@ export const CategoryItemListing = (props) => {
         >
           {
             categoryItems.map((categoryItem) => (
-              <section key={"category-item-" + categoryItem.name} className={`${style.catItem} cursor-pointer`} onClick={() => { navigate(routes.VENDOR_DETAILS.replace(":email", categoryItem.serviceProviderEmalId)) }}>
+              <section key={"category-item-" + categoryItem.name} className={`${style.catItem} cursor-pointer`} onClick={() => { navigate(routes.VENDOR_DETAILS.replace(":email", categoryItem?.email)) }}>
                 <img className={`${style.serviceImage} flex-1`} src={categoryItem.image} alt={categoryItem.serviceName}></img>
                 <section className='pt-2'>
                   <section className={style.vendorName}>
