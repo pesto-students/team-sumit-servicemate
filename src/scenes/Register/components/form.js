@@ -117,7 +117,7 @@ const RegisterForm = (props) => {
                             <Checkbox
                                 // checked={formData.isVendor}
                                 onChange={handleFormChange}
-                                name="userType"
+                                name="isVendor"
                                 inputProps={{ 'aria-label': 'controlled' }}
                                 value={formData.isVendor}
                             />

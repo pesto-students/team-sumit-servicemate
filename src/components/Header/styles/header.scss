@@ -32,8 +32,10 @@
     .menu-item {
       cursor: pointer;
       font-weight: bold;
-      border: 1px solid;
       padding: 0px 8px;
+      &:hover {
+        color: #fff;
+      }
     }
     .location-select {
       background-color: white;

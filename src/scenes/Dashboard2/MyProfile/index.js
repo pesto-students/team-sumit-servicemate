@@ -1,4 +1,4 @@
-import { Button, FormControlLabel, FormLabel, Grid, ImageList, ImageListItem, Radio, RadioGroup, TextField } from '@mui/material';
+import { Button, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import AddAddress from './AddAddress';
 import AddTimeSlot from './AddTimeSlot';
@@ -9,11 +9,13 @@ import { useSelector } from 'react-redux';
 // import { format } from 'date-fns';
 // import Delete from '@mui/icons-material/Delete';
 import restClient from "../../../config/axios"
+import ImageUpload from '../common/ImageUpload';
+import { useDispatch } from 'react-redux';
+import { setLoggedInUser } from '../../Login/actions';
 
 const MyProfile = () => {
     const loggedInUser = useSelector(state => state.user.authUser)
-
-    const [selectedImages, setSelectedImages] = useState([]);
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         openHours: [{}]
     })
@@ -67,32 +69,43 @@ const MyProfile = () => {
 
     const handleAddressDataSubmit = (data = {}) => {
         if (data && Object.keys(data).length) {
-            setAddresses([...addresses, data]);
+            // setAddresses([...addresses, data]);
+            const apiUrl = '/api/vendor/updateLocation/' + loggedInUser._id
+            const { data: response } = restClient(apiUrl, { method: "PUT", data })
+            if (response.responseData) {
+                setAddresses(response.responseData)
+            }
         }
     }
 
     const handleTimeSlotDataSubmit = (data = {}) => {
         if (data && Object.keys(data).length) {
-            setTimeSlots([...timeSlots, data]);
+            // setTimeSlots([...timeSlots, data]);
+            const apiUrl = '/api/vendor/updateTimeSlot/' + loggedInUser._id
+            const { data: response } = restClient(apiUrl, { method: "PUT", data })
+            if (response.responseData) {
+                setTimeSlots(response.responseData)
+            }
         }
     }
 
-    const handleImageUpload = (e) => {
-        const files = e.target.files;
-        const imagesArray = [];
-        if (files) {
-            Array.from(files).map(file => {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    imagesArray.push(reader.result);
-                    if (imagesArray.length === files.length) {
-                        setSelectedImages(imagesArray);
-                    }
-                };
-                reader.readAsDataURL(file);
-            })
-        }
-    }
+    // const handleImageUpload = (e) => {
+    //     e.preventDefault();
+
+    //     const reader = new FileReader();
+    //     const file = e.target.files[0];
+
+    //     reader.onloadend = () => {
+    //         this.setState({
+    //             imagePreview: reader.result,
+    //         });
+    //         updateFormData([e.target.id]: file)
+    //     };
+
+    //     if (file) {
+    //         reader.readAsDataURL(file);
+    //     }
+    // }
 
     const updateFormData = (data = {}) => {
         setFormData({ ...formData, ...data })
@@ -118,10 +131,7 @@ const MyProfile = () => {
 
     useEffect(() => {
         if (loggedInUser) {
-            const { name, email, phoneNo } = loggedInUser
-            updateFormData({
-                name, email, phoneNo
-            })
+            updateFormData({ ...loggedInUser })
         }
     }, [loggedInUser])
 
@@ -131,78 +141,67 @@ const MyProfile = () => {
         return !formData?.phoneNo || phoneNumberRegex.test(formData?.phoneNo)
     }
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault()
-        const apiUrl = '/api/vendor/updateVendor/' + loggedInUser._id
+        const apiUrl = '/api/vendor/updateVendor/' + loggedInUser._id + "?v=" + loggedInUser?.isVendor
         const payload = {
             name: formData.name,
             workingAs: formData.workingAs,
             email: formData.email,
             phoneNo: formData.phoneNo,
+            profilePic: formData.profilePic,
         }
-        restClient(apiUrl, { method: "PUT", data: payload })
+        const newFormData = new FormData();
+        Object.keys(payload).map(key => {
+            newFormData.append(key, payload[key])
+        })
+        const { data } = await restClient(apiUrl, {
+            method: "PUT",
+            headers: { 'Content-Type': 'multipart/form-data' },
+            data: newFormData
+        })
+        if (data.responseData) {
+            dispatch(setLoggedInUser(data.responseData))
+        }
     }
 
     return (
         <form onSubmit={(e) => e.preventDefault()}>
             <section className='mb-4 dl-container'>
-                <TextField label="Vendor Name" sx={{ marginBottom: "1rem", marginRight: '1rem' }} variant="outlined" name='name' value={formData.name} required onChange={handleFormChange} />
-                <DatePicker
-                    label="Establishment Date"
-                    value={formData.establishedDate}
-                    onChange={date => handleEstablishedDateChange(date)}
-                    renderInput={(params) => <TextField {...params} />}
-                />
-                <FormControl className='flex items-center gap-4 mb-4'>
-                    <FormLabel id="radio-buttons-group">Working as</FormLabel>
-                    <RadioGroup
-                        aria-labelledby="radio-buttons-group"
-                        name="workingAs"
-                        value={formData.workingAs}
-                        onChange={handleFormChange}
-                        row
-                    >
-                        <FormControlLabel value="vendor" control={<Radio />} label="Vendor" />
-                        <FormControlLabel value="freelancer" control={<Radio />} label="Freelancer" />
-                    </RadioGroup>
-                </FormControl>
+                <Grid container>
+                    <Grid item sm={6}>
+                        <TextField label="Vendor Name" sx={{ marginBottom: "1rem", marginRight: '1rem' }} variant="outlined" name='name' value={formData.name} required onChange={handleFormChange} />
+                        <DatePicker
+                            label="Establishment Date"
+                            value={formData.establishedDate}
+                            onChange={date => handleEstablishedDateChange(date)}
+                            renderInput={(params) => <TextField {...params} />}
+                        />
+                        <FormControl className='flex items-center gap-4 mb-4'>
+                            <FormLabel id="radio-buttons-group">Working as</FormLabel>
+                            <RadioGroup
+                                aria-labelledby="radio-buttons-group"
+                                name="workingAs"
+                                value={formData?.workingAs || "vendor"}
+                                onChange={handleFormChange}
+                                row
+                            >
+                                <FormControlLabel value="vendor" control={<Radio />} label="Vendor" />
+                                <FormControlLabel value="freelancer" control={<Radio />} label="Freelancer" />
+                            </RadioGroup>
+                        </FormControl>
 
-                <TextField label="Email ID" sx={{ marginBottom: "1rem", marginRight: '1rem' }} variant="outlined" name='email' type="email" value={formData.email} required onChange={handleFormChange} />
-                <TextField label="Contact Number" sx={{ marginBottom: "1rem", marginRight: '1rem' }} variant="outlined" name='phoneNo'
-                    error={!validatePhone()}
-                    helperText={!validatePhone() && 'Invalid phone number'}
-                    value={formData.phoneNo} required onChange={handleFormChange} />
-
-                <section className='profile-images mb-4'>
-                    <label htmlFor="images">
-                        <Button variant="outlined" component="span">
-                            Upload Profile Picture
-                            <input
-                                type="file"
-                                accept="image/*"
-                                id="images"
-                                name='images'
-                                style={{ display: 'none' }}
-                                onChange={handleImageUpload}
-                                multiple
-                            />
-                        </Button>
-                    </label>
-                    <ImageList variant="masonry" cols={3} gap={8}>
-                        {selectedImages.map((image, imageIndex) => (
-                            <ImageListItem key={"profile-image-" + imageIndex}>
-                                <img
-                                    src={image}
-                                    alt={image.title || ""}
-                                    loading="lazy"
-                                />
-                            </ImageListItem>
-                        ))}
-                    </ImageList>
-                </section>
-                <section>
-                    <Button variant='outlined' onClick={handleFormSubmit}>Save</Button>
-                </section>
+                        <TextField label="Email ID" sx={{ marginBottom: "1rem", marginRight: '1rem' }} variant="outlined" name='email' type="email" value={formData.email} required onChange={handleFormChange} />
+                        <TextField label="Contact Number" sx={{ marginBottom: "1rem", marginRight: '1rem' }} variant="outlined" name='phoneNo'
+                            error={!validatePhone()}
+                            helperText={!validatePhone() && 'Invalid phone number'}
+                            value={formData.phoneNo} required onChange={handleFormChange} />
+                    </Grid>
+                    <Grid>
+                        <ImageUpload handleImageUpload={(data = {}) => updateFormData(data)} image={formData.profilePic} id={"profilePic"} name='profilePic' alt ></ImageUpload>
+                    </Grid>
+                </Grid>
+                <Button variant='outlined' onClick={handleFormSubmit}>Save</Button>
             </section>
             <article className='address'>
                 <section>
