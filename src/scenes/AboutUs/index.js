@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, Typography, Box } from "@mui/material";
 import aboutUsImage from "../../Layout/images/aboutus.jpg";
+import AccordionItems from "../../components/SFooter/components/AccodrionItems";
 const AboutUs = () => {
   return (
     <Grid container spacing={4}>
@@ -27,6 +28,9 @@ const AboutUs = () => {
           Quisque eget sem non eros tincidunt congue. Cras tincidunt ullamcorper
           vehicula. Aliquam laoreet condimentum metus in sollicitudin.
         </Typography>
+      </Grid>
+      <Grid item className="min-w-full m-auto p-4!">
+        <AccordionItems></AccordionItems>
       </Grid>
     </Grid>
   );

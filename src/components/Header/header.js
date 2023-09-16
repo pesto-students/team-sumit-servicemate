@@ -3,7 +3,7 @@ import MyLocationIcon from '@mui/icons-material/MyLocation';
 
 import PersonIcon from '@mui/icons-material/Person';
 import { IconButton } from '@mui/material';
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import restClient from '../../config/axios';
@@ -38,9 +38,9 @@ const Header = () => {
   }
 
 
-    const handleChange = event => {
-        setInput(event.target.value);
-      };
+  // const handleChange = event => {
+  //     setInput(event.target.value);
+  //   };
 
   const userActions = [{ name: "Login", handleAction: () => handleAction(routes.LOGIN) }, { name: "Register", handleAction: () => handleAction(routes.REGISTER) }]
 
@@ -81,8 +81,8 @@ const Header = () => {
                   <option key={option.id} value={option.value} >{option.name}</option>
                 ))}
               </select>
-              <input className='search-input' name='quick-search' onChange={handleChange} value={input}  placeholder="I'm looking for..."></input>
-          <button className='black-button' onClick={() => { navigate(routes.SERVICES_BY_CATEGORY.replace(":category", input)) }}>Search</button>
+              <input className='search-input' name='quick-search' onChange={handleChange} value={input} placeholder="I'm looking for..."></input>
+              <button className='black-button' onClick={() => { navigate(routes.SERVICES_BY_CATEGORY.replace(":category", input)) }}>Search</button>
 
             </section>
           </section>
