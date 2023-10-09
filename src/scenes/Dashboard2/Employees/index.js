@@ -5,7 +5,7 @@ import AddEmployee from './AddEmployee';
 // import DeleteIcon from '@mui/icons-material/Delete';
 // import ImagePreview from '../common/ImagePreview';
 // import EmployeeCard from './EmployeeCard';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
 import { addEmployee } from './actions';
 // import { SfButton } from '@storefront-ui/react';
 // import SearchInput from '../../../components/SearchInput';
@@ -14,10 +14,10 @@ import restClient from '../../../config/axios';
 import FreelancerCard from './FreelancerCard';
 
 const Employees = () => {
-  const dispatch = useDispatch()
-  const employeesData = useSelector(state => state.employees.employees)
-  const loggedInUser = useSelector(state => state.user.authUser)
-  const [showDialog, setDialog] = useState({ name: "add-employee", show: false })
+  const dispatch = useDispatch();
+  const employeesData = useSelector(state => state.employees.employees);
+  const loggedInUser = useSelector(state => state.user.authUser);
+  const [showDialog, setDialog] = useState({ name: 'add-employee', show: false });
 
   // const columns = [
   //   { field: 'id', headerName: 'ID', },
@@ -58,9 +58,9 @@ const Employees = () => {
   const handleEmployeeDataSubmit = (data = {}) => {
     if (data && Object.keys(data).length) {
       setEmployees([...employees, data]);
-      dispatch(addEmployee(data))
+      dispatch(addEmployee(data));
     }
-  }
+  };
 
   // const handleDeleteEmployee = (data = {}) => {
   //   console.log("delete data", data);
@@ -71,43 +71,43 @@ const Employees = () => {
   // }
 
   const handleAddFreelancer = async () => {
-    const apiUrl = '/api/vendor/updateFreelancer/' + loggedInUser._id
+    const apiUrl = '/api/vendor/updateFreelancer/' + loggedInUser._id;
     const payload = {
       freelancerId: selectedValue?._id
-    }
-    const { data } = await restClient(apiUrl, { method: "PUT", data: payload })
+    };
+    const { data } = await restClient(apiUrl, { method: 'PUT', data: payload });
     if (data?.responseData) {
-      getMyFreelancers()
+      getMyFreelancers();
     }
-  }
+  };
 
   const [freelancers, setFreelancers] = useState([]);
-  const [selectedValue, setSelectedValue] = useState(null)
+  const [selectedValue, setSelectedValue] = useState(null);
 
   const handleFreelancerSearch = async (query) => {
     if (!query) {
-      return
+      return;
     }
-    const apiUrl = '/api/vendor/searchFreelancer?search=' + query
-    const { data } = await restClient(apiUrl)
+    const apiUrl = '/api/vendor/searchFreelancer?search=' + query;
+    const { data } = await restClient(apiUrl);
     if (data?.responseData) {
-      setFreelancers(data.responseData)
+      setFreelancers(data.responseData);
     }
-  }
+  };
 
   useEffect(() => {
-    getMyFreelancers()
-  }, [])
+    getMyFreelancers();
+  }, []);
 
   const [myFreelancers, setMyFreelancers] = useState([]);
 
   const getMyFreelancers = async () => {
-    const apiUrl = '/api/vendor/freelancers/' + loggedInUser._id
-    const { data } = await restClient(apiUrl)
+    const apiUrl = '/api/vendor/freelancers/' + loggedInUser._id;
+    const { data } = await restClient(apiUrl);
     if (data?.responseData) {
-      setMyFreelancers(data.responseData)
+      setMyFreelancers(data.responseData);
     }
-  }
+  };
 
   return (
     <Grid container alignItems="center">
@@ -115,17 +115,17 @@ const Employees = () => {
         <DynamicSearch selectedValue={selectedValue} setSelectedValue={setSelectedValue} handleSearch={handleFreelancerSearch} data={freelancers} optionLabel='serviceProviderName'></DynamicSearch>
       </Grid>
       <Grid item>
-        <Button onClick={() => { handleAddFreelancer() }}>+ Add Employee</Button>
+        <Button onClick={() => { handleAddFreelancer(); }}>+ Add Employee</Button>
       </Grid>
       <AddEmployee
         showDialog={showDialog}
-        setShowDialog={(value) => { setDialog({ ...showDialog, show: value }) }}
+        setShowDialog={(value) => { setDialog({ ...showDialog, show: value }); }}
         handleEmployeeDataSubmit={handleEmployeeDataSubmit}
         rowId={freelancers.length + 1}
       />
       <Grid container className='pt-4' spacing={2}>
         {myFreelancers?.map((freelancer, freelancerIndex) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={"freelancer-" + freelancer.name + "-" + freelancerIndex}>
+          <Grid item xs={12} sm={6} md={4} lg={3} key={'freelancer-' + freelancer.name + '-' + freelancerIndex}>
             <FreelancerCard freelancer={freelancer} />
           </Grid>
         ))}

@@ -1,6 +1,5 @@
-import React from "react"
+import React from 'react';
 import {
-  SfIconContactSupport,
   SfIconFacebook,
   SfIconHelp,
   SfIconInstagram,
@@ -12,6 +11,7 @@ import {
   SfLink,
   SfListItem,
 } from '@storefront-ui/react';
+import { useNavigate } from 'react-router';
 
 const categories = [
   {
@@ -19,40 +19,32 @@ const categories = [
     subcategories: [
       {
         subcategoryLabel: 'Payment methods',
-        link: '#',
+        link: '/about',
       },
-      // {
-      //   subcategoryLabel: 'Appointment Confirmation',
-      //   link: '#',
-      // },
       {
         subcategoryLabel: 'Track Appointment',
-        link: '#',
+        link: '/about',
       },
       {
         subcategoryLabel: 'Service Feedback',
-        link: '#',
+        link: '/about',
       },
     ],
   },
   {
     label: 'Help',
     subcategories: [
-      // {
-      //   subcategoryLabel: 'Help centers',
-      //   link: '#',
-      // },
       {
         subcategoryLabel: 'Security & fraud',
-        link: '#',
+        link: '/about',
       },
       {
         subcategoryLabel: 'Feedback',
-        link: '#',
+        link: '/about',
       },
       {
         subcategoryLabel: 'Contact',
-        link: '#',
+        link: '/about',
       },
     ],
   },
@@ -61,15 +53,15 @@ const categories = [
     subcategories: [
       {
         subcategoryLabel: 'Electrician',
-        link: '#',
+        link: '/services/electrician',
       },
       {
         subcategoryLabel: 'Plumber',
-        link: '#',
+        link: '/services/plumber',
       },
       {
         subcategoryLabel: 'Carpenter',
-        link: '#',
+        link: 'services/carpenter',
       },
     ],
   },
@@ -78,11 +70,11 @@ const categories = [
     subcategories: [
       {
         subcategoryLabel: 'About us',
-        link: '#',
+        link: '/about',
       },
       {
         subcategoryLabel: 'Appointment Booking',
-        link: '#',
+        link: '/dashboard2/appointments',
       },
     ],
   },
@@ -117,19 +109,13 @@ const socialMedia = [
 const contactOptions = [
   {
     label: 'Help center',
-    link: '#',
+    link: '/about',
     details: ['Find answers online anytime'],
     icon: () => <SfIconHelp size="lg" />,
   },
   {
-    label: 'Live chat',
-    link: '#',
-    details: ['Mon–Fri, 5am–10pm PT', 'Sat–Sun, 6am–9pm PT'],
-    icon: () => <SfIconContactSupport size="lg" />,
-  },
-  {
     label: '1 234 567 8901',
-    link: '#',
+    link: '/contact',
     details: ['Mon–Fri, 5am–10pm PT', 'Sat–Sun, 6am–9pm PT'],
     icon: () => <SfIconCall size="lg" />,
   },
@@ -137,14 +123,15 @@ const contactOptions = [
 const bottomLinks = [
   {
     label: 'Terms',
-    link: '#',
+    link: '/pdf/servicemate-tc.pdf',
   },
   {
     label: 'Privacy policy',
-    link: '#',
+    link: '/pdf/servicemate-pp.pdf',
   },
 ];
 export default function SFooter() {
+  const navigate = useNavigate();
   return (
     <footer className="pt-10 bg-neutral-100">
       <div className="grid justify-center grid-cols-[1fr_1fr] md:grid-cols-[repeat(4,1fr)] px-4 md:px-6 pb-10 max-w-[1536px] mx-auto">
@@ -156,7 +143,7 @@ export default function SFooter() {
                 <SfLink
                   className="no-underline text-neutral-600 hover:underline hover:!text-neutral-900 active:underline active:!text-neutral-900"
                   variant="secondary"
-                  href={link}
+                  onClick={() => { navigate(link); }}
                 >
                   {subcategoryLabel}
                 </SfLink>
@@ -210,6 +197,7 @@ export default function SFooter() {
               variant="secondary"
               className="text-white no-underline typography-text-sm active:text-white active:underline hover:text-white hover:underline"
               href={link}
+              target="_blank"
             >
               {label}
             </SfLink>

@@ -1,29 +1,30 @@
-import React from "react";
+import React from 'react';
 // import AppTopBar from "./components/AppBar";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 // import Home from "./scenes/Home";
-import Login from "./scenes/Login";
-import Register from "./scenes/Register";
-import "./index.css";
-import DashBoard from "./scenes/Dashboard";
-import PrivateRoute from "./config/privateRoute";
-import BookAppointment from "./scenes/BookAppointment";
+import Login from './scenes/Login';
+import Register from './scenes/Register';
+import './index.css';
+import DashBoard from './scenes/Dashboard';
+import PrivateRoute from './config/privateRoute';
+import BookAppointment from './scenes/BookAppointment';
 // import Categories from "./scenes/Categories";
-import Services from "./scenes/Services";
-import AboutUs from "./scenes/AboutUs";
-import VendorDetails from "./scenes/VendorDetails";
-import VendorList from "./scenes/VendorList";
+import Services from './scenes/Services';
+import AboutUs from './scenes/AboutUs';
+import VendorDetails from './scenes/VendorDetails';
+import VendorList from './scenes/VendorList';
 //import Footer from "./components/footer/footer";
-import DashBoard2 from "./scenes/Dashboard2";
-import Header from "./components/Header/header";
-import Home from "./scenes/Home";
-import AdminDashboard from "./scenes/AdminDashboard";
-import ContactUs from "./scenes/ContactUs";
-import routes from "./config/routeConstants"
-import SFooter from "./components/SFooter";
-import PageNotFound from "./components/PageNotFound";
+import DashBoard2 from './scenes/Dashboard2';
+import Header from './components/Header/header';
+import Home from './scenes/Home';
+import AdminDashboard from './scenes/AdminDashboard';
+import ContactUs from './scenes/ContactUs';
+import routes from './config/routeConstants';
+import SFooter from './components/SFooter';
+import ForgotPassword from './scenes/ForgotPassword';
+import PageNotFound from './components/PageNotFound';
 // import ErrorPage from "./components/ErrorPage";
-import { ErrorBoundary } from "react-error-boundary";
+import { ErrorBoundary } from 'react-error-boundary';
 
 function App() {
   return (
@@ -40,10 +41,13 @@ function App() {
               <Route path={routes.REGISTER} element={<Register />} />
               <Route path={routes.HOME} element={<Home />} />
               <Route path={routes.SERVICES_BY_CATEGORY} element={<Services />} />
+              <Route path={routes.SERVICES} element={<Services />} />
               <Route path={routes.VENDOR_LIST} element={<VendorList />} />
               <Route path={routes.VENDOR_DETAILS} element={<VendorDetails />} />
               <Route path={routes.ABOUT} element={<AboutUs />} />
               <Route path={routes.CONTACT} element={<ContactUs />} />
+              <Route path={routes.FORGOTPASSWORD} element={<ForgotPassword />} />
+
               <Route
                 path={routes.DASHBOARD}
                 element={

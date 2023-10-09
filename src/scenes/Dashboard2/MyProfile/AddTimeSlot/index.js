@@ -50,7 +50,6 @@ const AddTimeSlot = ({ showDialog, setShowDialog, handleTimeSlotDataSubmit, rowI
                         <Autocomplete id="days" value={weekDays.filter(day => formData.days?.includes(day))} multiple options={weekDays} onChange={handleFormChange} renderInput={(params) => <TextField {...params} label="Days"></TextField>}></Autocomplete>
                         <section>
                             <TimePicker value={parse(formData.from || '', 'hh:mm aaa', new Date())} id="fromTime" label='From' onChange={(time, err) => handleTimePickerChange(time, err, 'from')}></TimePicker>
-                            {console.log('🚀 ~ file: index.js:53 ~ AddTimeSlot ~ formData.from:', formData.from, parse(formData.from || '', 'hh:mm aaa', new Date()))}
                             <TimePicker value={parse(formData.to || '', 'hh:mm aaa', new Date())} id="toTime" label='To' onChange={(time, err) => handleTimePickerChange(time, err, 'to')}></TimePicker>
                         </section>
                     </section>

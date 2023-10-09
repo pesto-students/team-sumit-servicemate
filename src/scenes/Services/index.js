@@ -15,20 +15,22 @@ import { useDispatch } from "react-redux";
 import { Grid, Rating, Skeleton, Slider } from "@mui/material";
 import restClient from "../../config/axios";
 
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Footer from "../../components/footer/footer";
 //import CategoryItem from "../../components/CategoryItem";
 
 
 const Categories = () => {
+  const {category} = useParams();
+
   const dispatch = useDispatch();
   // const categories = useSelector((state) => state.categories.categories);
   const [page, setPage] = useState(1);
-
-
+  const [selectedSorting, setSelectedSorting] = useState("lowest");
   const [categoryData, setCategoryData] = useState([]);
   const [selectedPrice, setSelectedPrice] = useState(2000);
   const [filteredCardData, setFilteredCardData] = useState([]);
+  
   // const [value, setValue] = React.useState(0);
   const [loading, setLoading] = useState(true);
   const [scrollLoad, setScrollLoad] = useState(false);
@@ -44,6 +46,28 @@ const Categories = () => {
       setCategoryData(data)
     }
   }
+  const handleSortingChange = (event) => {
+    const newSorting = event.target.value;
+    setSelectedSorting(newSorting);
+    console.log("sort"+ selectedSorting)
+    sortData(newSorting);
+  };
+
+  const sortData = (sortingOption) => {
+    console.log("option"+sortingOption)
+    const sortedData = [...filteredCardData];
+
+    if (sortingOption === "lowest") {
+      
+      sortedData.sort((a, b) => a.charge - b.charge); // Sort by price: low to high
+    } else if (sortingOption === "higest") {
+      console.log("higest"+sortedData.sort((a, b) => b.charge - a.charge))
+      sortedData.sort((a, b) => b.charge - a.charge); // Sort by price: high to low
+    }
+
+    setFilteredCardData(sortedData);
+    console.log("datas"+sortedData.charge)
+  };
 
   const handlePriceChange = (event, value) => {
     setSelectedPrice(value);
@@ -71,8 +95,8 @@ const Categories = () => {
 
 
   useEffect(() => {
-    getFilteredResult();
-  }, [page]);
+    getFilteredResult(category);
+  }, [page,category]);
 
 
   useEffect(() => {
@@ -82,21 +106,28 @@ const Categories = () => {
 
 
   const handleCategoryChange = async (categoryName, selectedPrice) => {
+    
     getFilteredResult(categoryName, selectedPrice);
 
   };
 
 
-  const getFilteredResult = async (categoryName = " ", selectedPrice, page) => {
-    console.log(selectedPrice)
+  const getFilteredResult = async (categoryName = " ", selectedPrice) => {
+   
 
     let apiUrl = `/api/vendor/serviceSearch?page=${page}&&`;
     if (categoryName) {
       apiUrl += `category=${categoryName}`;
     }
 
-    if (selectedPrice) {
-      apiUrl += `&&price=${selectedPrice}`;
+    if (selectedPrice === '0') {
+      console.log('Selected Price is 0'); // Add a console log for debugging
+      apiUrl += `&price=0`;
+    }
+    
+    if (selectedPrice && selectedPrice !== '0') {
+      console.log('Selected Price is not 0'); // Add a console log for debugging
+      apiUrl += `&price=${selectedPrice}`;
     }
     try {
       console.log(apiUrl)
@@ -144,7 +175,7 @@ const Categories = () => {
                 <h4 className="widget-title">By Price</h4>
                 <div className="ant-slider">
                   <Slider
-                    min={0}
+                    min={50}
                     max={5000}
                     step={100}
                     value={selectedPrice}
@@ -172,9 +203,9 @@ const Categories = () => {
               <div className="ps-shopping__header">
                 <p style={{ fontFamily: 'Work Sans, sans-serif' }}> {filteredCardData.length} ServiceProvider found.</p>
                 <div className="ps-shopping__actions">
-                  <select className="ps-select form-control" data-placeholder="Sort Items">
-                    <option>Sort by price: low to high</option>
-                    <option>Sort by price: high to low</option>
+                <select className="ps-select form-control" id="sort" data-placeholder="Sort Items" value={selectedSorting}  onChange={handleSortingChange}>
+                    <option value="lowest">Sort by price: low to high</option>
+                    <option value="higest">Sort by price: high to low</option>
                   </select>
                 </div>
 
@@ -202,10 +233,10 @@ const Categories = () => {
                     <Skeleton variant="rect" width="25%" height={200} />
                     <Skeleton variant="rect" width="25%" height={200} />
                   </>
-                ) : (filteredCardData.length > 0 ? (
+              ) : (filteredCardData.length > 0 ? (
                   filteredCardData.map((categoryItem, index) => (
 
-                    <Link to={`/vendor/details/${categoryItem.serviceProviderId?.serviceProviderEmalId}`} key={index}>
+                    <Link to={`/vendor/details/${categoryItem.serviceProviderId?._id}`} key={index}>
 
                       <Grid item className='cat-item'>
 
@@ -227,7 +258,7 @@ const Categories = () => {
                               />
                             </section>
                             <section className='flex'>
-                              <span className='mr-1'> &#8377; </span><p className='mr-1'> {categoryItem.price} </p>
+                              <span className='mr-1'> &#8377; </span><p className='mr-1'> {categoryItem.charge} </p>
                             </section>
                           </section>
                         </section>
@@ -247,7 +278,7 @@ const Categories = () => {
 
         </div>
 
-        <CategoryItemListing />
+        {/* <CategoryItemListing /> */}
 
       </div>
       <div style={{ marginTop: "10%" }}>

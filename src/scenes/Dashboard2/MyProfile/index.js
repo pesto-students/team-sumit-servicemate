@@ -228,13 +228,13 @@ const MyProfile = () => {
                             error={!validatePhone()}
                             helperText={!validatePhone() && 'Invalid phone number'}
                             value={formData.phoneNo} required onChange={handleFormChange} />
-                    </Grid>
+                    </Grid >
                     <Grid>
                         <ImageUpload handleImageUpload={(data = {}) => updateFormData(data)} image={formData.profilePic} id={'profilePic'} name='profilePic' alt ></ImageUpload>
-                    </Grid>
-                </Grid>
+                    </Grid >
+                </Grid >
                 <Button variant='outlined' onClick={handleFormSubmit}>Save</Button>
-            </section>
+            </section >
             <article className='address'>
                 <section>
                     <Button onClick={() => { setDialog({ name: 'manage-address', show: true }); }}>+ Add Address</Button>
@@ -350,7 +350,7 @@ const MyProfile = () => {
                     <Button variant='outlined'>Save</Button>
                 </section>
             </article> */}
-        </form>
+        </form >
     );
 };
 

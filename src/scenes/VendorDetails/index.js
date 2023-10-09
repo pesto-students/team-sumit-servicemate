@@ -26,11 +26,12 @@ const VendorDetails = () => {
   const [activeTab, setActiveTab] = useState("Address");
   // const [openHours, setOpenHours] = useState([]);
   const { email } = useParams();
-  const filteredData = collectivedata.filter((item) => item.serviceProviderId?.serviceProviderEmalId === email);
+  const filteredData = collectivedata.filter((item) => item.serviceProviderId?._id === email);
+  const emailid = filteredData.length > 0 ? filteredData[0].serviceProviderId?.email : '';
   const vendorName1 = filteredData.length > 0 ? filteredData[0].serviceProviderId?.serviceProviderName : '';
 
   const rat = filteredData.length > 0 ? filteredData[0].serviceProviderId?.rating : '0';
-  const price = filteredData.length > 0 ? filteredData[0].price : "0";
+  const price = filteredData.length > 0 ? filteredData[0].charge : "0";
 
   const vendorImage1 = filteredData[0]?.serviceProviderId?.profilePic;
   console.log(filteredData[0]?.serviceProviderId?.profilePic);
@@ -41,9 +42,9 @@ const VendorDetails = () => {
   const number = filteredData.length > 0
     ? filteredData[0].serviceProviderId?.phoneNo
     : '';
-  const year = filteredData[0].serviceProviderId?.createdOn.slice(0, 4);
-  const serv = filteredData[0].services.join(', ');
-  const serviceList = filteredData[0].services.map((servic, index) => (
+  const year = filteredData[0]?.serviceProviderId?.createdOn.slice(0, 4);
+  const serv = filteredData[0]?.servicesOffered.join(', ');
+  const serviceList = filteredData[0]?.servicesOffered.map((servic, index) => (
     <div key={index} style={{
       margin: '2px',
       boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
@@ -53,7 +54,7 @@ const VendorDetails = () => {
     </div>
   ))
 
-  const addd = filteredData[0].serviceProviderId?.location.length > 0 ? (filteredData[0].serviceProviderId?.location.map((datas, index) =>
+  const addd = filteredData[0]?.serviceProviderId?.location.length > 0 ? (filteredData[0].serviceProviderId?.location.map((datas, index) =>
     <div key={index}>
 
       <div style={{
@@ -160,7 +161,7 @@ const VendorDetails = () => {
     id: id,
     vendorImage: vendorImage1,
     vendorName: vendorName1,
-    vendorEmail: email,
+    vendorEmail: emailid,
     Price: price,
     rating: rat,
     description: description,
@@ -259,7 +260,11 @@ const VendorDetails = () => {
               <Typography variant="h6" sx={{ fontWeight: "120", fontSize: "16px", fontFamily: "Arial, sans-serif" }}>
                 <strong>Mobile Number:</strong> <span style={{ color: "#666", fontSize: "16px", fontWeight: "120" }}> {vendor.mobileNumber} </span>
               </Typography>
-
+              <div style={{ marginTop: "8px" }}>
+                <Typography variant="h6" sx={{ fontWeight: "120", fontSize: "16px", fontFamily: "Arial, sans-serif" }}>
+                  <strong> EmailId: </strong>{vendor.vendorEmail}
+                </Typography>
+              </div>
               <div style={{ marginTop: "8px" }}>
                 <Typography variant="h6" sx={{ fontWeight: "120", fontSize: "16px", fontFamily: "Arial, sans-serif" }}>
                   <strong> Year of Establishment: </strong>{vendor.yearOfEstablishment}
@@ -422,7 +427,6 @@ const VendorDetails = () => {
           </div>
           <div className="tab-content" style={{
             width: '100%',
-            border: '1px solid #ddd',
             padding: '16px',
           }}>
             <p>{tabContent[activeTab]}</p>
