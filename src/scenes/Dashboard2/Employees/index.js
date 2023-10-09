@@ -85,6 +85,9 @@ const Employees = () => {
   const [selectedValue, setSelectedValue] = useState(null)
 
   const handleFreelancerSearch = async (query) => {
+    if (!query) {
+      return
+    }
     const apiUrl = '/api/vendor/searchFreelancer?search=' + query
     const { data } = await restClient(apiUrl)
     if (data?.responseData) {
