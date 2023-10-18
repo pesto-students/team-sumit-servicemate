@@ -1,9 +1,9 @@
 import { Grid, Icon, Rating, Skeleton, Stack, } from '@mui/material';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect, } from 'react-redux';
 import { useNavigate, } from 'react-router-dom';
-import Slider from "react-slick";
+import Slider from 'react-slick';
 import { someAction } from './actions';
 
 import BookOnlineIcon from '@mui/icons-material/BookOnline';
@@ -11,47 +11,47 @@ import ChatIcon from '@mui/icons-material/Chat';
 import PaymentsIcon from '@mui/icons-material/Payments';
 import restClient from '../../config/axios';
 import routes from '../../config/routeConstants';
-import style from "./styles/home.module.scss";
+import style from './styles/home.module.scss';
 
 const Home = (props) => {
-  const { someData, dispatchSomeAction } = props
-  const [topCategories, setTopCategories] = useState([])
-  const [vendorsByTopCategories, setVendorsByTopCategories] = useState([])
-  console.log("someData", someData)
+  const { someData, dispatchSomeAction } = props;
+  const [topCategories, setTopCategories] = useState([]);
+  const [vendorsByTopCategories, setVendorsByTopCategories] = useState([]);
+  console.log('someData', someData);
 
   useEffect(() => {
-    dispatchSomeAction()
-    getTopCategories()
-    getVendorsByTopCategories()
-  }, [])
+    dispatchSomeAction();
+    getTopCategories();
+    getVendorsByTopCategories();
+  }, []);
 
   const getTopCategories = async () => {
-    const apiUrl = '/api/categories/topCategories'
-    const { data } = await restClient(apiUrl)
+    const apiUrl = '/api/categories/topCategories';
+    const { data } = await restClient(apiUrl);
     if (data && data.length) {
-      setTopCategories(data)
+      setTopCategories(data);
     }
-  }
+  };
 
   const getVendorsByTopCategories = async () => {
-    const apiUrl = '/api/vendor/vendorsByTopCategories'
-    const { data } = await restClient(apiUrl)
+    const apiUrl = '/api/vendor/vendorsByTopCategories';
+    const { data } = await restClient(apiUrl);
     if (data && data.length) {
-      setVendorsByTopCategories(data)
+      setVendorsByTopCategories(data);
     }
-  }
+  };
 
   return (
     <div className='flex flex-col gap-10 mb-10'>
       <article className='mt-10 px-10'>
-        <Grid container sx={{ height: "28rem" }} spacing={2}>
+        <Grid container sx={{ height: '28rem' }} spacing={2}>
           <Grid item sm={8} sx={{ height: '100%' }}>
-            <section className={style.imageBackground} style={{ height: "100%", '--bg-image': 'url("https://d1csarkz8obe9u.cloudfront.net/posterpreviews/house-repair-service-banner-ad-design-template-c0567315ddd96c8e4ad2a1dac671b9c8_screen.jpg?ts=1655367804")' }}>
+            <section className={style.imageBackground} style={{ height: '100%', '--bg-image': 'url("https://d1csarkz8obe9u.cloudfront.net/posterpreviews/house-repair-service-banner-ad-design-template-c0567315ddd96c8e4ad2a1dac671b9c8_screen.jpg?ts=1655367804")' }}>
               <img width="100%" className={style.imageCoverH100} alt='large pic' src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/house-repair-service-banner-ad-design-template-c0567315ddd96c8e4ad2a1dac671b9c8_screen.jpg?ts=1655367804"></img>
             </section>
           </Grid>
           <Grid item xs={4} sx={{ height: '100%' }}>
-            <Stack spacing={2} sx={{ height: "100%" }} >
+            <Stack spacing={2} sx={{ height: '100%' }} >
               <section style={{ height: 'calc(50% - 8px)' }} className='flex-1'>
                 <img width="100%" className={style.imageCoverH100} alt='pic 1' src='https://img.freepik.com/free-psd/professional-plumbers-job-banner-template_23-2148709811.jpg?q=10&h=200'></img>
               </section>
@@ -65,14 +65,14 @@ const Home = (props) => {
       </article>
       <article className={style.features}>
         <Grid container>
-          {[{ icon: <PaymentsIcon></PaymentsIcon>, title: "Secure Payment", description: "100% secure payment" },
-          { icon: <ChatIcon />, title: "24/7 Support", description: "Dedicated support" },
-          { icon: <BookOnlineIcon></BookOnlineIcon>, title: "Easy Booking", description: "Book appointment with one click" }
+          {[{ icon: <PaymentsIcon></PaymentsIcon>, title: 'Secure Payment', description: '100% secure payment' },
+          { icon: <ChatIcon />, title: '24/7 Support', description: 'Dedicated support' },
+          { icon: <BookOnlineIcon></BookOnlineIcon>, title: 'Easy Booking', description: 'Book appointment with one click' }
           ].map(feature => (
-            <Grid item alignItems="center" sm={4} key={"feature-" + feature.title}>
-              <section style={{ width: "2.5rem", height: "2.5rem" }}>
+            <Grid item alignItems="center" sm={4} key={'feature-' + feature.title}>
+              <section style={{ width: '2.5rem', height: '2.5rem' }}>
                 {/* <img className="style.imageCoverH100" alt={feature.title} src={feature.icon} /> */}
-                <Icon sx={{ width: "2.5rem", height: "2.5rem" }} className={style.imageCoverH100}>{feature.icon}</Icon>
+                <Icon sx={{ width: '2.5rem', height: '2.5rem' }} className={style.imageCoverH100}>{feature.icon}</Icon>
               </section>
               <section>
                 <section>
@@ -91,12 +91,12 @@ const Home = (props) => {
       <CategoryView categories={topCategories}></CategoryView>
       {
         vendorsByTopCategories.map(vendor => {
-          return <CategoryItemListing key={"vendor-" + vendor.title} title={vendor.title} categoryItems={vendor.data}></CategoryItemListing>
+          return <CategoryItemListing key={'vendor-' + vendor.title} title={vendor.title} categoryItems={vendor.data}></CategoryItemListing>;
         })
       }
     </div>
-  )
-}
+  );
+};
 
 const mapStateToProps = (state) => {
   return {
@@ -110,18 +110,18 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home)
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
 Home.propTypes = {
   someData: PropTypes.object,
   dispatchSomeAction: PropTypes.func,
-}
+};
 
 
 export const CategoryView = (props) => {
-  const { categories = [{ image: "https://le-cdn.hibuwebsites.com/4fbcba4ddf5f4d57ad1799560278d928/dms3rep/multi/opt/RSshutterstock_8610913-640w.jpg", name: "Electrician" },
-  { image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCwWCUeYSm3Audhz429cpIJU4O_ObA7vPGaw&usqp=CAU", name: "Plumber" }], title = 'Top categories' } = props;
-  const navigate = useNavigate()
+  const { categories = [{ image: 'https://le-cdn.hibuwebsites.com/4fbcba4ddf5f4d57ad1799560278d928/dms3rep/multi/opt/RSshutterstock_8610913-640w.jpg', name: 'Electrician' },
+  { image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCwWCUeYSm3Audhz429cpIJU4O_ObA7vPGaw&usqp=CAU', name: 'Plumber' }], title = 'Top categories' } = props;
+  const navigate = useNavigate();
 
 
   return (
@@ -131,9 +131,9 @@ export const CategoryView = (props) => {
       </div>
       <Grid container spacing={2}>
         {categories.map(category => (
-          <Grid key={"category-" + category.name} item sm={2} className='pt-5 px-2'>
+          <Grid key={'category-' + category.name} item sm={2} className='pt-5 px-2'>
             <section className={`${style.cardBlock} flex flex-col cursor-pointer rounded-md shadow-md`} onClick={() => {
-              navigate(routes.SERVICES_BY_CATEGORY.replace(":category", category.value))
+              navigate(routes.SERVICES_BY_CATEGORY.replace(':category', category.value));
             }}>
               <img className={`${style.imageCoverH100} flex-1`} loading='lazy' src={category.image} alt={category.name} ></img>
               <p><strong>{category.name}</strong></p>
@@ -143,7 +143,7 @@ export const CategoryView = (props) => {
         ))
         }
         {!categories.length && Array.from({ length: 6 }, () => ({})).map(category => (
-          <Grid key={"category-" + category.name} item sm={2} className='pt-5 pb-5 pl-2 pr-2'>
+          <Grid key={'category-' + category.name} item sm={2} className='pt-5 pb-5 pl-2 pr-2'>
             <section className={`${style.cardBlock} flex flex-col rounded-md shadow-md`}>
               <Skeleton variant='rectangular' className={`${style.imageCoverH100} flex-1`} ></Skeleton>
               <Skeleton variant='text' ></Skeleton>
@@ -153,21 +153,21 @@ export const CategoryView = (props) => {
         }
       </Grid>
     </article>
-  )
-}
+  );
+};
 
 CategoryView.propTypes = {
   categories: PropTypes.array,
   title: PropTypes.string,
-}
+};
 
 export const CategoryItemListing = (props) => {
-  const navigate = useNavigate()
-  const { title = "",
+  const navigate = useNavigate();
+  const { title = '',
     categoryItems = [] } = props;
 
   if (categoryItems.length === 0) {
-    return null
+    return null;
   }
 
   return (
@@ -188,7 +188,7 @@ export const CategoryItemListing = (props) => {
         >
           {
             categoryItems.map((categoryItem) => (
-              <section key={"category-item-" + categoryItem.name} className={`${style.catItem} cursor-pointer`} onClick={() => { navigate(routes.VENDOR_DETAILS.replace(":email", categoryItem?.email)) }}>
+              <section key={'category-item-' + categoryItem.name} className={`${style.catItem} cursor-pointer`} onClick={() => { navigate(routes.VENDOR_DETAILS.replace(':email', categoryItem?.email)); }}>
                 <img className={`${style.serviceImage} flex-1`} src={categoryItem.image} alt={categoryItem.serviceName}></img>
                 <section className='pt-2'>
                   <section className={style.vendorName}>
@@ -216,7 +216,7 @@ export const CategoryItemListing = (props) => {
           }
           {
             !categoryItems && Array.from({ length: 4 }, () => ({})).map((categoryItem) => (
-              <section key={"category-item-" + categoryItem.name} className={style.catItem}>
+              <section key={'category-item-' + categoryItem.name} className={style.catItem}>
                 <Skeleton className={`${style.serviceImage} flex-1`} ></Skeleton>
                 <section className='pt-2'>
                   <section className={style.vendorName}>
@@ -240,11 +240,11 @@ export const CategoryItemListing = (props) => {
         </Slider>
       </section>
     </article>
-  )
-}
+  );
+};
 
 
 CategoryItemListing.propTypes = {
   title: PropTypes.string,
   categoryItems: PropTypes.array,
-}
+};

@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react';
 import {
   SfIconFacebook,
   SfIconHelp,
@@ -11,7 +11,7 @@ import {
   SfLink,
   SfListItem,
 } from '@storefront-ui/react';
-import { useNavigate } from "react-router";
+import { useNavigate } from 'react-router';
 
 const categories = [
   {
@@ -131,7 +131,7 @@ const bottomLinks = [
   },
 ];
 export default function SFooter() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <footer className="pt-10 bg-neutral-100">
       <div className="grid justify-center grid-cols-[1fr_1fr] md:grid-cols-[repeat(4,1fr)] px-4 md:px-6 pb-10 max-w-[1536px] mx-auto">
@@ -143,7 +143,7 @@ export default function SFooter() {
                 <SfLink
                   className="no-underline text-neutral-600 hover:underline hover:!text-neutral-900 active:underline active:!text-neutral-900"
                   variant="secondary"
-                  onClick={() => { navigate(link) }}
+                  onClick={() => { navigate(link); }}
                 >
                   {subcategoryLabel}
                 </SfLink>
