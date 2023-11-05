@@ -112,7 +112,8 @@ const Employees = () => {
   return (
     <Grid container alignItems="center">
       <Grid item sm={4}>
-        <DynamicSearch selectedValue={selectedValue} setSelectedValue={setSelectedValue} handleSearch={handleFreelancerSearch} data={freelancers} optionLabel='serviceProviderName'></DynamicSearch>
+        <DynamicSearch selectedValue={selectedValue} setSelectedValue={setSelectedValue} handleSearch={handleFreelancerSearch} data={freelancers}
+          optionLabel='serviceProviderName' label='Search Employee'></DynamicSearch>
       </Grid>
       <Grid item>
         <Button onClick={() => { handleAddFreelancer(); }}>+ Add Employee</Button>

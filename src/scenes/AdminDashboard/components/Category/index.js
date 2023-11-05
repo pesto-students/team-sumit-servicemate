@@ -6,7 +6,7 @@ import restClient from '../../../../config/axios';
 import { Grid, Skeleton } from '@mui/material';
 // import clsx from 'clsx';
 import { useAlert } from '../../../../hooks/NotificationSnackbar';
-import CommonModal from '../../../../CommonModal';
+import CommonModal from '../../../../components/CommonModal';
 // import { useSelector } from 'react-redux';
 
 const Category = (props) => {

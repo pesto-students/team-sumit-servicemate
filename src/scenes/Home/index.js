@@ -184,7 +184,7 @@ export const CategoryItemListing = (props) => {
         <SfScrollable className="items-center w-full snap-x snap-mandatory" drag>
           {
             categoryItems.map((categoryItem) => (
-              <section key={'category-item-' + categoryItem.name} className={`${style.catItem} cursor-pointer`} onClick={() => { navigate(routes.VENDOR_DETAILS.replace(':email', categoryItem?.email)); }}>
+              <section key={'category-item-' + categoryItem.name} className={`${style.catItem} cursor-pointer`} onClick={() => { navigate(routes.VENDOR_DETAILS.replace(':id', categoryItem?._id)); }}>
                 <img className={`${style.serviceImage} flex-1`} src={categoryItem.image} alt={categoryItem.serviceName}></img>
                 <section className='pt-2'>
                   <section className={style.vendorName}>
