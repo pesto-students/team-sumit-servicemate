@@ -1,9 +1,9 @@
-import { Grid, Icon, Rating, Skeleton, Stack, } from '@mui/material';
+import { Grid, Icon, Rating, Skeleton, } from '@mui/material';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect, } from 'react-redux';
 import { useNavigate, } from 'react-router-dom';
-import Slider from 'react-slick';
+// import Slider from 'react-slick';
 import { someAction } from './actions';
 
 import BookOnlineIcon from '@mui/icons-material/BookOnline';
@@ -12,6 +12,8 @@ import PaymentsIcon from '@mui/icons-material/Payments';
 import restClient from '../../config/axios';
 import routes from '../../config/routeConstants';
 import style from './styles/home.module.scss';
+import { SfScrollable } from '@storefront-ui/react';
+import Banners from './Banners';
 
 const Home = (props) => {
   const { someData, dispatchSomeAction } = props;
@@ -44,7 +46,7 @@ const Home = (props) => {
   return (
     <div className='flex flex-col gap-10 mb-10'>
       <article className='mt-10 px-10'>
-        <Grid container sx={{ height: '28rem' }} spacing={2}>
+        {/* <Grid container sx={{ height: '28rem' }} spacing={2}>
           <Grid item sm={8} sx={{ height: '100%' }}>
             <section className={style.imageBackground} style={{ height: '100%', '--bg-image': 'url("https://d1csarkz8obe9u.cloudfront.net/posterpreviews/house-repair-service-banner-ad-design-template-c0567315ddd96c8e4ad2a1dac671b9c8_screen.jpg?ts=1655367804")' }}>
               <img width="100%" className={style.imageCoverH100} alt='large pic' src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/house-repair-service-banner-ad-design-template-c0567315ddd96c8e4ad2a1dac671b9c8_screen.jpg?ts=1655367804"></img>
@@ -60,16 +62,16 @@ const Home = (props) => {
               </section>
             </Stack>
           </Grid>
-        </Grid>
-
+        </Grid> */}
+        <Banners></Banners>
       </article>
       <article className={style.features}>
-        <Grid container>
+        <Grid container spacing={2}>
           {[{ icon: <PaymentsIcon></PaymentsIcon>, title: 'Secure Payment', description: '100% secure payment' },
           { icon: <ChatIcon />, title: '24/7 Support', description: 'Dedicated support' },
           { icon: <BookOnlineIcon></BookOnlineIcon>, title: 'Easy Booking', description: 'Book appointment with one click' }
           ].map(feature => (
-            <Grid item alignItems="center" sm={4} key={'feature-' + feature.title}>
+            <Grid item alignItems="center" xs={12} sm={6} md={4} lg={3} xl={3} key={'feature-' + feature.title}>
               <section style={{ width: '2.5rem', height: '2.5rem' }}>
                 {/* <img className="style.imageCoverH100" alt={feature.title} src={feature.icon} /> */}
                 <Icon sx={{ width: '2.5rem', height: '2.5rem' }} className={style.imageCoverH100}>{feature.icon}</Icon>
@@ -131,7 +133,7 @@ export const CategoryView = (props) => {
       </div>
       <Grid container spacing={2}>
         {categories.map(category => (
-          <Grid key={'category-' + category.name} item sm={2} className='pt-5 px-2'>
+          <Grid key={'category-' + category.name} item xs={12} sm={6} md={4} lg={3} xl={3} className='pt-5 px-2'>
             <section className={`${style.cardBlock} flex flex-col cursor-pointer rounded-md shadow-md`} onClick={() => {
               navigate(routes.SERVICES_BY_CATEGORY.replace(':category', category.value));
             }}>
@@ -179,16 +181,10 @@ export const CategoryItemListing = (props) => {
         <span className={style.headerMenu}>View all</span>
       </section>
       <section className='item-list pt-4'>
-        <Slider
-          dots
-          adaptiveHeight
-          className={style.topVendorsByCategory}
-          slidesToShow={5}
-          slidesToScroll={4}
-        >
+        <SfScrollable className="items-center w-full snap-x snap-mandatory" drag>
           {
             categoryItems.map((categoryItem) => (
-              <section key={'category-item-' + categoryItem.name} className={`${style.catItem} cursor-pointer`} onClick={() => { navigate(routes.VENDOR_DETAILS.replace(':email', categoryItem?.email)); }}>
+              <section key={'category-item-' + categoryItem.name} className={`${style.catItem} cursor-pointer`} onClick={() => { navigate(routes.VENDOR_DETAILS.replace(':id', categoryItem?._id)); }}>
                 <img className={`${style.serviceImage} flex-1`} src={categoryItem.image} alt={categoryItem.serviceName}></img>
                 <section className='pt-2'>
                   <section className={style.vendorName}>
@@ -237,7 +233,7 @@ export const CategoryItemListing = (props) => {
               </section>
             ))
           }
-        </Slider>
+        </SfScrollable>
       </section>
     </article>
   );

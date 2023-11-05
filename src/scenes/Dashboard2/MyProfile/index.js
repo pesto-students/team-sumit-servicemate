@@ -12,6 +12,8 @@ import restClient from '../../../config/axios';
 import ImageUpload from '../common/ImageUpload';
 import { useDispatch } from 'react-redux';
 import { setLoggedInUser } from '../../Login/actions';
+import { format, parse } from 'date-fns';
+import { sanitizePayload } from '../../../store/utils';
 
 const MyProfile = () => {
     const loggedInUser = useSelector(state => state.user.authUser);
@@ -117,7 +119,7 @@ const MyProfile = () => {
     };
 
     const handleEstablishedDateChange = (date) => {
-        updateFormData({ establishedDate: date });
+        updateFormData({ establishedDate: format(date, 'dd/MM/yyyy') });
     };
 
     // const handleOpenHours = (index, e, value) => {
@@ -145,14 +147,15 @@ const MyProfile = () => {
         e.preventDefault();
         const apiUrl = '/api/vendor/updateVendorProfile/' + loggedInUser._id + '?v=' + loggedInUser?.isVendor;
         const payload = {
-            name: formData.name,
+            name: formData.serviceProviderName || formData.name,
             workingAs: formData.workingAs,
-            email: formData.email,
+            email: formData.serviceProviderEmailId || formData.email,
             phoneNo: formData.phoneNo,
             profilePic: formData.profilePic,
+            establishedDate: formData.establishedDate
         };
         const newFormData = new FormData();
-        Object.keys(payload).map(key => {
+        Object.keys(sanitizePayload(payload)).map(key => {
             newFormData.append(key, payload[key]);
         });
         const { data } = await restClient(apiUrl, {
@@ -161,7 +164,15 @@ const MyProfile = () => {
             data: newFormData
         });
         if (data.responseData) {
-            dispatch(setLoggedInUser(data.responseData));
+            const { serviceProviderName, serviceProviderEmailId } = data.responseData;
+            const newData = { ...data.responseData };
+            if (serviceProviderName) {
+                newData.serviceProviderName = serviceProviderName;
+            }
+            if (serviceProviderEmailId) {
+                newData.serviceProviderEmailId = serviceProviderEmailId;
+            }
+            dispatch(setLoggedInUser(newData));
         }
     };
 
@@ -205,9 +216,10 @@ const MyProfile = () => {
                         <TextField label="Vendor Name" sx={{ marginBottom: '1rem', marginRight: '1rem' }} variant="outlined" name='name' value={formData.name} required onChange={handleFormChange} />
                         <DatePicker
                             label="Establishment Date"
-                            value={formData.establishedDate}
+                            value={parse(formData.establishedDate || '', 'dd/mm/yyyy', new Date())}
                             onChange={date => handleEstablishedDateChange(date)}
                             renderInput={(params) => <TextField {...params} />}
+                            format='dd/MM/yyyy'
                         />
                         <FormControl className='flex items-center gap-4 mb-4'>
                             <FormLabel id="radio-buttons-group">Working as</FormLabel>
@@ -249,13 +261,16 @@ const MyProfile = () => {
                     <dl >
                         <Grid container spacing={2}>
                             {formData?.location?.map((addressItem, addressIndex) => {
-                                const { name, street, pinCode, city, state, country } = addressItem;
+                                const { name, addressLine1, addressLine2, pinCode, city, state, country } = addressItem;
                                 return (<Grid item xs={12} sm={6} md={4} lg={3} key={'address-' + addressIndex}>
                                     <section className='dl-container relative'>
                                         <dt>{name}</dt>
                                         <dd>
                                             <section>
-                                                {street}
+                                                {addressLine1}
+                                            </section>
+                                            <section>
+                                                {addressLine2}
                                             </section>
                                             <section>
                                                 {`${pinCode}, ${city}, ${state}, ${country}`}

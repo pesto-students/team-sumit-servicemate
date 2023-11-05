@@ -25,10 +25,12 @@ import ForgotPassword from './scenes/ForgotPassword';
 import PageNotFound from './components/PageNotFound';
 // import ErrorPage from "./components/ErrorPage";
 import { ErrorBoundary } from 'react-error-boundary';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <div className="App" >
         <header className="App-header">
           <Header></Header>
