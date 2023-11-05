@@ -93,7 +93,7 @@ const Home = (props) => {
       <CategoryView categories={topCategories}></CategoryView>
       {
         vendorsByTopCategories.map(vendor => {
-          return <CategoryItemListing key={'vendor-' + vendor.title} title={vendor.title} categoryItems={vendor.data}></CategoryItemListing>;
+          return <CategoryItemListing key={'vendor-' + vendor.title} title={vendor.title} categoryItems={vendor.data} category={vendor.category}></CategoryItemListing>;
         })
       }
     </div>
@@ -166,7 +166,7 @@ CategoryView.propTypes = {
 export const CategoryItemListing = (props) => {
   const navigate = useNavigate();
   const { title = '',
-    categoryItems = [] } = props;
+    categoryItems = [], category } = props;
 
   if (categoryItems.length === 0) {
     return null;
@@ -178,7 +178,7 @@ export const CategoryItemListing = (props) => {
         <span>
           <strong>{title}</strong>
         </span>
-        <span className={style.headerMenu}>View all</span>
+        <span className={style.headerMenu} onClick={() => { navigate(routes.SERVICES_BY_CATEGORY.replace(':category', category?.value || 'all')); }}>View all</span>
       </section>
       <section className='item-list pt-4'>
         <SfScrollable className="items-center w-full snap-x snap-mandatory" drag>
@@ -243,4 +243,5 @@ export const CategoryItemListing = (props) => {
 CategoryItemListing.propTypes = {
   title: PropTypes.string,
   categoryItems: PropTypes.array,
+  category: PropTypes.object,
 };
