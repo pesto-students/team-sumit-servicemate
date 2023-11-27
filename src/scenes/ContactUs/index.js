@@ -37,7 +37,7 @@ const ContactUs = () => {
                                 <div className="form-group">
 
                                     <input className="form-control" type="email" name="email"  placeholder="Email *"  />
-                                    <ValidationError prefix="Email"  field="email" errors={state.errors}
+                                    <ValidationError prefix="Email"  field="email" errors={state.errors}/>
 
                                 </div>
                             </Grid>

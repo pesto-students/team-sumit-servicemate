@@ -49,9 +49,9 @@ const Header = () => {
     navigate(path)
     callback && callback()
   }
-  const handleChange = event => {
-    setInput(event.target.value);
-  };
+  
+  
+  
 
   const handleLogout = () => {
     dispatch(setLogoutUser())

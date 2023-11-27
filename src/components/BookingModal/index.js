@@ -54,6 +54,7 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
 
   const handleDateChange = (event) => {
     setDate(event.target.value);
+   
 
   };
   const handleTimeslotChange = (event) => {

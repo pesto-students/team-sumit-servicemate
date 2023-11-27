@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 //import routes from '../../config/routeConstants'
-import { Avatar, Box, Button,Container, CssBaseline,  TextField, ThemeProvider, Typography, createTheme } from '@mui/material'
+import {  Avatar, Box, Button,Container, CssBaseline,  TextField, ThemeProvider, Typography, createTheme } from '@mui/material'
 import NotificationSnackBar from '../Login/components/error';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import restClient from '../../config/axios';
@@ -28,31 +28,31 @@ function Form() {
     const [isLoading, setIsLoading] = useState(false);
     const [showError, setShowError] = useState(false)
     const [formData, setFormData] = useState({ email: '' });
-    const handleFormChange = (e) => {
-        const { email, value } = e ? e.target : {}
-        if (email) {
-          const newFormData = { ...formData }
-          newFormData[email] = value
-          setFormData(newFormData)
-        }
+    const [showSuccess, setShowSuccess] = useState(false);
+    const handleFormChange = async(e) => {
+        const email = e.target.value;
+        setFormData({ email }); 
+          console.log(formData); 
       }
 
       const sendEmail = async (e) => {
         e.preventDefault()
         setIsLoading(true);
-    
         try {
           const response = await restClient.post('/api/user/sendEmail', {
-            to: formData.email, // Use the email address from the form data
+            to: formData, 
             subject: 'Hello ✔',
-            text: 'Hello there, plz click here for resetiing password',
-            html: '<b>Hello world?</b>',
-        });
-        console.log("Message sent: %s", response.data.message);
+            text: "reset password link", 
+            html: '<a href="http://localhost:3000/ForgotPassword/">Reset Password</a>', 
+          });
+      
+        console.log("mail send" + response)
+        console.log("Message sent: %s", response.data);
+        setShowSuccess(true);
         //  setMessage(response.data.message);
         } catch (error) {
             console.error("Error sending email:", error);
-            setShowError(true);
+            setShowError(false);
         } finally {
           setIsLoading(false);
         }
@@ -86,13 +86,14 @@ function Form() {
               fullWidth
               id="email"
               label="Email Address"
-              name='email'
+              name="email"
               autoComplete="email"
               autoFocus
               onChange={handleFormChange}
             />
            
-            <NotificationSnackBar open={showError} handleClose={() => { setShowError(false) }} message='Enter valid emailId'></NotificationSnackBar>
+           <NotificationSnackBar open={showError} handleClose={() => setShowError(false)} message="Enter valid emailId" />
+            <NotificationSnackBar open={showSuccess} handleClose={() => setShowSuccess(false)} message="Email sent successfully" />
             <Button
               type="submit"
               fullWidth

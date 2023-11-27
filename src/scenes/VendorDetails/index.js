@@ -369,8 +369,7 @@ const VendorDetails = () => {
           open={isPhotoPopupOpen}
           onClose={handleClosePhotoPopup}
           maxWidth="md"
-          fullWidth
-        >
+          fullWidth  >
           <DialogTitle>
             <Typography variant="h6">
               All Profile Photos
