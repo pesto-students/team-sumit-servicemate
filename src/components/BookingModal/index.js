@@ -55,6 +55,7 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
   const handleDateChange = (event) => {
     setDate(event.target.value);
 
+
   };
   const handleTimeslotChange = (event) => {
     setTime(event.target.value); // Update timeslot state when the user selects a time slot

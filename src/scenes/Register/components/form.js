@@ -1,47 +1,47 @@
-import React, { useState } from 'react'
-import { Button, Checkbox, TextField, FormControlLabel, ThemeProvider, createTheme, Container, CssBaseline, Box, Avatar, Typography } from "@mui/material"
-import "./styles/form.scss"
+import React, { useState } from 'react';
+import { Button, Checkbox, TextField, FormControlLabel, ThemeProvider, createTheme, Container, CssBaseline, Box, Avatar, Typography } from '@mui/material';
+import './styles/form.scss';
 // import { data } from '../../../config/db'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import PropTypes from "prop-types"
-import restClient from '../../../config/axios'
+import PropTypes from 'prop-types';
+import restClient from '../../../config/axios';
 import { useAlert } from '../../../hooks/NotificationSnackbar';
 import routes from '../../../config/routeConstants';
 // import NotificationSnackBar from '../../Login/components/error'
 const RegisterForm = (props) => {
-    const { registerUser } = props
+    const { registerUser } = props;
 
-    const navigate = useNavigate()
-    const { showSuccessAlert, showErrorAlert } = useAlert()
-    const [formData, setFormData] = useState({})
+    const navigate = useNavigate();
+    const { showSuccessAlert, showErrorAlert } = useAlert();
+    const [formData, setFormData] = useState({});
     // const [showError, setShowError] = useState(false)
 
     const defaultTheme = createTheme();
 
     const handleFormChange = (e) => {
-        const { name, value, checked, type } = e ? e.target : {}
+        const { name, value, checked, type } = e ? e.target : {};
         if (name) {
-            const newFormData = { ...formData }
-            newFormData[name] = type === "checkbox" ? checked : value
-            setFormData(newFormData)
+            const newFormData = { ...formData };
+            newFormData[name] = type === 'checkbox' ? checked : value;
+            setFormData(newFormData);
         }
-    }
+    };
 
     const handleRegister = async (e) => {
         e.preventDefault();
         try {
-            const { data } = await restClient.post("/api/user/register", JSON.parse(JSON.stringify(formData)))
+            const { data } = await restClient.post('/api/user/register', JSON.parse(JSON.stringify(formData)));
             if (data) {
-                showSuccessAlert("You are registered successfully")
-                registerUser(data)
-                navigate(routes.DASHBOARD2)
+                showSuccessAlert('You are registered successfully');
+                registerUser(data);
+                navigate(routes.DASHBOARD2);
             }
         } catch (error) {
-            showErrorAlert("Something went wrong")
-            console.log(error)
+            showErrorAlert('Something went wrong');
+            console.log(error);
         }
-    }
+    };
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -129,11 +129,11 @@ const RegisterForm = (props) => {
                 </Box>
             </Container>
         </ThemeProvider>
-    )
-}
+    );
+};
 
-export default RegisterForm
+export default RegisterForm;
 
 RegisterForm.propTypes = {
     registerUser: PropTypes.func
-}
+};

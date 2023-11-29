@@ -7,10 +7,10 @@ import { Provider } from 'react-redux';
 import { persistor, store } from './store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { ThemeProvider, createTheme } from '@mui/material';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import AlertProvider from './hooks/NotificationSnackbar';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -28,7 +28,7 @@ const theme = createTheme({
       }
     },
     MuiAutocomplete: {
-      defaultProps: { size: "small" },
+      defaultProps: { size: 'small' },
     }
   },
   palette: {
@@ -49,8 +49,8 @@ root.render(
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <ThemeProvider theme={theme}>
             <AlertProvider>
-                <App />
-              </AlertProvider>
+              <App />
+            </AlertProvider>
           </ThemeProvider>
         </LocalizationProvider>
       </PersistGate>

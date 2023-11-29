@@ -14,29 +14,29 @@ const accordionItems = [
     id: 'acc-2',
     summary: 'Track Appointment',
     details:
-      "Track your service appointment every step of the way with ServiceMate. Stay informed about your electrician or plumber's arrival time, so you can plan your day efficiently.",
+      'Track your service appointment every step of the way with ServiceMate. Stay informed about your electrician or plumber\'s arrival time, so you can plan your day efficiently.',
   },
   {
     id: 'acc-3',
     summary: 'Service Feedback',
     details:
-      "Your opinion matters! Share your feedback after your household service is completed in Bangalore through ServiceMate, helping us continually improve and provide top-notch service.",
+      'Your opinion matters! Share your feedback after your household service is completed in Bangalore through ServiceMate, helping us continually improve and provide top-notch service.',
   },
   {
     id: 'acc-4',
     summary: 'Security & Fraud',
     details:
-      "Your security is our priority at ServiceMate. We employ robust security measures to protect your data and transactions. Rest assured, we diligently monitor for any fraudulent activity to ensure a safe experience while booking electricians and plumbers in Bangalore, India.",
+      'Your security is our priority at ServiceMate. We employ robust security measures to protect your data and transactions. Rest assured, we diligently monitor for any fraudulent activity to ensure a safe experience while booking electricians and plumbers in Bangalore, India.',
   }, {
     id: 'acc-5',
     summary: 'Feedback',
     details:
-      "We value your feedback! Your insights help us enhance our electrician and plumber services in Bangalore. Share your thoughts with us, and together, we'll make ServiceMate even better for you.",
+      'We value your feedback! Your insights help us enhance our electrician and plumber services in Bangalore. Share your thoughts with us, and together, we\'ll make ServiceMate even better for you.',
   }, {
     id: 'acc-6',
     summary: 'Contact Us',
     details:
-      "Got questions or need assistance? Our dedicated support team is here for you. Reach out to ServiceMate in Bangalore, India, via email, phone, or the contact form below. We're ready to help you with your household service needs.",
+      'Got questions or need assistance? Our dedicated support team is here for you. Reach out to ServiceMate in Bangalore, India, via email, phone, or the contact form below. We\'re ready to help you with your household service needs.',
   },
 ];
 
