@@ -1,29 +1,29 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Grid, Container, Button, Typography, Rating, Divider, Icon, Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-} from "@mui/material";
-import BookingModal from "../../components/BookingModal";
-import CarouselItem from "../../components/Carousel";
-import ServiceDetail from "../../components/ServiceDetails";
-import { useSelector } from "react-redux";
+} from '@mui/material';
+import BookingModal from '../../components/BookingModal';
+import CarouselItem from '../../components/Carousel';
+import ServiceDetail from '../../components/ServiceDetails';
+import { useSelector } from 'react-redux';
 //import CustomerRatings from "../../components/Ratings";
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 import PaymentsIcon from '@mui/icons-material/Payments';
 import ChatIcon from '@mui/icons-material/Chat';
 import BookOnlineIcon from '@mui/icons-material/BookOnline';
 
-import Slider from "react-slick";
-import "./styles/vendorDetails.scss";
+import Slider from 'react-slick';
+import './styles/vendorDetails.scss';
 
 const VendorDetails = () => {
   const collectivedata = useSelector((state) => state.collectiveData.fulldata);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPhotoPopupOpen, setIsPhotoPopupOpen] = useState(false);
 
-  const [activeTab, setActiveTab] = useState("Address");
+  const [activeTab, setActiveTab] = useState('Address');
   // const [openHours, setOpenHours] = useState([]);
   const { email } = useParams();
   const filteredData = collectivedata.filter((item) => item.serviceProviderId?._id === email);
@@ -31,7 +31,7 @@ const VendorDetails = () => {
   const vendorName1 = filteredData.length > 0 ? filteredData[0].serviceProviderId?.serviceProviderName : '';
 
   const rat = filteredData.length > 0 ? filteredData[0].serviceProviderId?.rating : '0';
-  const price = filteredData.length > 0 ? filteredData[0].charge : "0";
+  const price = filteredData.length > 0 ? filteredData[0].charge : '0';
 
   const vendorImage1 = filteredData[0]?.serviceProviderId?.profilePic;
   console.log(filteredData[0]?.serviceProviderId?.profilePic);
@@ -42,9 +42,9 @@ const VendorDetails = () => {
   const number = filteredData.length > 0
     ? filteredData[0].serviceProviderId?.phoneNo
     : '';
-  const year = filteredData[0].serviceProviderId?.createdOn.slice(0, 4);
-  const serv = filteredData[0].servicesOffered.join(', ');
-  const serviceList = filteredData[0].servicesOffered.map((servic, index) => (
+  const year = filteredData[0]?.serviceProviderId?.createdOn.slice(0, 4);
+  const serv = filteredData[0]?.servicesOffered.join(', ');
+  const serviceList = filteredData[0]?.servicesOffered.map((servic, index) => (
     <div key={index} style={{
       margin: '2px',
       boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
@@ -52,9 +52,9 @@ const VendorDetails = () => {
     }}>
       {servic}
     </div>
-  ))
+  ));
 
-  const addd = filteredData[0].serviceProviderId?.location.length > 0 ? (filteredData[0].serviceProviderId?.location.map((datas, index) =>
+  const addd = filteredData[0]?.serviceProviderId?.location.length > 0 ? (filteredData[0].serviceProviderId?.location.map((datas, index) =>
     <div key={index}>
 
       <div style={{
@@ -101,15 +101,15 @@ const VendorDetails = () => {
 
     Address: addd,
 
-    Review: "No Reviews Found...",
+    Review: 'No Reviews Found...',
     Services: serviceList,
     WorkingDays: extractedData ? extractedData.map((dayData, index) => (
 
-      <div key={index}  >
+      <div key={index} >
         {dayData.map((slotData, slotIndex) => (
 
           <Typography variant="h7" key={slotIndex}>
-            <table key={index} style={{ width: "100%" }}>
+            <table key={index} style={{ width: '100%' }}>
               <tr>
                 <td>{slotData.day}</td>
                 <td>{slotData.fromTime}</td>
@@ -183,40 +183,40 @@ const VendorDetails = () => {
     yearOfEstablishment: year,
     portfolios: [
       {
-        portfolioName: "Portfolio 1",
+        portfolioName: 'Portfolio 1',
         photos: [
           {
-            url: "https://plus.unsplash.com/premium_photo-1661723379706-598b81f31652?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHNlcnZpY2VzJTIwcGx1bWJpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60",
-            caption: "Photo 1",
+            url: 'https://plus.unsplash.com/premium_photo-1661723379706-598b81f31652?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHNlcnZpY2VzJTIwcGx1bWJpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60',
+            caption: 'Photo 1',
           },
           {
-            url: "https://media.istockphoto.com/id/1136317145/photo/plumber-fixing-sink-pipe-with-adjustable-wrench.webp?b=1&s=170667a&w=0&k=20&c=zNydF1QoijIpETXTga0qfX9q_-Syn9LWCmSF3Kxz0QQ=",
-            caption: "Photo 2",
+            url: 'https://media.istockphoto.com/id/1136317145/photo/plumber-fixing-sink-pipe-with-adjustable-wrench.webp?b=1&s=170667a&w=0&k=20&c=zNydF1QoijIpETXTga0qfX9q_-Syn9LWCmSF3Kxz0QQ=',
+            caption: 'Photo 2',
           },
         ],
-        serviceId: "1",
+        serviceId: '1',
       },
       {
-        portfolioName: "Portfolio 2",
+        portfolioName: 'Portfolio 2',
         photos: [
           {
-            url: "https://media.istockphoto.com/id/921346102/photo/plumber-fixing-sink-pipe-with-adjustable-wrench.webp?b=1&s=170667a&w=0&k=20&c=v052C3qOaQnescNP0Ugfk6F9vBTJXZLNHkmjnlZHZYE=",
-            caption: "Photo 3",
+            url: 'https://media.istockphoto.com/id/921346102/photo/plumber-fixing-sink-pipe-with-adjustable-wrench.webp?b=1&s=170667a&w=0&k=20&c=v052C3qOaQnescNP0Ugfk6F9vBTJXZLNHkmjnlZHZYE=',
+            caption: 'Photo 3',
           },
         ],
-        serviceId: "2",
+        serviceId: '2',
       },
     ],
   };
 
   return (
     <article className='category-item-listing'>
-      <Container maxWidth="lg" sx={{ py: 4, border: "1px solid #ddd", boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)" }}>
+      <Container maxWidth="lg" sx={{ py: 4, border: '1px solid #ddd', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)' }}>
         <Grid container spacing={4} >
 
           <Grid item xs={10} md={5} sx={{
-            maxWidth: "80%", // Adjust the percentage as needed
-            margin: "0 auto", // Center the item horizontally
+            maxWidth: '80%', // Adjust the percentage as needed
+            margin: '0 auto', // Center the item horizontally
           }}>
             <Slider>
               <CarouselItem imageUrls={[vendor.vendorImage]} />
@@ -233,67 +233,67 @@ const VendorDetails = () => {
               value={vendor.rating}
               precision={0.1}
               readOnly
-              sx={{ fontSize: "20px" }}
+              sx={{ fontSize: '20px' }}
             />
             <p style={{
-              position: "relative",
+              position: 'relative',
               marginBottom: 0,
-              marginRight: "10px",
-              paddingRight: "10px",
-              lineHeight: "20px",
-              fontSize: "1rem",
-              color: "#06c"
+              marginRight: '10px',
+              paddingRight: '10px',
+              lineHeight: '20px',
+              fontSize: '1rem',
+              color: '#06c'
             }}>
               AboutMe: {vendor.description}
             </p>
-            <Divider style={{ margin: "12px 0 " }} />
-            <div style={{ marginTop: "10px" }}>
-              <Typography variant="h5" sx={{ color: "red" }}>
+            <Divider style={{ margin: '12px 0 ' }} />
+            <div style={{ marginTop: '10px' }}>
+              <Typography variant="h5" sx={{ color: 'red' }}>
                 <strong>₹{vendor.Price}/hr</strong>
               </Typography>
 
 
             </div>
-            <Divider style={{ margin: "12px 0 " }} />
+            <Divider style={{ margin: '12px 0 ' }} />
 
-            <div style={{ marginTop: "8px" }}>
-              <Typography variant="h6" sx={{ fontWeight: "120", fontSize: "16px", fontFamily: "Arial, sans-serif" }}>
-                <strong>Mobile Number:</strong> <span style={{ color: "#666", fontSize: "16px", fontWeight: "120" }}> {vendor.mobileNumber} </span>
+            <div style={{ marginTop: '8px' }}>
+              <Typography variant="h6" sx={{ fontWeight: '120', fontSize: '16px', fontFamily: 'Arial, sans-serif' }}>
+                <strong>Mobile Number:</strong> <span style={{ color: '#666', fontSize: '16px', fontWeight: '120' }}> {vendor.mobileNumber} </span>
               </Typography>
-              <div style={{ marginTop: "8px" }}>
-                <Typography variant="h6" sx={{ fontWeight: "120", fontSize: "16px", fontFamily: "Arial, sans-serif" }}>
+              <div style={{ marginTop: '8px' }}>
+                <Typography variant="h6" sx={{ fontWeight: '120', fontSize: '16px', fontFamily: 'Arial, sans-serif' }}>
                   <strong> EmailId: </strong>{vendor.vendorEmail}
                 </Typography>
               </div>
-              <div style={{ marginTop: "8px" }}>
-                <Typography variant="h6" sx={{ fontWeight: "120", fontSize: "16px", fontFamily: "Arial, sans-serif" }}>
+              <div style={{ marginTop: '8px' }}>
+                <Typography variant="h6" sx={{ fontWeight: '120', fontSize: '16px', fontFamily: 'Arial, sans-serif' }}>
                   <strong> Year of Establishment: </strong>{vendor.yearOfEstablishment}
                 </Typography>
               </div>
-              <div style={{ marginTop: "8px" }}>
-                <Typography variant="h6" sx={{ fontWeight: "120", fontSize: "16px", fontFamily: "Arial, sans-serif" }}>
-                  <strong> Opening Hours:</strong> <span style={{ color: "#666", fontSize: "16px", fontWeight: "120" }}>{vendor.openingHours}</span>
+              <div style={{ marginTop: '8px' }}>
+                <Typography variant="h6" sx={{ fontWeight: '120', fontSize: '16px', fontFamily: 'Arial, sans-serif' }}>
+                  <strong> Opening Hours:</strong> <span style={{ color: '#666', fontSize: '16px', fontWeight: '120' }}>{vendor.openingHours}</span>
                 </Typography>
               </div>
 
             </div>
-            <div style={{ marginTop: "8px" }}>
-              <Typography variant="h6" sx={{ fontWeight: "120", fontSize: "16px", fontFamily: "Arial, sans-serif" }}>
+            <div style={{ marginTop: '8px' }}>
+              <Typography variant="h6" sx={{ fontWeight: '120', fontSize: '16px', fontFamily: 'Arial, sans-serif' }}>
                 <strong>Services : </strong>
-                <span style={{ color: "#666", fontSize: "16px", fontWeight: "120" }}> {vendor.service} </span>
+                <span style={{ color: '#666', fontSize: '16px', fontWeight: '120' }}> {vendor.service} </span>
               </Typography>
             </div>
-            <div style={{ marginTop: "8px" }}>
+            <div style={{ marginTop: '8px' }}>
               <article className='banner'>
                 <Grid container>
-                  {[{ icon: <PaymentsIcon></PaymentsIcon>, title: "Secure Payment", description: "100% secure payment" },
-                  { icon: <ChatIcon />, title: "24/7 Support", description: "Dedicated support" },
-                  { icon: <BookOnlineIcon></BookOnlineIcon>, title: "Easy Booking", description: "Book appointment with one click" }
+                  {[{ icon: <PaymentsIcon></PaymentsIcon>, title: 'Secure Payment', description: '100% secure payment' },
+                  { icon: <ChatIcon />, title: '24/7 Support', description: 'Dedicated support' },
+                  { icon: <BookOnlineIcon></BookOnlineIcon>, title: 'Easy Booking', description: 'Book appointment with one click' }
                   ].map(feature => (
-                    <Grid item alignItems="center" sm={4} key={"feature-" + feature.title}>
-                      <section style={{ width: ".5rem", height: "2.5rem" }}>
+                    <Grid item alignItems="center" sm={4} key={'feature-' + feature.title}>
+                      <section style={{ width: '.5rem', height: '2.5rem' }}>
                         {/* <img className="image-cover-h100" alt={feature.title} src={feature.icon} /> */}
-                        <Icon sx={{ width: "2.5rem", height: "2.5rem" }} className="image-cover-h100">{feature.icon}</Icon>
+                        <Icon sx={{ width: '2.5rem', height: '2.5rem' }} className="image-cover-h100">{feature.icon}</Icon>
                       </section>
                       <section>
                         <section>
@@ -310,11 +310,11 @@ const VendorDetails = () => {
                 </Grid>
               </article>
             </div>
-            <div style={{ marginTop: "8px" }}>
+            <div style={{ marginTop: '8px' }}>
               <Button
                 variant="contained"
                 color="primary"
-                sx={{ mt: 2, backgroundColor: "#fcb800", color: "black", marginRight: "14px", height: "50px" }}
+                sx={{ mt: 2, backgroundColor: '#fcb800', color: 'black', marginRight: '14px', height: '50px' }}
                 onClick={handleBookNow}
               >
                 <strong>Book Now</strong>
@@ -323,7 +323,7 @@ const VendorDetails = () => {
               <Button
                 variant="contained"
                 color="secondary"
-                sx={{ mt: 2, backgroundColor: "black", color: "white", marginRight: "14px", height: "50px" }}
+                sx={{ mt: 2, backgroundColor: 'black', color: 'white', marginRight: '14px', height: '50px' }}
                 onClick={handleOpenPhotoPopup}
               >
                 <strong>View Photos</strong>
@@ -369,7 +369,7 @@ const VendorDetails = () => {
           open={isPhotoPopupOpen}
           onClose={handleClosePhotoPopup}
           maxWidth="md"
-          fullWidth  >
+          fullWidth >
           <DialogTitle>
             <Typography variant="h6">
               All Profile Photos
@@ -399,27 +399,27 @@ const VendorDetails = () => {
         </Dialog>
         <div className="tabs-container">
           <div className="tabs-header">
-            <div style={{ fontSize: "20px", fontWeight: "500" }}
-              className={`tab ${activeTab === "Address" ? "active" : ""}`}
-              onClick={() => handleTabClick("Address")}
+            <div style={{ fontSize: '20px', fontWeight: '500' }}
+              className={`tab ${activeTab === 'Address' ? 'active' : ''}`}
+              onClick={() => handleTabClick('Address')}
             >
               Address
             </div>
-            <div style={{ fontSize: "20px", fontWeight: "500" }}
-              className={`tab ${activeTab === "Services" ? "active" : ""}`}
-              onClick={() => handleTabClick("Services")}
+            <div style={{ fontSize: '20px', fontWeight: '500' }}
+              className={`tab ${activeTab === 'Services' ? 'active' : ''}`}
+              onClick={() => handleTabClick('Services')}
             >
               List Of Services
             </div>
-            <div style={{ fontSize: "20px", fontWeight: "500" }}
-              className={`tab ${activeTab === "WorkingDays" ? "active" : ""}`}
-              onClick={() => handleTabClick("WorkingDays")}
+            <div style={{ fontSize: '20px', fontWeight: '500' }}
+              className={`tab ${activeTab === 'WorkingDays' ? 'active' : ''}`}
+              onClick={() => handleTabClick('WorkingDays')}
             >
               Working Days
             </div>
-            <div style={{ fontSize: "20px", fontWeight: "500" }}
-              className={`tab ${activeTab === "Review" ? "active" : ""}`}
-              onClick={() => handleTabClick("Review")}
+            <div style={{ fontSize: '20px', fontWeight: '500' }}
+              className={`tab ${activeTab === 'Review' ? 'active' : ''}`}
+              onClick={() => handleTabClick('Review')}
             >
               Review
             </div>

@@ -32,8 +32,10 @@
     .menu-item {
       cursor: pointer;
       font-weight: bold;
-      border: 1px solid;
       padding: 0px 8px;
+      &:hover {
+        color: #fff;
+      }
     }
     .location-select {
       background-color: white;
@@ -44,10 +46,7 @@
     max-width: 300px;
   }
   .header__center {
-    @apply flex justify-center flex-1;
-    @apply order-1 md:order-none;
     .quick-search-wrapper {
-      @apply flex justify-center w-[95%];
       .select-category {
         min-width: 5rem;
         border-right: 1px solid #ccc;
@@ -65,7 +64,6 @@
     }
   }
   .header-logo {
-    @apply cursor-pointer font-bold flex items-center gap-1 text-4xl tracking-wide;
     .first-word {
       color: black;
       font-weight: bold;

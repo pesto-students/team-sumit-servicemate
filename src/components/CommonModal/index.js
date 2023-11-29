@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from '@mui/material';
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types';
 
 const CommonModal = (props) => {
     const { open = false, handleClose, title = '', description = '', actions = [], children } = props;
@@ -15,7 +15,7 @@ const CommonModal = (props) => {
             </DialogContent>
             <DialogActions>
                 {actions.map((action, index) => (
-                    <Button key={"action-" + index} onClick={action.onClick} color={action.color}>
+                    <Button key={'action-' + index} onClick={action.onClick} color={action.color}>
                         {action.label}
                     </Button>
                 ))}
@@ -33,4 +33,4 @@ CommonModal.propTypes = {
     description: PropTypes.string,
     actions: PropTypes.array,
     children: PropTypes.element,
-}
+};
