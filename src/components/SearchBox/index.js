@@ -1,23 +1,23 @@
-import React from "react";
-import { TextField, IconButton, InputAdornment } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import ClearIcon from "@mui/icons-material/Clear";
-import PropTypes from "prop-types";
+import React from 'react';
+import { TextField, IconButton, InputAdornment } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
+import PropTypes from 'prop-types';
 
 const Search = ({searchData}) => {
   
-  const [inputValue, setInputValue] = React.useState("");
+  const [inputValue, setInputValue] = React.useState('');
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
 
   const handleClearInput = () => {
-    setInputValue("");
+    setInputValue('');
   };
   const serach = (()=>{
-    console.log(inputValue)
-    console.log(searchData)
+    console.log(inputValue);
+    console.log(searchData);
   });
 
 
@@ -39,22 +39,22 @@ const Search = ({searchData}) => {
             </IconButton>
           </InputAdornment>
         ),
-        type: "search",
+        type: 'search',
         sx: {
-          color: "black",
-          bgcolor: "white",
-          borderRadius: "30px",
-          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-          "&:hover": {
-            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+          color: 'black',
+          bgcolor: 'white',
+          borderRadius: '30px',
+          boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+          '&:hover': {
+            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
           },
-          width: "250px",
-          height: "50px",
+          width: '250px',
+          height: '50px',
         },
       }}
       sx={{
-        "& .MuiOutlinedInput-root": {
-          borderRadius: "30px",
+        '& .MuiOutlinedInput-root': {
+          borderRadius: '30px',
         },
       }}
     />

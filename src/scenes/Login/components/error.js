@@ -1,9 +1,9 @@
-import { Alert, Snackbar } from '@mui/material'
-import React from 'react'
+import { Alert, Snackbar } from '@mui/material';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-const NotificationSnackBar = ({ message = "invalid data entered", variant = "outlined", severity = "error", open = false, hideDuration = 3000, handleClose = () => { },
-    vertical = "bottom", horizontal = "right" }) => {
+const NotificationSnackBar = ({ message = 'invalid data entered', variant = 'outlined', severity = 'error', open = false, hideDuration = 3000, handleClose = () => { },
+    vertical = 'bottom', horizontal = 'right' }) => {
     return (
         <Snackbar open={open} autoHideDuration={hideDuration} onClose={handleClose}
             anchorOrigin={{ vertical, horizontal }}
@@ -12,9 +12,9 @@ const NotificationSnackBar = ({ message = "invalid data entered", variant = "out
                 {message}
             </Alert>
         </Snackbar>
-    )
-}
-export default NotificationSnackBar
+    );
+};
+export default NotificationSnackBar;
 
 NotificationSnackBar.propTypes = {
     message: PropTypes.string,
@@ -25,4 +25,4 @@ NotificationSnackBar.propTypes = {
     handleClose: PropTypes.func,
     vertical: PropTypes.string,
     horizontal: PropTypes.string,
-}
+};

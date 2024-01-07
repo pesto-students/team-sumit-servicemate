@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Card,
   CardActions,
@@ -8,8 +8,8 @@ import {
   Avatar,
   Rating,
   Grid,
-} from "@mui/material";
-import { Link } from "react-router-dom";
+} from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const VendorCard = ({ vendorData, onBookNow }) => {
   const {
@@ -28,16 +28,16 @@ const VendorCard = ({ vendorData, onBookNow }) => {
   return (
     <Card
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        padding: "16px",
-        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-        borderRadius: "8px",
-        border: "1px solid black",
-        transition: "transform 0.3s ease",
-        "&:hover": {
-          transform: "scale(1.02)",
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: '16px',
+        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+        borderRadius: '8px',
+        border: '1px solid black',
+        transition: 'transform 0.3s ease',
+        '&:hover': {
+          transform: 'scale(1.02)',
         },
       }}
     >
@@ -46,7 +46,7 @@ const VendorCard = ({ vendorData, onBookNow }) => {
           <Avatar
             alt={vendorName}
             src={vendorImage}
-            sx={{ width: "100%", height: "100%", borderRadius: "8px" }}
+            sx={{ width: '100%', height: '100%', borderRadius: '8px' }}
           />
         </Grid>
         <Grid item xs={8}>
@@ -73,8 +73,8 @@ const VendorCard = ({ vendorData, onBookNow }) => {
 
       <CardActions
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
+          display: 'flex',
+          justifyContent: 'space-between',
         }}
       >
         <Button onClick={onBookNow} variant="contained" color="primary">

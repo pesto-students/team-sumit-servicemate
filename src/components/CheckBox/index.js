@@ -1,9 +1,9 @@
 import { Checkbox, FormControlLabel } from '@mui/material';
 import React from 'react';
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types';
 const CheckBox = (props) => {
     const { name = '', id = '', onChange = () => { } } = props.formSchema || {};
-    const { formData } = props || {}
+    const { formData } = props || {};
     return (
         <FormControlLabel
             label="Register as service provider (Vendor)"
@@ -28,4 +28,4 @@ CheckBox.propTypes = {
     value: PropTypes.string,
     onChange: PropTypes.func,
     formSchema: PropTypes.object,
-}
+};

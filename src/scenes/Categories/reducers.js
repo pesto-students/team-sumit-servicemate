@@ -1,6 +1,6 @@
 // reducers.js
 
-import { actionTypes } from "./actions";
+import { actionTypes } from './actions';
 
 const initialState = {
     categoriesExcludeAll: [],

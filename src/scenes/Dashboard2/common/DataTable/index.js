@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 
 const column = [
@@ -72,4 +72,4 @@ export default function DataTable({ columns = column, rows = row }) {
 DataTable.propTypes = {
     columns: PropTypes.array,
     rows: PropTypes.array,
-}
+};

@@ -21,95 +21,52 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import restClient from '../../config/axios';
 //import { useParams } from "react-router-dom";
+import { useFormik } from 'formik';
+import * as yup from 'yup';
 
-const BookingModal = ({ isOpen, onClose, vendor }) => {
-  console.log(vendor);
-  //  const { email } = useParams();
-  //  const collectivedata = useSelector((state) => state.collectiveData.fulldata);
+const bookingAppointmentValidationSchema = yup.object({
+  userName: yup
+    .string('Enter your full name')
+    .required('Full name is required'),
+  userEmailId: yup
+    .string('Enter your email')
+    .email('Enter a valid email')
+    .required('Email is required'),
+});
+
+const BookingModal = (props) => {
+  const { isOpen, onClose, vendor, buttonText, handleBookAppointmentModal } = props;
+
   const loggedInUser = useSelector((state) => state.user.authUser);
-  console.log('lop' + loggedInUser?.address?.address?.street);
-  const [date, setDate] = useState('');
 
-  // const [services, setServices] = useState("");
-  const [street, setStreet] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [postalCode, setPostalCode] = useState('');
-  const [country, setCountry] = useState('');
+  // const [date, setDate] = useState('');
 
-  const [time, setTime] = useState('');
+  // const [time, setTime] = useState('');
 
 
   const [alertMessage, setAlertMessage] = useState('');
 
 
-  const serviceProviderId = vendor.id;
-  const appointmentDate = date;
+  // const appointmentDate = date;
 
-  const service = vendor.service;
-  //const time = appointmentDate
+  const service = vendor?.service;
 
 
 
 
-  const handleDateChange = (event) => {
-    setDate(event.target.value);
-
-
-  };
-  const handleTimeslotChange = (event) => {
-    setTime(event.target.value); // Update timeslot state when the user selects a time slot
-    console.log(time);
-  };
-
-  const handleAddressStreet = (event) => {
-    setStreet(event.target.value);
-    console.log(street);
-
-  };
-  const handleAddressCity = (event) => {
-    setCity(event.target.value);
-    console.log(city);
-
-  };
-  const handleAddressState = (event) => {
-    setState(event.target.value);
-    console.log(state);
-
-  };
-  const handleAddressStatePostalCode = (event) => {
-    setPostalCode(event.target.value);
-    console.log(postalCode);
-
-  };
-  const handleAddressCountry = (event) => {
-    setCountry(event.target.value);
-    console.log(country);
-
-  };
-
-  // const handleServicesChange = (event) => {
-  //   setServices(event.target.value);
+  // const handleDateChange = (event) => {
+  //   setDate(event.target.value);
 
 
   // };
-  // console.log("userAddress:", userAddress.street);
-  // const filteredData = collectivedata.filter(
-  //   (item) => item.serviceProviderId?.serviceProviderEmailId === email
-  // );
-  // const extractedData = filteredData[0]?.serviceProviderId?.openHours.map((entry) =>
-  //   entry.timeSlot.map((slot) => ({
-  //     day: slot.day, 
-  //     fromTime: slot.fromTime,
-  //     toTime: slot.toTime,
+  // const handleTimeslotChange = (event) => {
+  //   setTime(event.target.value); // Update timeslot state when the user selects a time slot
+  //   console.log(time);
+  // };
 
-  //   }))
-
-  // );
-
-  const handleSubmit = async () => {
+  const handleSubmit = async (values) => {
     try {
-
+      const { street, city, state, postalCode, country, userEmailId, userName, time, appointmentDate } = values;
       const config = {
         headers: {
           'content-type': 'application/json',
@@ -119,8 +76,8 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
       };
 
 
-      const { appointment } = await restClient.post('/api/user/appointment', {
-        serviceProviderId,
+      const { appointment } = await restClient.post('/api/user/bookAppointment', {
+        vendorId: vendor?.vendorId,
         service,
         userStreet: street,
         userCity: city,
@@ -129,6 +86,8 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
         userCountry: country,
         appointmentDate,
         time,
+        userEmailId: userEmailId,
+        userName: userName
       }, config);
       if (appointment) {
         setAlertMessage('Appointment Booked!'); // Set success message
@@ -139,6 +98,21 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
       console.log(error);
     }
   };
+
+  const formik = useFormik({
+    initialValues: {
+      userName: '',
+      street: '',
+      city: '',
+      state: '',
+      postalCode: '',
+      country: ''
+    },
+    validationSchema: bookingAppointmentValidationSchema,
+    onSubmit: (values) => {
+      alert(JSON.stringify(values, null, 2));
+    },
+  });
 
   return (
     <Dialog open={isOpen} onClose={onClose}>
@@ -151,28 +125,34 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
         </div>
         <TextField
           label="ServiceProvider Name"
-          value={vendor.vendorName}
+          value={vendor?.vendorName}
           fullWidth
           sx={{ marginBottom: '1rem' }}
+          disabled
         />
 
         <TextField
-
           type="date"
-          value="date"
-          onChange={handleDateChange}
           fullWidth
           sx={{ marginBottom: '1rem' }}
+          value={formik.values.date}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.date && Boolean(formik.errors.date)}
+          helperText={formik.touched.date && formik.errors.date}
         />
 
 
         <TextField
           type="time"
-          value=""
-          onChange={handleTimeslotChange}
           fullWidth
           sx={{ marginBottom: '1rem' }}
-        > {time} </TextField>
+          value={formik.values.time}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.time && Boolean(formik.errors.time)}
+          helperText={formik.touched.time && formik.errors.time}
+        />
 
 
         <Box sx={{
@@ -181,62 +161,107 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
           borderRadius: '4px', // Optional: Add border radius for rounded corners
           padding: '0.5rem', // Optional: Add padding for spacing
         }}>
-          <Typography variant="h7">Address</Typography>
+          <Typography variant="h7">Your Details</Typography>
+
           <TextField
-            label="street"
-
-            onChange={handleAddressStreet}
-
+            label="Full Name"
+            name="userName"
+            // onChange={handleBookAppointmentForm}
             fullWidth
             variant="outlined"
             sx={{
               marginBottom: '1rem',
             }}
+            id="userName"
+            value={formik.values.userName}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.userName && Boolean(formik.errors.userName)}
+            helperText={formik.touched.userName && formik.errors.userName}
+          />
+
+          <TextField
+            label="Email ID"
+            name="userEmailId"
+            id="userEmailId"
+            fullWidth
+            variant="outlined"
+            sx={{
+              marginBottom: '1rem',
+            }}
+            value={formik.values.userEmailId}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.userEmailId && Boolean(formik.errors.userEmailId)}
+            helperText={formik.touched.userEmailId && formik.errors.userEmailId}
+          />
+
+          <TextField
+            label="street"
+            fullWidth
+            variant="outlined"
+            sx={{
+              marginBottom: '1rem',
+            }}
+            value={formik.values.street}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.street && Boolean(formik.errors.street)}
+            helperText={formik.touched.street && formik.errors.street}
           />
 
 
           <TextField
             label="city"
             fullWidth
-            onChange={handleAddressCity}
-
             variant="outlined"
             sx={{
               marginBottom: '1rem',
             }}
+            value={formik.values.city}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.city && Boolean(formik.errors.city)}
+            helperText={formik.touched.city && formik.errors.city}
           />
           <TextField
             label="state"
             fullWidth
-
-            onChange={handleAddressState}
-
             variant="outlined"
             sx={{
               marginBottom: '1rem',
             }}
+            value={formik.values.state}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.state && Boolean(formik.errors.state)}
+            helperText={formik.touched.state && formik.errors.state}
           />
           <TextField
             label="postalCode"
             fullWidth
-
-            onChange={handleAddressStatePostalCode}
-
             variant="outlined"
             sx={{
               marginBottom: '1rem',
             }}
+            value={formik.values.postalCode}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.postalCode && Boolean(formik.errors.postalCode)}
+            helperText={formik.touched.postalCode && formik.errors.postalCode}
           />
           <TextField
             label="country"
             fullWidth
-
-            onChange={handleAddressCountry}
-
             variant="outlined"
             sx={{
               marginBottom: '1rem',
             }}
+            value={formik.values.country}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.country && Boolean(formik.errors.country)}
+            helperText={formik.touched.country && formik.errors.country}
           />
         </Box>
         <TextField
@@ -249,8 +274,8 @@ const BookingModal = ({ isOpen, onClose, vendor }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleSubmit} variant="contained" color="primary">
-          Book Now
+        <Button onClick={handleBookAppointmentModal || handleSubmit} variant="contained" color="primary">
+          {buttonText || 'Book Now'}
         </Button>
       </DialogActions>
     </Dialog>
@@ -261,6 +286,8 @@ BookingModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   vendor: PropTypes.object.isRequired,
+  buttonText: PropTypes.string,
+  handleBookAppointmentModal: PropTypes.func.isRequired,
 };
 
 export default BookingModal;

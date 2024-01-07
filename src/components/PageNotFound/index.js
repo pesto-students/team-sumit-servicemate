@@ -12,8 +12,9 @@ const PageNotFound = ({ message, description }) => {
       <h3>{message || 'Ohh! Page not found'} </h3>
       <div><p>{description || 'It seems we cannot find what you are looking for.'} </p>
       </div>
-      <p>Go back to <span className={style.homepageLink} onClick={() =>
-        navigate(routes.HOME)
+      <p>Go back to <span className={style.homepageLink} onClick={() => {
+        navigate(routes.HOME); window.location.reload();
+      }
       }>Homepage</span></p>
     </div >
   );

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Input, IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { debounce } from 'lodash';
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types';
 
 const SearchInput = ({ onSearch }) => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -29,11 +29,11 @@ const SearchInput = ({ onSearch }) => {
             />
         </div>
     );
-}
+};
 
 export default SearchInput;
 
 SearchInput.propTypes = {
     searchTerm: PropTypes.string,
     onSearch: PropTypes.func,
-}
+};

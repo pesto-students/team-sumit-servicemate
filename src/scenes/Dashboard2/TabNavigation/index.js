@@ -9,6 +9,8 @@ import Services from '../Services';
 import MyProfile from '../MyProfile';
 import { useParams } from 'react-router';
 import { useEffect } from 'react';
+import AppointmentList from '../AppointmentList';
+// import OrderList from '../OrderList';
 // import { useSelector } from 'react-redux';
 
 function TabPanel(props) {
@@ -48,33 +50,34 @@ function a11yProps(index) {
 export default function TabNavigation() {
     const [value, setValue] = React.useState(0);
     const [subTab, setSubTab] = React.useState(0);
-    const { tab } = useParams()
+    const { tab } = useParams();
     // const loggedInUser = useSelector(state => state.loggedInUser)
 
     useEffect(() => {
-        if (tab === "appointments") {
+        if (tab === 'appointments') {
             setValue(1);
         } else if (value !== 0) {
             setValue(0);
         }
-    }, [tab])
+    }, [tab]);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
     const tabMenu = [{
-        id: "",
-        label: "My Profile",
+        id: '',
+        label: 'My Profile',
     },
     {
-        id: "",
-        label: "Appointments",
-    }, {
         id: '',
-        label: "Orders"
+        label: 'Appointments',
+    },
+    {
+        id: '',
+        label: 'Invoices'
     }
-    ]
+    ];
 
     // const myProfileTabs=[{ name: "My Profile" }, { name: "Services" }, { name: "Employees" }]
 
@@ -95,7 +98,7 @@ export default function TabNavigation() {
             >
                 {
                     tabMenu.map((tab, i) => (
-                        <Tab key={"tab-" + i} label={tab.label} {...a11yProps(i)} />
+                        <Tab key={'tab-' + i} label={tab.label} {...a11yProps(i)} />
                     ))
                 }
             </Tabs>
@@ -106,8 +109,8 @@ export default function TabNavigation() {
                     aria-label="sub tabs"
                 // sx={{ borderRight: 1, borderColor: 'divider' }}
                 >
-                    {[{ name: "My Profile" }, { name: "Services" }, { name: "Employees" }].map((subTab, subTabIndex) => (
-                        <Tab key={"sub-tab-" + subTabIndex} label={subTab.name} {...a11yProps} />
+                    {[{ name: 'My Profile' }, { name: 'Services' }, { name: 'Employees' }].map((subTab, subTabIndex) => (
+                        <Tab key={'sub-tab-' + subTabIndex} label={subTab.name} {...a11yProps} />
                     ))}
                 </Tabs>
                 <TabPanel value={subTab} index={0}>
@@ -121,10 +124,10 @@ export default function TabNavigation() {
                 </TabPanel>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <h1>No Appointments found</h1>
+                {value === 1 ? <AppointmentList></AppointmentList> : <h1>No Appointments found</h1>}
             </TabPanel>
             <TabPanel value={value} index={2}>
-                <h1>No Orders found</h1>
+                <h1>No Invoice found</h1>
             </TabPanel>
         </Box>
     );

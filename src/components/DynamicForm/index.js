@@ -1,6 +1,6 @@
 // import { TextField } from '@mui/material';
 import React from 'react';
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types';
 import InputBox from '../InputBox';
 import CheckBox from '../CheckBox';
 import DropDown from '../DropDown';
@@ -14,19 +14,19 @@ const DynamicForm = (props) => {
             input: <InputBox key={key} schema={schema} formData={formData} ></InputBox>,
             checkbox: <CheckBox key={key} schema={schema} formData={formData}></CheckBox>,
             dropdown: <DropDown key={key} schema={schema} formData={formData}></DropDown>,
+        };
+        if (schema.controlType === 'aggregate') {
+            return schema && schema.components && schema.components.map(component => control[component.controlType]);
         }
-        if (schema.controlType === "aggregate") {
-            return schema && schema.components && schema.components.map(component => control[component.controlType])
-        }
-        return control[schema.controlType]
-    }
+        return control[schema.controlType];
+    };
 
 
 
     return (
         <form name={formName} className={className}>
             {formSchema.map((schema, schemaIndex) => (
-                formControls({ schema, key: schema.id + "-" + schemaIndex })
+                formControls({ schema, key: schema.id + '-' + schemaIndex })
             ))}
         </form>
     );
@@ -39,4 +39,4 @@ DynamicForm.propTypes = {
     formName: PropTypes.string,
     className: PropTypes.string,
     formData: PropTypes.object,
-}
+};

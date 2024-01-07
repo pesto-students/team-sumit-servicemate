@@ -1,18 +1,18 @@
-import React from 'react'
+import React from 'react';
 
-import Footer from '../../components/footer/footer'
-import Form from './Form'
+import Footer from '../../components/footer/footer';
+import Form from './Form';
 
 const ForgotPassword = () => {
     // const [formData, setFormData] = useSta
     const getFormData = (data) => {
-        console.log("🚀 ~ file: index.js:7 ~ getFormData ~ data:", data)
+        console.log('🚀 ~ file: index.js:7 ~ getFormData ~ data:', data);
 
-    }
+    };
     return (
         <>
     
-  <div  style={{ marginTop: '30px' }} className="container h-full px-10 py-240">
+  <div style={{ marginTop: '30px' }} className="container h-full px-10 py-240">
     <div
       className="g-6 flex h-full flex-wrap items-center justify-center lg:justify-between">
      
@@ -27,13 +27,13 @@ const ForgotPassword = () => {
       </div>
     </div>
   </div>
-  <div style={{marginTop:"10%"}}>
-      <Footer  />
+  <div style={{marginTop:'10%'}}>
+      <Footer />
       </div>
 
             
         </>
-    )
-}
+    );
+};
 
-export default ForgotPassword
+export default ForgotPassword;

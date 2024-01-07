@@ -25,8 +25,9 @@ const VendorDetails = () => {
 
   const [activeTab, setActiveTab] = useState('Address');
   // const [openHours, setOpenHours] = useState([]);
-  const { email } = useParams();
-  const filteredData = collectivedata.filter((item) => item.serviceProviderId?._id === email);
+  const { id: vendorId } = useParams();
+  console.log('🚀 ~ file: index.js:29 ~ VendorDetails ~ vendorId:', vendorId);
+  const filteredData = collectivedata.filter((item) => item.serviceProviderId?._id === vendorId);
   const emailid = filteredData.length > 0 ? filteredData[0].serviceProviderId?.email : '';
   const vendorName1 = filteredData.length > 0 ? filteredData[0].serviceProviderId?.serviceProviderName : '';
 
@@ -36,7 +37,7 @@ const VendorDetails = () => {
   const vendorImage1 = filteredData[0]?.serviceProviderId?.profilePic;
   console.log(filteredData[0]?.serviceProviderId?.profilePic);
 
-  const id = filteredData[0]?.serviceProviderId;
+  // const id = filteredData[0]?.serviceProviderId;
   const description = filteredData[0]?.description;
 
   const number = filteredData.length > 0
@@ -158,7 +159,7 @@ const VendorDetails = () => {
 
 
   const vendor = {
-    id: id,
+    vendorId: vendorId,
     vendorImage: vendorImage1,
     vendorName: vendorName1,
     vendorEmail: emailid,

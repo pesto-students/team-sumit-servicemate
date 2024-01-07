@@ -1,16 +1,16 @@
-import { actionTypes } from "./actions"
+import { actionTypes } from './actions';
 
 const initialState = {
-    currentLocation: ""
-}
+    currentLocation: ''
+};
 
 const LocationReducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.SET_CURRENT_LOCATION:
-            return { ...state, currentLocation: action.payload }
+            return { ...state, currentLocation: action.payload };
         default:
-            return state
+            return state;
     }
-}
+};
 
-export default LocationReducer
+export default LocationReducer;

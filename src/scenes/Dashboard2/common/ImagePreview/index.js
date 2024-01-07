@@ -20,7 +20,7 @@ function ImagePreview({ imageUrl, linkText = '' }) {
                 src={imageUrl}
                 alt="Thumbnail"
                 onClick={handleOpen}
-                style={{ cursor: 'pointer', height: "100px", width: "100px" }}
+                style={{ cursor: 'pointer', height: '100px', width: '100px' }}
             />
             <p onClick={handleOpen}>{linkText}</p>
             <Dialog open={imageUrl && open} onClose={handleClose}>
@@ -46,7 +46,7 @@ function ImagePreview({ imageUrl, linkText = '' }) {
 ImagePreview.propTypes = {
     imageUrl: PropTypes.string.isRequired,
     linkText: PropTypes.string.isRequired,
-}
+};
 
 export default ImagePreview;
 

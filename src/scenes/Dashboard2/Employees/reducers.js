@@ -4,15 +4,15 @@ const initialState = {
     employees: [
         {
             id: 1,
-            name: "ABC",
-            photo: "kjkkkk",
-            proofType: "dfr",
-            idProof: "ewwwwfr",
-            address: "Rajiv Nagar",
-            city: "New Delhi",
-            pinCode: "123456",
-            state: "Delhi",
-            country: "India"
+            name: 'ABC',
+            photo: 'kjkkkk',
+            proofType: 'dfr',
+            idProof: 'ewwwwfr',
+            address: 'Rajiv Nagar',
+            city: 'New Delhi',
+            pinCode: '123456',
+            state: 'Delhi',
+            country: 'India'
         }
     ],
 };

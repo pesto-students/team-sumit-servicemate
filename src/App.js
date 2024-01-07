@@ -26,17 +26,19 @@ import PageNotFound from './components/PageNotFound';
 // import ErrorPage from "./components/ErrorPage";
 import { ErrorBoundary } from 'react-error-boundary';
 import ScrollToTop from './components/ScrollToTop';
+// import Header2 from './components/Header2';
 
 function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
       <div className="App" >
+        {/* <Header2></Header2> */}
         <header className="App-header">
           <Header></Header>
         </header>
         <ErrorBoundary fallback={<PageNotFound message="Something went wrong, please try again after sometime." description=' '></PageNotFound>}>
-          <main className='min-h-[60vh]'>
+          <main className='min-h-[60vh] p-4'>
             <Routes>
               {/** <Route path="/" element={<Home />} /> */}
               <Route path={routes.LOGIN} element={<Login />} />

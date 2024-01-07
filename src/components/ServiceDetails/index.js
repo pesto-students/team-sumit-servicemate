@@ -1,15 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const ServiceDetail = ({ service }) => {
   const titleStyle = {
-    fontSize: "24px", // Adjust the font size as needed // Make the title bold
-    color: "#000", // Set the color to your preferred value
-    marginBottom: "9px", // Add some space at the bottom
-    textTransform: "uppercase", // Convert text to uppercase
-    fontFamily: "Arial, sans-serif",
-    fontWeight: "400", // Use camelCase for property names
-    lineHeight: "1.2", // Use camelCase for property names
+    fontSize: '24px', // Adjust the font size as needed // Make the title bold
+    color: '#000', // Set the color to your preferred value
+    marginBottom: '9px', // Add some space at the bottom
+    textTransform: 'uppercase', // Convert text to uppercase
+    fontFamily: 'Arial, sans-serif',
+    fontWeight: '400', // Use camelCase for property names
+    lineHeight: '1.2', // Use camelCase for property names
   };
 
   return (

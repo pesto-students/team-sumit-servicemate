@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types';
 import PageNotFound from '../PageNotFound';
 class ErrorPage extends Component {
     constructor(props) {
@@ -30,4 +30,4 @@ export default ErrorPage;
 
 ErrorPage.propTypes = {
     children: PropTypes.node,
-}
+};

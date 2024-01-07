@@ -8,6 +8,7 @@ import restClient from '../../config/axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import routes from '../../config/routeConstants';
+import { useAlert } from '../../hooks/NotificationSnackbar';
 
 
 const Categories = () => {
@@ -26,6 +27,7 @@ const Categories = () => {
   // const [scrollLoad, setScrollLoad] = useState(false);
   const [isFetchingData, setIsFetchingData] = useState(false);
   const [activeCategory, setActiveCategory] = useState(null);
+  const { showErrorAlert } = useAlert();
 
 
   const getCategories = async () => {
@@ -85,9 +87,28 @@ const Categories = () => {
     }
   };
 
+  const getVendorsByCategory = async () => {
+    const apiUrl = '/api/vendor/allVendors/' + activeCategory;
+    try {
+      const { data } = await restClient(apiUrl);
+      if (data.responseData) {
+        dispatch(setCollectiveDate(data.responseData));
+        setFilteredCardData(data.responseData);
+
+      }
+    } catch (error) {
+      console.error(error);
+      showErrorAlert('Couldn\'t fetch vendors');
+    }
+  };
+
   useEffect(() => {
     getCategories();
   }, []);
+
+  useEffect(() => {
+    activeCategory && getVendorsByCategory();
+  }, [activeCategory]);
 
 
   useEffect(() => {

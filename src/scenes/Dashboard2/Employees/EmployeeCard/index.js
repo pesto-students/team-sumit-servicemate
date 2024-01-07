@@ -14,8 +14,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 // import MoreVertIcon from '@mui/icons-material/MoreVert';
-import "./styles/cardView.scss"
-import PropTypes from "prop-types"
+import './styles/cardView.scss';
+import PropTypes from 'prop-types';
 
 const ExpandMore = styled((props) => {
     const { ...other } = props;
@@ -36,7 +36,7 @@ export default function EmployeeCard({ labels, data, key }) {
     };
 
     return (
-        <Card key={key} sx={{ width: "100%", marginBottom: "1rem" }}>
+        <Card key={key} sx={{ width: '100%', marginBottom: '1rem' }}>
             <CardHeader
                 avatar={
                     <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -58,7 +58,7 @@ export default function EmployeeCard({ labels, data, key }) {
                 alt={data.proofType}
                 sx={{
                     height: 194,
-                    objectFit: "contain"
+                    objectFit: 'contain'
                 }}
             />
             <CardContent>
@@ -70,7 +70,7 @@ export default function EmployeeCard({ labels, data, key }) {
                 <section>
                     <section className='flex gap-1'>
                         <Typography className='flex-1'>
-                            {labels.find(({ field }) => field === "proofType")?.headerName}
+                            {labels.find(({ field }) => field === 'proofType')?.headerName}
                         </Typography>
                         <Typography className='flex-2'>
                             {data.proofType}
@@ -78,7 +78,7 @@ export default function EmployeeCard({ labels, data, key }) {
                     </section>
                     <section className='flex gap-1'>
                         <Typography className='flex-1'>
-                            {labels.find(({ field }) => field === "address")?.headerName}
+                            {labels.find(({ field }) => field === 'address')?.headerName}
                         </Typography>
                         <section className='flex-2'>
                             <Typography>
@@ -116,4 +116,4 @@ EmployeeCard.propTypes = {
     index: PropTypes.number,
     key: PropTypes.string,
     labels: PropTypes.arr
-}
+};

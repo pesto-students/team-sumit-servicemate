@@ -183,8 +183,8 @@ export default function DropDown(props) {
   });
 
   React.useEffect(() => {
-    onChange && onChange(null, name, value)
-  }, [value])
+    onChange && onChange(null, name, value);
+  }, [value]);
 
   React.useEffect(() => {
     setValue && setValue(formData[name]);
@@ -196,7 +196,7 @@ export default function DropDown(props) {
         <Label {...getInputLabelProps()}>{label}</Label>
         <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
           {value.map((option, index) => (
-            <StyledTag key={"tag-" + index} label={option[optionAttribute]} {...getTagProps({ index })} />
+            <StyledTag key={'tag-' + index} label={option[optionAttribute]} {...getTagProps({ index })} />
           ))}
           <input {...getInputProps()} />
         </InputWrapper>
@@ -204,7 +204,7 @@ export default function DropDown(props) {
       {groupedOptions.length > 0 ? (
         <Listbox {...getListboxProps()}>
           {groupedOptions.map((option, index) => (
-            <li key={"li-" + index} {...getOptionProps({ option, index })}>
+            <li key={'li-' + index} {...getOptionProps({ option, index })}>
               <span>{option[optionAttribute]}</span>
               <CheckIcon fontSize="small" />
             </li>
@@ -223,4 +223,4 @@ DropDown.propTypes = {
   optionAttribute: PropTypes.string,
   label: PropTypes.string,
   formData: PropTypes.object,
-}
+};

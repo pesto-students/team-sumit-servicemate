@@ -1,8 +1,8 @@
 import React, { SfButton, SfRating, SfCounter, SfLink, SfIconDelete, SfIconMoreVert } from '@storefront-ui/react';
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types';
 
 export default function FreelancerCard({ freelancer = {} }) {
-  const { profilePic, serviceProviderName, rating, servicesOffered } = freelancer
+  const { profilePic, serviceProviderName, rating, servicesOffered } = freelancer;
   return (
     <div className="border border-neutral-200 rounded-md hover:shadow-lg max-w-[300px]">
       <div className="relative">
@@ -48,7 +48,7 @@ export default function FreelancerCard({ freelancer = {} }) {
           </SfLink>
         </div>
         <p className="block py-2 font-normal typography-text-sm text-neutral-700">
-          {servicesOffered.join("• ,")}
+          {servicesOffered.join('• ,')}
         </p>
       </div>
     </div>
@@ -57,4 +57,4 @@ export default function FreelancerCard({ freelancer = {} }) {
 
 FreelancerCard.propTypes = {
   freelancer: PropTypes.object
-}
+};

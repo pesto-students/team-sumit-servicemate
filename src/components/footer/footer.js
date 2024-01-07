@@ -1,17 +1,17 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import IconButton from "@mui/material/IconButton";
-import { styled } from "@mui/material/styles";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import * as React from 'react';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import IconButton from '@mui/material/IconButton';
+import { styled } from '@mui/material/styles';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
-const FooterContainer = styled("footer")(({ theme }) => ({
-  backgroundColor: "#fcb800",
+const FooterContainer = styled('footer')(({ theme }) => ({
+  backgroundColor: '#fcb800',
   color: theme.palette.common.black,
   padding: theme.spacing(2, 0),
-  position: "fixed",
+  position: 'fixed',
   left: 0,
   right: 0,
   bottom: 0,
@@ -36,16 +36,16 @@ const Footer = () => {
     };
 
     // Add the scroll event listener
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
     // Clean up the listener when the component unmounts
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   return (
-    <FooterContainer  style={{ transform: showFooter ? "translateY(0)" : "translateY(100%)" ,marginTop: "200px"}}>
+    <FooterContainer style={{ transform: showFooter ? 'translateY(0)' : 'translateY(100%)' ,marginTop: '200px'}}>
       <Container maxWidth="xl">
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Typography variant="body2" sx={{ flexGrow: 1 }}>
@@ -58,7 +58,7 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub"
-              sx={{ color: "inherit" }}
+              sx={{ color: 'inherit' }}
             >
               <GitHubIcon />
             </IconButton>
@@ -68,7 +68,7 @@ const Footer = () => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
-              sx={{ color: "inherit" }}
+              sx={{ color: 'inherit' }}
             >
               <LinkedInIcon />
             </IconButton>

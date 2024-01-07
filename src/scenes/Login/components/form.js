@@ -12,8 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import NotificationSnackBar from './error'
-import { useState } from 'react'
+import NotificationSnackBar from './error';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import restClient from '../../../config/axios';
 import { useDispatch } from 'react-redux';
@@ -40,43 +40,43 @@ const defaultTheme = createTheme();
 
 
 export default function SignIn() {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-  const [formData, setFormData] = useState({})
-  const [showError, setShowError] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const { showSuccessAlert, showErrorAlert } = useAlert()
-  console.log("🚀 ~ file: form.js:15 ~ LoginForm ~ loading:", loading)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [formData, setFormData] = useState({});
+  const [showError, setShowError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { showSuccessAlert, showErrorAlert } = useAlert();
+  console.log('🚀 ~ file: form.js:15 ~ LoginForm ~ loading:', loading);
 
   const handleFormChange = (e) => {
-    const { name, value } = e ? e.target : {}
+    const { name, value } = e ? e.target : {};
     if (name) {
-      const newFormData = { ...formData }
-      newFormData[name] = value
-      setFormData(newFormData)
+      const newFormData = { ...formData };
+      newFormData[name] = value;
+      setFormData(newFormData);
     }
-  }
+  };
   const handleLogin = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setLoading(true);
     try {
       const config = {
         headers: {
-          "content-type": "application/json",
+          'content-type': 'application/json',
         },
       };
-      const { data } = await restClient.post("/api/user/login", { ...formData }, config);
+      const { data } = await restClient.post('/api/user/login', { ...formData }, config);
       // localStorage.setItem("userInfo", JSON.stringify(data));
-      showSuccessAlert("You have been logged in successfully")
-      dispatch(setLoggedInUser(data))
-      setShowError(false)
-      navigate(routes.DASHBOARD2PROFILE)
+      showSuccessAlert('You have been logged in successfully');
+      dispatch(setLoggedInUser(data));
+      setShowError(false);
+      navigate(routes.DASHBOARD2PROFILE);
     } catch (error) {
-      setShowError(true)
-      console.log(error)
-      showErrorAlert("Something went wrong, please enter correct email and password")
+      setShowError(true);
+      console.log(error);
+      showErrorAlert('Something went wrong, please enter correct email and password');
     }
-  }
+  };
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -119,7 +119,7 @@ export default function SignIn() {
               autoComplete="current-password"
               onChange={handleFormChange}
             />
-            <NotificationSnackBar open={showError} handleClose={() => { setShowError(false) }} message='you have entered invalid credentials'></NotificationSnackBar>
+            <NotificationSnackBar open={showError} handleClose={() => { setShowError(false); }} message='you have entered invalid credentials'></NotificationSnackBar>
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
@@ -128,7 +128,7 @@ export default function SignIn() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, backgroundColor: "#fcb800" }}
+              sx={{ mt: 3, mb: 2, backgroundColor: '#fcb800' }}
             >
               Sign In
             </Button>
@@ -140,7 +140,7 @@ export default function SignIn() {
               </Grid>
               <Grid item >
                 <Link href={routes.REGISTER} variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {'Don\'t have an account? Sign Up'}
                 </Link>
               </Grid>
             </Grid>

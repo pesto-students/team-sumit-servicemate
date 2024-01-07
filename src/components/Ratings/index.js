@@ -1,17 +1,17 @@
-import React from "react";
-import { Typography, Box, AppBar, Toolbar } from "@mui/material";
-import PropTypes from "prop-types";
-import Rating from "@mui/material/Rating";
+import React from 'react';
+import { Typography, Box, AppBar, Toolbar } from '@mui/material';
+import PropTypes from 'prop-types';
+import Rating from '@mui/material/Rating';
 
 const CustomerRatings = ({ customerReviews }) => {
   const boxStyle = {
     marginTop: '3%',
-  }
+  };
   return (
     <>
       <AppBar position="static" sx={boxStyle}>
-           <Toolbar variant="dense" sx={{ justifyContent: "center" }}>
-           <Typography variant="h6" color="inherit" component="div"  >
+           <Toolbar variant="dense" sx={{ justifyContent: 'center' }}>
+           <Typography variant="h6" color="inherit" component="div" >
            Customer Ratings
            </Typography>
            </Toolbar>
@@ -20,19 +20,19 @@ const CustomerRatings = ({ customerReviews }) => {
         <Box
           key={review.id}
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-            borderRadius: "4px",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+            borderRadius: '4px',
             p: 2,
             mt: 2,
           }}
         >
           <Box
             sx={{
-              display: "flex",
-              alignItems: "center",
+              display: 'flex',
+              alignItems: 'center',
               mb: 1,
             }}
           >

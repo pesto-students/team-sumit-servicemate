@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import routes from './routeConstants';
 
 function PrivateRoute({ children, }) {
-    const { authUser } = useSelector(state => state.user)
+    const { authUser } = useSelector(state => state.user);
     return authUser ? (
         children
     ) : (

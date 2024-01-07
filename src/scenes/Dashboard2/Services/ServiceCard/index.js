@@ -1,5 +1,5 @@
 import React, { SfButton, SfLink, SfIconDelete, SfIconMoreVert } from '@storefront-ui/react';
-import PropTypes from "prop-types"
+import PropTypes from 'prop-types';
 
 // const dummy = {
 //     "_id": "64fcd8300de381301acd5314",
@@ -25,7 +25,7 @@ import PropTypes from "prop-types"
 //     "__v": 2
 // }
 export default function ServiceCard({ service = {} }) {
-    const { categories = [], servicesOffered = [] } = service
+    const { categories = [], servicesOffered = [] } = service;
     return (
         <div className="border border-neutral-200 rounded-md hover:shadow-lg max-w-[300px]">
             <div className="relative">
@@ -71,7 +71,7 @@ export default function ServiceCard({ service = {} }) {
           </SfLink>
         </div> */}
                 <p className="block py-2 font-normal typography-text-sm text-neutral-700">
-                    {servicesOffered.join(" •")}
+                    {servicesOffered.join(' •')}
                 </p>
             </div>
         </div>
@@ -80,4 +80,4 @@ export default function ServiceCard({ service = {} }) {
 
 ServiceCard.propTypes = {
     service: PropTypes.array
-}
+};
